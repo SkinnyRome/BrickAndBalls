@@ -29,9 +29,8 @@ public class DeadZone : MonoBehaviour {
             _firstBallDetected = true;
             _ballSink.GetComponent<BallSink>().MoveTo((Vector2)ball.transform.position);
         }
-        else
-        {
-            ball.GetComponent<Ball>().GoTo(_ballSink.transform.position);
-        }
+        
+        ball.GetComponent<Ball>().GoTo(_ballSink.transform.position);
+        
     }
 }

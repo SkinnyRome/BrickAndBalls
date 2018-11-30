@@ -37,15 +37,19 @@ public class Ball : MonoBehaviour {
 
         float distance = dest.x - transform.position.x;
         //dest = GetAbsoluteValue(dest);
-        float step = dest.x / _moveTime;
-        int totalSteps = Mathf.Abs(Mathf.RoundToInt(distance / step));
-        float stepTime = totalSteps / _moveTime;
-
-        Debug.Log(step + " " + stepTime + " " + totalSteps);
-        for(int i = 0; i < totalSteps; i++)
+        float step = _moveTime / distance;
+        if (distance != 0)
         {
-            yield return new WaitForSecondsRealtime(stepTime);
-            gameObject.transform.Translate(new Vector3(step,0,0)); 
+
+            int totalSteps = Mathf.Abs(Mathf.RoundToInt(distance / step));
+            //float stepTime = _moveTime / totalSteps;
+
+
+            for (int i = 0; i < totalSteps; i++)
+            {
+                yield return new WaitForSecondsRealtime(0.01f);
+                gameObject.transform.Translate(new Vector3(step, 0, 0));
+            }
         }
 
         gameObject.transform.transform.position = new Vector3(dest.x, dest.y);
