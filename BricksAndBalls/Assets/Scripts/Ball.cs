@@ -53,6 +53,8 @@ public class Ball : MonoBehaviour {
         }
 
         gameObject.transform.transform.position = new Vector3(dest.x, dest.y);
+        //Avisar de que incremente en 1 el texto
+        Destroy(gameObject);
     }
 
     private Vector2 GetAbsoluteValue(Vector2 v)
