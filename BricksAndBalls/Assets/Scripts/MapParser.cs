@@ -50,7 +50,7 @@ public class MapParser  {
                     lastLineType = typeLine[k].Split('.');
                     lastLineLife = lifeLine[k].Split('.');
                     int type = int.Parse(lastLineType[0]);
-                    int life = int.Parse(lastLineType[0]);
+                    int life = int.Parse(lastLineLife[0]);
                     t.type = type;
                     t.life = life;
                     _grid[k, j - 3] = t;

@@ -11,10 +11,14 @@ public class Brick : MonoBehaviour {
 		
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public void Init(int life, Vector2 pos)
+    {
+        Vector3 p,pp2;
+        p = gameObject.transform.position;
+        gameObject.transform.localPosition = pos;
+        pp2 = gameObject.transform.position;
+        _life = life;
+    }
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
