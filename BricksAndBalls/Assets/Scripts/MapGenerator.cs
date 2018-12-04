@@ -14,15 +14,13 @@ public class MapGenerator : MonoBehaviour {
 	void Start () {
 		_mapParser = new MapParser();
         CreateLevel();
-        
+
+
 	}
 
 
     public void CreateLevel() {
-        Debug.Log(_mapTxt.text[0]);
-
-        //_mapParser.ParseText()
-
+       
 
         Tile[,] grid = new Tile[11, 11];
         grid = _mapParser.ParseText(_mapTxt.text);
@@ -58,7 +56,7 @@ public class MapGenerator : MonoBehaviour {
 
 
 
-        //Todo crear el nivel en unity, ya esta la matrix con la info de vida y tipo. su posicion va en funciond de la x,y de la matrix
+        
 
     }
 

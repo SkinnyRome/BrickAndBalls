@@ -11,6 +11,10 @@ Prefab:
       propertyPath: _moveTime
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1016504020643468}
@@ -65,7 +69,7 @@ Rigidbody2D:
   m_Material: {fileID: 6200000, guid: 37b17cdde74f855468c77da8cfe3dd70, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!58 &58112518093306252
 CircleCollider2D:
