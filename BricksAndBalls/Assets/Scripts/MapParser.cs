@@ -2,7 +2,7 @@
 
 public struct Tile {
     public int type;
-    public int life;
+    public uint life;
 }
 
 public class MapParser  {
@@ -50,7 +50,7 @@ public class MapParser  {
                     lastLineType = typeLine[k].Split('.');
                     lastLineLife = lifeLine[k].Split('.');
                     int type = int.Parse(lastLineType[0]);
-                    int life = int.Parse(lastLineLife[0]);
+                    uint life = uint.Parse(lastLineLife[0]);
                     t.type = type;
                     t.life = life;
                     _grid[k, j - 3] = t;
@@ -60,7 +60,7 @@ public class MapParser  {
                 else {
                    
                     int type = int.Parse(typeLine[k]);
-                    int life = int.Parse(lifeLine[k]);
+                    uint life = uint.Parse(lifeLine[k]);
                     t.type = type;
                     t.life = life;
                     _grid[k, j - 3] = t;

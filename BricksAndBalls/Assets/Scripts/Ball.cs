@@ -25,25 +25,24 @@ public class Ball : MonoBehaviour {
        
     }
 
-    public void GoTo(Vector2 destPosition)
+    public void GoTo(Vector2 destPosition, System.Action<Ball> callback = null)
     {
-        rb.velocity = new Vector2(0, 0);
-        
-        StartCoroutine(Move(destPosition));
+        StartCoroutine(Move(destPosition, callback));
     }
 
-    private IEnumerator Move(Vector2 dest)
+    public void Stop() {
+        rb.velocity = new Vector2(0, 0);
+    }
+
+    private IEnumerator Move(Vector2 dest, System.Action<Ball> callback = null)
     {
 
-        float distance = dest.x - transform.position.x;
-        //dest = GetAbsoluteValue(dest);
+        float distance = dest.x - transform.position.x;        
         float step = _moveTime / distance;
         if (distance != 0)
         {
 
-            int totalSteps = Mathf.Abs(Mathf.RoundToInt(distance / step));
-            //float stepTime = _moveTime / totalSteps;
-
+            int totalSteps = Mathf.Abs(Mathf.RoundToInt(distance / step));  
 
             for (int i = 0; i < totalSteps; i++)
             {
@@ -53,8 +52,11 @@ public class Ball : MonoBehaviour {
         }
 
         gameObject.transform.transform.position = new Vector3(dest.x, dest.y);
-        //Avisar de que incremente en 1 el texto
-        Destroy(gameObject);
+        
+        if (callback != null) {
+            callback(this);
+        }
+
     }
 
     private Vector2 GetAbsoluteValue(Vector2 v)

@@ -2,32 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Brick : MonoBehaviour {
+public class Brick : BasicTile {
 
-    public int _life;
+    
 
 	// Use this for initialization
 	void Start () {
 		
 	}
 	
-    public void Init(int life, Vector2 pos)
+    public void Init(uint life, Vector2 pos, GameObject father, LevelManager lm)
     {
-        Vector3 p,pp2;
-        p = gameObject.transform.position;
-        gameObject.transform.localPosition = pos;
-        pp2 = gameObject.transform.position;
+        
+        _levelManager = lm;
+        _row = (uint)pos.x;
+        _column = (uint)pos.y;
+        transform.parent = father.transform;        
+        gameObject.transform.localPosition = pos;        
         _life = life;
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        _life--;
-        
+        _life--;        
 
         if (_life <= 0)
         {
-            Destroy(this.gameObject);
+            _levelManager.TileDestroyed(this, _row, _column);
         }
     }
 }

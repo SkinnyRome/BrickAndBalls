@@ -5,10 +5,11 @@ using UnityEngine;
 public class BallSpawner : MonoBehaviour {
 
     public GameObject _ball;
-    public int _numBalls;
+    //Provisional
+    public uint _numBalls;
 
     private IEnumerator _throwBallCoroutine;
-    public float _seconds;
+    public float _fUpdateTimes;
     public float _offsetY; 
 
 	// Use this for initialization
@@ -18,21 +19,29 @@ public class BallSpawner : MonoBehaviour {
 		
 	}
 
-    void SpawnBalls(int n, Vector2 direction)
+    void SpawnBalls(uint n, Vector2 direction)
     {
-        _throwBallCoroutine = ThrowBalls(direction);
+        _throwBallCoroutine = ThrowBalls(n, direction);
         StartCoroutine(_throwBallCoroutine);
     }
 
-    private IEnumerator ThrowBalls(Vector2 direction)
+    private IEnumerator ThrowBalls(uint nBalls,  Vector2 direction)
     {
-        int ballsSpawned;
-        for (ballsSpawned = 0; ballsSpawned < _numBalls; ballsSpawned++)
+       
+        int counter = 0;
+        int ballsSpawned = 0;
+
+        while(ballsSpawned < nBalls)
         {
-            yield return new WaitForSecondsRealtime(_seconds);
-            Vector3 position = new Vector3(transform.position.x, transform.position.y + _offsetY, 0);
-            GameObject b = Object.Instantiate(_ball, position, Quaternion.identity);
-            b.GetComponent<Ball>().Shoot(direction);
+            yield return new WaitForFixedUpdate();
+            counter++;
+            if (counter >= _fUpdateTimes) {
+                Vector3 position = new Vector3(transform.position.x, transform.position.y + _offsetY, 0);
+                GameObject b = Object.Instantiate(_ball, position, Quaternion.identity);
+                b.GetComponent<Ball>().Shoot(direction);
+                counter = 0;
+                ballsSpawned++;
+            }            
         }
 
     }
