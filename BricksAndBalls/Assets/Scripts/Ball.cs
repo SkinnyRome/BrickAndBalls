@@ -17,23 +17,37 @@ public class Ball : MonoBehaviour {
      
     }
 
-
+    /// <summary>
+    /// Start moving the ball along the direction given
+    /// </summary>
+    /// <param name="direction">Direction</param>
     public void Shoot(Vector2 direction)
     {
         //TODO: si la velocidad es negativa, no lanzar ¿?
         rb.velocity = direction;
        
     }
-
+    /// <summary>
+    /// Move the ball to a position and call the callback when arrived
+    /// </summary>
+    /// <param name="destPosition">Destination position</param>
+    /// <param name="callback">Callback to be call when the ball arrives to destination</param>
     public void GoTo(Vector2 destPosition, System.Action<Ball> callback = null)
     {
         StartCoroutine(Move(destPosition, callback));
     }
-
+    /// <summary>
+    /// Stop the ball
+    /// </summary>
     public void Stop() {
         rb.velocity = new Vector2(0, 0);
     }
-
+    /// <summary>
+    /// Private method that moves the ball by a coroutine
+    /// </summary>
+    /// <param name="dest">Destination</param>
+    /// <param name="callback">Callback to be call when the ball arrives </param>
+    /// <returns></returns>
     private IEnumerator Move(Vector2 dest, System.Action<Ball> callback = null)
     {
 
@@ -57,10 +71,5 @@ public class Ball : MonoBehaviour {
             callback(this);
         }
 
-    }
-
-    private Vector2 GetAbsoluteValue(Vector2 v)
-    {
-        return new Vector2(Mathf.Abs(v.x), Mathf.Abs(v.y));
     }
 }

@@ -22,6 +22,8 @@ public class DeadZone : MonoBehaviour {
 
     public void OnTriggerEnter2D(Collider2D c)
     {
+
+        
         Ball ball = c.gameObject.GetComponent<Ball>();
         if (ball != null)
             _levelManager.BallEnteredDeadZone(ball);

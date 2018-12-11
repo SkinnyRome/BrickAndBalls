@@ -9,16 +9,19 @@ public class LevelManager : MonoBehaviour {
     public BallSink _ballSink;
     public BallSpawner _ballSpawner;
     public MapGenerator _mapGenerator;
+    public BoardManager _boardManager;
 
+    private bool prueba;
     private bool _firstBallDetected;
     private uint _points;
 
     // Use this for initialization
     void Start () {
         _firstBallDetected = false;
+        prueba = true;
         _deadZone.Init(this);
         _mapGenerator.Init(this);
-        _mapGenerator.CreateLevel();
+        _boardManager.Init(this, _mapGenerator.CreateLevel());        
 
 	}
 	
@@ -49,6 +52,10 @@ public class LevelManager : MonoBehaviour {
     public void TileDestroyed(BasicTile t, uint i, uint j) {
 
         Destroy(t.gameObject);
+        if (prueba) {
+            prueba = false;
+            _boardManager.fall();
+        }
     }
 
 

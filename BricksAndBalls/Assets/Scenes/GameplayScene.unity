@@ -452,7 +452,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2488b9347fa52024fb7ffb47d6f75fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mapTxt: {fileID: 4900000, guid: 9581bd8de17249f47b900084e84c5cfd, type: 3}
+  _rows: 11
+  _columns: 11
+  _mapTxt: {fileID: 4900000, guid: fbfb8e0930db4e04bbfd7d6a71f1e593, type: 3}
   _brick1: {fileID: 1726293363854786, guid: 96e08eabcd01a4b47aedd03ed2da9394, type: 2}
 --- !u!4 &1204608965
 Transform:
@@ -627,6 +629,7 @@ MonoBehaviour:
   _ballSink: {fileID: 220637626}
   _ballSpawner: {fileID: 1688805190}
   _mapGenerator: {fileID: 1204608964}
+  _boardManager: {fileID: 1604874832}
 --- !u!4 &1520143690
 Transform:
   m_ObjectHideFlags: 0
@@ -639,6 +642,46 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1604874831
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1604874833}
+  - component: {fileID: 1604874832}
+  m_Layer: 0
+  m_Name: BoardManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1604874832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1604874831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc5e25777e501c84a9b20ec9cb9ba954, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1604874833
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1604874831}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.9947362, y: -3.1893482, z: -0.024987586}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1688805189
 GameObject:
