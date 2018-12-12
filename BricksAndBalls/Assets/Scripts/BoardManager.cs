@@ -26,12 +26,7 @@ public class BoardManager : MonoBehaviour {
                     _board[i, j].fall();
                     _board[i,j - 1] = _board[i, j];
                     _board[i, j] = null;
-
-
                 }
-
-
-
             }
         }
 

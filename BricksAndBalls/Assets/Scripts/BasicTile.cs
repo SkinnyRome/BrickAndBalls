@@ -19,8 +19,8 @@ public class BasicTile : MonoBehaviour {
         
     }
 
-    public virtual void fall() {
-        Vector3 pos = gameObject.transform.position;
-        gameObject.transform.position.Set(pos.x, pos.y - 1, pos.z);
+    public void fall() {
+        Vector3 pos = gameObject.transform.localPosition;
+        gameObject.transform.localPosition = new Vector3(pos.x, pos.y - 1, pos.z);
     }
 }

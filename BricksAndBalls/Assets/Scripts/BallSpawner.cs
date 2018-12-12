@@ -5,9 +5,6 @@ using UnityEngine;
 public class BallSpawner : MonoBehaviour {
 
     public GameObject _ball;
-    //Provisional
-    public uint _numBalls;
-
     private IEnumerator _throwBallCoroutine;
     public float _fUpdateTimes;
     public float _offsetY; 
@@ -15,11 +12,18 @@ public class BallSpawner : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        SpawnBalls(_numBalls, new Vector2(10, 10));
+        
 		
 	}
 
-    void SpawnBalls(uint n, Vector2 direction)
+    public void MoveTo(Vector2 position)
+    {
+        gameObject.transform.position = position;
+    }
+
+
+
+    public void SpawnBalls(uint n, Vector2 direction)
     {
         _throwBallCoroutine = ThrowBalls(n, direction);
         StartCoroutine(_throwBallCoroutine);

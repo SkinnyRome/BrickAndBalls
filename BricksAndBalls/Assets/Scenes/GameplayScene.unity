@@ -407,7 +407,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 656436005}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.7, y: -8.6, z: 0}
+  m_LocalPosition: {x: -6.7, y: -10.33, z: 0}
   m_LocalScale: {x: 20.15, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -454,7 +454,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rows: 11
   _columns: 11
-  _mapTxt: {fileID: 4900000, guid: fbfb8e0930db4e04bbfd7d6a71f1e593, type: 3}
+  _offset: 3
+  _mapTxt: {fileID: 4900000, guid: 541f95efbab0fcc4fbec78a454259f13, type: 3}
   _brick1: {fileID: 1726293363854786, guid: 96e08eabcd01a4b47aedd03ed2da9394, type: 2}
 --- !u!4 &1204608965
 Transform:
@@ -463,7 +464,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1204608963}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.8, y: -7.3, z: 0}
+  m_LocalPosition: {x: -12.8, y: -9.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -630,6 +631,7 @@ MonoBehaviour:
   _ballSpawner: {fileID: 1688805190}
   _mapGenerator: {fileID: 1204608964}
   _boardManager: {fileID: 1604874832}
+  _ballsToSpawn: 10
 --- !u!4 &1520143690
 Transform:
   m_ObjectHideFlags: 0
@@ -712,7 +714,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ball: {fileID: 1016504020643468, guid: 67d043d1d5cbc4e46bcbd47c174b1801, type: 2}
-  _numBalls: 100
   _fUpdateTimes: 5
   _offsetY: 0.5
 --- !u!212 &1688805191
@@ -774,7 +775,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -8.16, y: -7.56}
+  m_AnchoredPosition: {x: -8.16, y: -9.58}
   m_SizeDelta: {x: 520, y: 390}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1791785786
