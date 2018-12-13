@@ -5,7 +5,7 @@ using UnityEngine;
 public class Ball : MonoBehaviour {
 
     private Rigidbody2D rb;
-
+    private Vector2 _velocity = new Vector2(10, 10);
     public float _moveTime;
 
     //private float t = 0.0f;
@@ -24,7 +24,15 @@ public class Ball : MonoBehaviour {
     public void Shoot(Vector2 direction)
     {
         //TODO: si la velocidad es negativa, no lanzar ¿?
+        //Debug.Log(transform.rotation);
+        float rotationZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        //gameObject.transform.rotation = Quaternion.Euler(0f, 0f, rotationZ - 90);
+        direction.x *= _velocity.x;
+        direction.y *= _velocity.y;
+
         rb.velocity = direction;
+        //Debug.Log(transform.rotation);
+        
        
     }
     /// <summary>

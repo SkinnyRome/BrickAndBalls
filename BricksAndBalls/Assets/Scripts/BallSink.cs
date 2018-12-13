@@ -21,6 +21,7 @@ public class BallSink : MonoBehaviour {
         gameObject.SetActive(false);
     }
     public void Show() {
+        _numBalls = 0;
         gameObject.SetActive(true);
     }
     public void ballArrived() {
