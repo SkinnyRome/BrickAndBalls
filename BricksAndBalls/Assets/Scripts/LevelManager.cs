@@ -22,14 +22,14 @@ public class LevelManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
         _firstBallDetected = false;
         _deadZone.Init(this);
         _mapGenerator.Init(this);
         _boardManager.Init(this, _mapGenerator.CreateLevel());
         _aimController.Init(this);
         _ballsArrived = 0;
-        _points = 0;
-      
+        _points = 0;     
 
 	}
 	
@@ -77,7 +77,16 @@ public class LevelManager : MonoBehaviour {
 
     public void TileDestroyed(BasicTile t, uint i, uint j) {
 
-        Destroy(t.gameObject);        
+        switch (t.gameObject.layer) {
+            case 0:
+                break;
+
+        }
+
+        _points += 10;
+
+        Destroy(t.gameObject);  
+       
     }
 
     public void Shoot(Vector3 position) {

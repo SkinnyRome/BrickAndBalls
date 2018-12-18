@@ -19,6 +19,7 @@ public class BasicTile : MonoBehaviour {
         
     }
 
+
     public void fall() {
         Vector3 pos = gameObject.transform.localPosition;
         gameObject.transform.localPosition = new Vector3(pos.x, pos.y - 1, pos.z);
