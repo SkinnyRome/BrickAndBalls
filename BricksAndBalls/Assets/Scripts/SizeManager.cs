@@ -11,6 +11,8 @@ public class SizeManager : MonoBehaviour {
     public Canvas _botCanvasC;
     public Camera _mainCamera;
 
+    private float tableroWidthUnidades = 11.25f;
+    private float tableroHeightUnidades = 14;
 
 	// Use this for initialization
 	void Start () {
@@ -27,19 +29,42 @@ public class SizeManager : MonoBehaviour {
 
         float tableroHeight = (Screen.height - (topSize + botSize));
 
-         Debug.Log("Tablero size :" + tableroHeight);
 
 
-        float cameraSize = (_mainCamera.orthographicSize * 2);
-        float cameraSizePixel = _mainCamera.pixelHeight;
+        float cameraSizeHeight = (_mainCamera.orthographicSize * 2);
+        float cameraSizeWidth = cameraSizeHeight * _mainCamera.aspect;
+        
+        float cameraSizePixelHeight = _mainCamera.pixelHeight;
+        float cameraSizePixelWidth = _mainCamera.pixelWidth;
 
-        Debug.Log("Altura camara en unidades: " + cameraSize + " Altura en pixeles: " + cameraSizePixel);
+        Debug.Log("Altura camara en unidades: " + cameraSizeHeight + " Altura en pixeles: " + cameraSizePixelHeight);
 
-        float ppuHeight = cameraSizePixel / cameraSize;
+        float ppuHeight = cameraSizePixelHeight / cameraSizeHeight;
+        Debug.Log("Espacio para el tablero:" + tableroHeight + " Tamaño del tablero: " + tableroHeightUnidades * ppuHeight);
+        float pixelesParaTablero = tableroHeightUnidades * ppuHeight;
+        
 
-        Debug.Log("Pixeles por unidad: " + ppuHeight);
+        float unidadesTop = topSize / ppuHeight;
+        float unidadesBot = botSize / ppuHeight;
+        
 
-        _mainCamera.orthographicSize = ((tableroHeight / ppuHeight) / 2);
+
+        _mainCamera.orthographicSize = (((pixelesParaTablero + topSize + botSize) / ppuHeight) / 2);
+        Debug.Log("Unidades alto camara: " + _mainCamera.orthographicSize * 2);
+        Debug.Log("Tamaño canvas top: " + topSize);
+        Debug.Log("Tamaño alto camara en pixeles: " + (pixelesParaTablero + topSize + botSize));
+
+        float ppuWidth = _mainCamera.pixelWidth / ((_mainCamera.orthographicSize * 2) * _mainCamera.aspect);
+
+
+        float cameraWidthUnits = _mainCamera.pixelWidth / ppuWidth;
+        Debug.Log("Tamañano ancho camara en unidades: " + cameraWidthUnits);
+
+        if(cameraWidthUnits < tableroWidthUnidades)
+        {
+            float newCameraHeightSize = tableroWidthUnidades / _mainCamera.aspect;
+            _mainCamera.orthographicSize = (newCameraHeightSize / 2);
+        }
 	}
 	
 	// Update is called once per frame
