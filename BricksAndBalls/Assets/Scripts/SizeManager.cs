@@ -11,7 +11,7 @@ public class SizeManager : MonoBehaviour {
     public Canvas _botCanvasC;
     public Camera _mainCamera;
 
-    private float tableroWidthUnidades = 11.25f;
+    private float tableroWidthUnidades = 11.15f;
     private float tableroHeightUnidades = 14;
 
 	// Use this for initialization
@@ -65,6 +65,8 @@ public class SizeManager : MonoBehaviour {
             float newCameraHeightSize = tableroWidthUnidades / _mainCamera.aspect;
             _mainCamera.orthographicSize = (newCameraHeightSize / 2);
         }
+
+        Destroy(gameObject);
 	}
 	
 	// Update is called once per frame

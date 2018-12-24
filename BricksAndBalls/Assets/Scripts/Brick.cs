@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Brick : BasicTile {
 
-    
+    public TextMesh _textPrefab;
+    private TextMesh _lifeText;
 
 	// Use this for initialization
 	void Start () {
@@ -19,15 +20,32 @@ public class Brick : BasicTile {
         transform.parent = father.transform;        
         gameObject.transform.localPosition = pos;        
         _life = life;
+
+        TextMesh t = Object.Instantiate(_textPrefab, _textPrefab.transform.position, Quaternion.identity);
+        t.transform.SetParent(gameObject.transform);
+        t.transform.localPosition = new Vector3(0, 0, 0);
+        _lifeText = t;
+        _lifeText.text = _life.ToString();
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        _life--;        
+        DecreaseLife(1);
+    }
 
-        if (_life <= 0)
+    public override void DecreaseLife(uint i)
+    {
+        base.DecreaseLife(1);
+
+        if(gameObject != null)
+            _lifeText.text = _life.ToString();
+        else
         {
-            _levelManager.TileDestroyed(this, _row, _column);
+
+            Debug.Log("meurto");
         }
+
+
+
     }
 }

@@ -20,8 +20,17 @@ public class BasicTile : MonoBehaviour {
     }
 
 
-    public void fall() {
+    public virtual void fall() {
         Vector3 pos = gameObject.transform.localPosition;
         gameObject.transform.localPosition = new Vector3(pos.x, pos.y - 1, pos.z);
+    }
+
+    public virtual void DecreaseLife(uint i)
+    {
+        _life -= i;
+        if (_life <= 0)
+            _levelManager.TileDestroyed(this, (uint)gameObject.transform.localPosition.x, (uint)gameObject.transform.localPosition.y);
+
+        //TODO: creo que _row y column no se actualizcan y por eso no las utilizo
     }
 }

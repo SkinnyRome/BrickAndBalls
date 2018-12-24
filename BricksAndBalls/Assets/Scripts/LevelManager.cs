@@ -38,6 +38,11 @@ public class LevelManager : MonoBehaviour {
 		
 	}
 
+    public BoardManager GetBoardManager()
+    {
+        return _boardManager;
+    }
+
     public void BallEnteredDeadZone(Ball b) {
                 
         b.Stop();

@@ -32,4 +32,27 @@ public class BoardManager : MonoBehaviour {
 
     }
 
+    public void hitRow(int row)
+    {
+        for(int i = 0; i < _board.GetLength(0); i++)
+        {
+            if (_board[i, row] != null)
+            {
+                _board[i, row].DecreaseLife(1);
+            }
+        }
+    }
+
+    public void hitColumn(int column)
+    {
+        for (int i = 0; i < _board.GetLength(1); i++)
+        {
+            if (_board[column, i] != null)
+            {
+                _board[column, i].DecreaseLife(1);
+            }
+        }
+    }
 }
+
+
