@@ -1,57 +1,58 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class SizeManager : MonoBehaviour {
+public class MenuLoader : MonoBehaviour {
 
-    public GameObject  _botCanvas;
-    public GameObject _topCanvas;
-    public Canvas _topCanvasC;
-    public Canvas _botCanvasC;
+
     public Camera _mainCamera;
-
-    private float tableroWidthUnidades = 11.15f;
-    private float tableroHeightUnidades = 14;
+    public Canvas _canvas;
 
 	// Use this for initialization
-	public void Init (LevelManager l) {
+	void Start () {
 
-        Canvas.ForceUpdateCanvases();
 
-        float topCanvasSize = _topCanvas.GetComponent<RectTransform>().rect.height;
-        
+        float canvasWidth = _canvas.GetComponent<RectTransform>().rect.width;
+        float width = canvasWidth * _canvas.transform.localScale.x;
 
-        float topSize = topCanvasSize * _topCanvasC.transform.localScale.y;
+        float canvasHeight = _canvas.GetComponent<RectTransform>().rect.height;
+        float height = canvasHeight * _canvas.transform.localScale.y;
 
-        l.SetTopCanvasSize(topSize);
+        Debug.Log("Ancho: " + width +  " Alto: " + height);
 
-        float botCanvasSize = _botCanvas.GetComponent<RectTransform>().rect.height;
+        float pixelsCasillaAncho = width / 5;
+        float pixelsCasillaAlto = height / 5;
 
-        float botSize = botCanvasSize * _botCanvasC.transform.localScale.y;
+        Debug.Log("Casilla ancho: " + pixelsCasillaAncho + " Casilla alto: " + pixelsCasillaAlto);
 
-        l.SetBotCanvasSize(botSize);
-
-        float tableroHeight = (Screen.height - (topSize + botSize));
+       // float tableroHeight = (Screen.height - (topSize + botSize));
 
 
 
         float cameraSizeHeight = (_mainCamera.orthographicSize * 2);
         float cameraSizeWidth = cameraSizeHeight * _mainCamera.aspect;
+
+        float camerHeightUnitsNeeded = 5 /_mainCamera.aspect;
+
+        Debug.Log("Unidades de ancho: " + camerHeightUnitsNeeded);
+
+        _mainCamera.orthographicSize = (camerHeightUnitsNeeded / 2);
+
         
+
+        /*
         float cameraSizePixelHeight = _mainCamera.pixelHeight;
         float cameraSizePixelWidth = _mainCamera.pixelWidth;
 
         Debug.Log("Altura camara en unidades: " + cameraSizeHeight + " Altura en pixeles: " + cameraSizePixelHeight);
 
         float ppuHeight = cameraSizePixelHeight / cameraSizeHeight;
-        Debug.Log("Espacio para el tablero:" + tableroHeight + " Tamaño del tablero: " + tableroHeightUnidades * ppuHeight);
         float pixelesParaTablero = tableroHeightUnidades * ppuHeight;
-        
+
 
         float unidadesTop = topSize / ppuHeight;
         float unidadesBot = botSize / ppuHeight;
-        
+
 
 
         _mainCamera.orthographicSize = (((pixelesParaTablero + topSize + botSize) / ppuHeight) / 2);
@@ -65,14 +66,17 @@ public class SizeManager : MonoBehaviour {
         float cameraWidthUnits = _mainCamera.pixelWidth / ppuWidth;
         Debug.Log("Tamañano ancho camara en unidades: " + cameraWidthUnits);
 
-        if(cameraWidthUnits < tableroWidthUnidades)
+        if (cameraWidthUnits < tableroWidthUnidades)
         {
             float newCameraHeightSize = tableroWidthUnidades / _mainCamera.aspect;
             _mainCamera.orthographicSize = (newCameraHeightSize / 2);
         }
 
-        Destroy(gameObject);
-	}
-	
+        Destroy(gameObject);*/
+    }
+
 
 }
+
+
+

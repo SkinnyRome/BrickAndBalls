@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 5f2fa0628b20d1b44897deea5f3312fa
+timeCreated: 1545838594
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Felt
+  fontNames:
+  - Felt
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
