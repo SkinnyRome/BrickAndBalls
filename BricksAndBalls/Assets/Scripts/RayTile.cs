@@ -17,7 +17,7 @@ public class RayTile : BasicTile {
 
     public void Init(Vector2 pos, GameObject father, LevelManager lm) {
 
-
+        _tileType = (_rayType == RAY_TYPE.HORIZONTAL) ? TILE_TYPE.HRAY : TILE_TYPE.VRAY;
         _levelManager = lm;
         _row = (uint)pos.x;
         _column = (uint)pos.y;

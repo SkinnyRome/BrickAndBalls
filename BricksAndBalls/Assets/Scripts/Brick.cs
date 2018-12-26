@@ -14,6 +14,7 @@ public class Brick : BasicTile {
 	
     public void Init(uint life, Vector2 pos, GameObject father, LevelManager lm)
     {
+        _tileType = TILE_TYPE.BRICK;
         _levelManager = lm;
         _row = (uint)pos.x;
         _column = (uint)pos.y;

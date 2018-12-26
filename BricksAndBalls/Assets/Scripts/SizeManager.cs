@@ -15,7 +15,7 @@ public class SizeManager : MonoBehaviour {
     private float tableroHeightUnidades = 14;
 
 	// Use this for initialization
-	void Start () {
+	public void Init (LevelManager l) {
 
         Canvas.ForceUpdateCanvases();
 
@@ -23,9 +23,13 @@ public class SizeManager : MonoBehaviour {
         
         float topSize = topCanvasSize * _topCanvasC.transform.localScale.y;
 
+        l.SetTopCanvasSize(topSize);
+
         float botCanvasSize = _botCanvas.GetComponent<RectTransform>().rect.height;
 
         float botSize = botCanvasSize * _botCanvasC.transform.localScale.y;
+
+        l.SetBotCanvasSize(botSize);
 
         float tableroHeight = (Screen.height - (topSize + botSize));
 
@@ -69,8 +73,5 @@ public class SizeManager : MonoBehaviour {
         Destroy(gameObject);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }

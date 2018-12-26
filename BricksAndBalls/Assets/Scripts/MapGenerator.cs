@@ -10,6 +10,7 @@ public class MapGenerator : MonoBehaviour {
     public GameObject _brick1;
     public GameObject _horizontalRay;
     public GameObject _verticalRay;
+    public GameObject _boardManager;
     private LevelManager _levelManager;
     
     // Use this for initialization
@@ -49,14 +50,14 @@ public class MapGenerator : MonoBehaviour {
                     case 1:
                         Brick b = Object.Instantiate(_brick1, new Vector3(0,0,0), Quaternion.identity).GetComponent<Brick>();
                         if(b != null)
-                            b.Init(grid[i,j].life, new Vector2(i, index), gameObject, _levelManager);
+                            b.Init(grid[i,j].life, new Vector2(i, index), _boardManager, _levelManager);
                         ObjectGrid[i,index] = b;
                         break;
                         //Double life Brick
                     case 2:
                         Brick b2 = Object.Instantiate(_brick1, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<Brick>();
                         if (b2 != null)
-                            b2.Init(grid[i, j].life * 2, new Vector2(i, index), gameObject, _levelManager);
+                            b2.Init(grid[i, j].life * 2, new Vector2(i, index), _boardManager, _levelManager);
                         ObjectGrid[i, index] = b2;
                         break;
                     case 3:
@@ -69,13 +70,13 @@ public class MapGenerator : MonoBehaviour {
                         //Horizontal Ray
                         RayTile r1 = Object.Instantiate(_horizontalRay, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<RayTile>();
                         if (r1 != null)
-                            r1.Init(new Vector2(i, index), gameObject, _levelManager);
+                            r1.Init(new Vector2(i, index), _boardManager, _levelManager);
                         ObjectGrid[i, index] = r1;
                         break;
                     case 7:
                         RayTile r2 = Object.Instantiate(_verticalRay, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<RayTile>();
                         if (r2 != null)
-                            r2.Init(new Vector2(i, index), gameObject, _levelManager);
+                            r2.Init(new Vector2(i, index), _boardManager, _levelManager);
                         ObjectGrid[i, index] = r2;
                         break;
                         //Vertial Ray

@@ -9,6 +9,9 @@ public class BasicTile : MonoBehaviour {
 
     protected LevelManager _levelManager;
  
+    public enum TILE_TYPE { BRICK = 0, VRAY = 1, HRAY = 2 };
+
+    protected TILE_TYPE _tileType;
 	// Use this for initialization
 	void Start () {
        
@@ -19,6 +22,10 @@ public class BasicTile : MonoBehaviour {
         
     }
 
+    public TILE_TYPE GetTileType()
+    {
+        return _tileType;
+    }
 
     public virtual void fall() {
         Vector3 pos = gameObject.transform.localPosition;

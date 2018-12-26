@@ -9,25 +9,29 @@ public class LevelManager : MonoBehaviour {
     public BallSink _ballSink;
     public BallSpawner _ballSpawner;
     public MapGenerator _mapGenerator;
+    public CanvasManager _canvasManager;
     public BoardManager _boardManager;
     public AimController _aimController;
+    public SizeManager _sizeManager;
 
-    private bool prueba;
     private bool _firstBallDetected;
     private uint _points;
     public uint _ballsToSpawn;
     private uint _ballsArrived;
-    
 
+    private float _topCanvasSize;
+    private float _botCanvasSize;
 
     // Use this for initialization
     void Start () {
 
         _firstBallDetected = false;
+        _sizeManager.Init(this);
         _deadZone.Init(this);
         _mapGenerator.Init(this);
         _boardManager.Init(this, _mapGenerator.CreateLevel());
-        _aimController.Init(this);
+        _aimController.Init(this, _botCanvasSize, _topCanvasSize);
+        _canvasManager.Init(this);
         _ballsArrived = 0;
         _points = 0;     
 
@@ -104,15 +108,21 @@ public class LevelManager : MonoBehaviour {
         dir.x = dir.x / module;
         dir.y = dir.y / module;
 
-        //dir.Normalize();
-        //Debug.Log(dir);
         _ballSpawner.SpawnBalls(_ballsToSpawn, dir);
 
     }
 
+    public void SetBotCanvasSize(float size)
+    {
+        _botCanvasSize = size;
+    }
 
+  
+    public void SetTopCanvasSize(float size)
+    {
+        _topCanvasSize = size;
+    }
 
-
-
+  
 
 }
