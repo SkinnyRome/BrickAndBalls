@@ -8,7 +8,7 @@ public class BasicTile : MonoBehaviour {
     protected uint _life, _row, _column;
 
     protected LevelManager _levelManager;
- 
+    protected bool _needToBeDestroyed;
     public enum TILE_TYPE { BRICK = 0, VRAY = 1, HRAY = 2 };
 
     protected TILE_TYPE _tileType;
@@ -27,9 +27,14 @@ public class BasicTile : MonoBehaviour {
         return _tileType;
     }
 
-    public virtual void fall() {
+    public bool NeedToBeDestroyed() {
+        return _needToBeDestroyed;
+    }
+
+    public virtual void Fall() {
         Vector3 pos = gameObject.transform.localPosition;
         gameObject.transform.localPosition = new Vector3(pos.x, pos.y - 1, pos.z);
+        _row--;
     }
 
     public virtual void DecreaseLife(uint i)

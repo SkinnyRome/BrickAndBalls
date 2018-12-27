@@ -30,6 +30,14 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void GameOver() {
+
+
+    }
+
+    public void LevelFinished() {
+
+    }
 
 
     //Update is called every frame.

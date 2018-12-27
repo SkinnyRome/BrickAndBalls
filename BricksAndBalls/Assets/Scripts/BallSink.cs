@@ -24,7 +24,7 @@ public class BallSink : MonoBehaviour {
         _numBalls = 0;
         gameObject.SetActive(true);
     }
-    public void ballArrived() {
+    public void BallArrived() {
         _numBalls++;
         label.text = "x" + _numBalls.ToString();           
     }

@@ -35,8 +35,8 @@ public class AimController : MonoBehaviour {
 
         if (Input.GetMouseButton(0))
         {
-            Debug.Log("Mouse position: " + Input.mousePosition.y + " Bot Canvas size: " + _botCanvasSize +
-                " Screen Height: " + Screen.height);
+           // Debug.Log("Mouse position: " + Input.mousePosition.y + " Bot Canvas size: " + _botCanvasSize +
+               // " Screen Height: " + Screen.height);
             if (Input.mousePosition.y > (0 + _botCanvasSize) && Input.mousePosition.y < (Screen.height - _topCanvasSize))
                 _position = Camera.main.ScreenPointToRay(Input.mousePosition).origin; ;
         }

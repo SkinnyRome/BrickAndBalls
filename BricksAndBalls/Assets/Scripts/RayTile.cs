@@ -26,12 +26,9 @@ public class RayTile : BasicTile {
         _life = 1;
         _boardManager = lm.GetBoardManager();
         _hitted = false;
+        _needToBeDestroyed = false;
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -40,21 +37,21 @@ public class RayTile : BasicTile {
 
         if (_rayType == RAY_TYPE.HORIZONTAL)
         {
-            _boardManager.hitRow((int)gameObject.transform.localPosition.y);
+            _boardManager.HitRow((int)gameObject.transform.localPosition.y);
 
            
         }
         else
         {
-            _boardManager.hitColumn((int)gameObject.transform.localPosition.x);
+            _boardManager.HitColumn((int)gameObject.transform.localPosition.x);
         }
 
 
     }
 
-    public override void fall()
+    public override void Fall()
     {
-        base.fall();
+        base.Fall();
         if(_hitted)
             _levelManager.TileDestroyed(this, _row, _column);
 

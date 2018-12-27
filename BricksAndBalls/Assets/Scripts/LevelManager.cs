@@ -15,6 +15,7 @@ public class LevelManager : MonoBehaviour {
     public SizeManager _sizeManager;
 
     private bool _firstBallDetected;
+    private bool _almostDead;
     private uint _points;
     public uint _ballsToSpawn;
     private uint _ballsArrived;
@@ -36,11 +37,7 @@ public class LevelManager : MonoBehaviour {
         _points = 0;     
 
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 
     public BoardManager GetBoardManager()
     {
@@ -55,29 +52,61 @@ public class LevelManager : MonoBehaviour {
             _firstBallDetected = true;
             _ballSink.MoveTo((Vector2)b.transform.position);
             _ballSink.Show();
-            callbackBall(b);
+            CallbackBall(b);
         }
         else
-            b.GoTo(_ballSink.transform.position, callbackBall);
+            b.GoTo(_ballSink.transform.position, CallbackBall);
     }
 
-    private void callbackBall(Ball b) {
+    private void CallbackBall(Ball b) {
         _ballsArrived++;
-        _ballSink.ballArrived();
+        _ballSink.BallArrived();
 
         if (_ballsArrived == _ballsToSpawn)
         {
-            newThrow();
+            ThrowEnded();
         }
 
         Destroy(b.gameObject);
         
     }
 
-    private void newThrow() {
+    private void ThrowEnded() {
+        //TODO: Desactivar la imagen de precaucion
+        //Level finished
+        if (_boardManager.LevelCompleted())
+        {
+            Debug.Log("NIVEL TERMINADO");
+            GameManager.instance.LevelFinished();
+        }
+        else {
+            if (_boardManager.CheckFirstRow())
+            {
+                //GameOver
+                Debug.Log("HAS MUERTO!!!!");
+                GameManager.instance.GameOver();
+            }
+            else {
+
+                _boardManager.Fall();
+
+                //Care, the player is about to lose
+                if (_boardManager.CheckFirstRow())
+                {
+                    //TODO: Activar la imagen esa roja de precaucion
+                    Debug.Log("casi voy a morir, CUIDADO!");
+                }
+
+                NewThrow();
+
+            }
+        }               
+    }
+
+    private void NewThrow() {
         _ballsArrived = 0;
         _ballSpawner.MoveTo((Vector2)_ballSink.transform.position);
-        _boardManager.fall();
+       
         _firstBallDetected = false;
         _aimController.Activate();
 
@@ -87,7 +116,7 @@ public class LevelManager : MonoBehaviour {
     public void TileDestroyed(BasicTile t, uint i, uint j) {
 
         switch (t.gameObject.layer) {
-            case 0:
+            case 9://brick
                 break;
 
         }

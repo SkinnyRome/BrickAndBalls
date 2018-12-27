@@ -24,22 +24,59 @@ public class BoardManager : MonoBehaviour {
         return _levelManager;
     }
 
-    public void fall(){
+    public void Fall(){
+        
         for (int i = 0; i < _board.GetLength(0); i++) {
             for (int j = 0; j < _board.GetLength(1); j++) {
 
                 if (_board[i, j] != null) {
-                    _board[i, j].fall();
+                    _board[i, j].Fall();
                     //TODO: controlar que no se pregunte por una posición que no existe (cuidado con el -1 en las ultimas filas)
                     _board[i,j - 1] = _board[i, j];
-                    _board[i, j] = null;
+                    _board[i, j] = null;           
+                    
                 }
             }
         }
 
+
+    }
+    /// <summary>
+    /// Check the first row of the grid to see if some bricks are left.
+    /// </summary>
+    /// <returns>Returns true if some tile who needs to be destroyed is still alive.</returns>
+    public bool CheckFirstRow() {
+
+        for (int i = 0; i < _board.GetLength(0); i++) {
+            if (_board[i,0] != null) {
+
+                if (_board[i, 0].NeedToBeDestroyed())
+                    return true;
+            }
+        }
+
+        return false;
+    }
+    public bool LevelCompleted() {
+
+        for (int i = 0; i < _board.GetLength(0); i++)
+        {
+            for (int j = 0; j < _board.GetLength(1); j++)
+            {
+
+                if (_board[i, j] != null)
+                {
+                    if (_board[i, j].NeedToBeDestroyed())
+                        return false;
+                }
+            }
+        }
+
+        return true;
     }
 
-    public void hitRow(int row)
+    
+    public void HitRow(int row)
     {
         for(int i = 0; i < _board.GetLength(0); i++)
         {
@@ -50,7 +87,7 @@ public class BoardManager : MonoBehaviour {
         }
     }
 
-    public void hitColumn(int column)
+    public void HitColumn(int column)
     {
         for (int i = 0; i < _board.GetLength(1); i++)
         {

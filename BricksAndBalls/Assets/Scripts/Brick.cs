@@ -16,11 +16,12 @@ public class Brick : BasicTile {
     {
         _tileType = TILE_TYPE.BRICK;
         _levelManager = lm;
-        _row = (uint)pos.x;
-        _column = (uint)pos.y;
+        _row = (uint)pos.y;
+        _column = (uint)pos.x;
         transform.parent = father.transform;        
         gameObject.transform.localPosition = pos;        
         _life = life;
+        _needToBeDestroyed = true;
 
         TextMesh t = Object.Instantiate(_textPrefab, _textPrefab.transform.position, Quaternion.identity);
         t.transform.SetParent(gameObject.transform);
@@ -43,7 +44,7 @@ public class Brick : BasicTile {
         else
         {
 
-            Debug.Log("meurto");
+            Debug.Log("muerto");
         }
 
 

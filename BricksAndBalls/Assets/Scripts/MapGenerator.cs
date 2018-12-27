@@ -46,15 +46,15 @@ public class MapGenerator : MonoBehaviour {
                 switch (grid[i,j].type) {
                     case 0:
                         break;
-                        //Normal Brick
                     case 1:
+                        //Normal Brick
                         Brick b = Object.Instantiate(_brick1, new Vector3(0,0,0), Quaternion.identity).GetComponent<Brick>();
                         if(b != null)
                             b.Init(grid[i,j].life, new Vector2(i, index), _boardManager, _levelManager);
                         ObjectGrid[i,index] = b;
                         break;
-                        //Double life Brick
                     case 2:
+                        //Double life Brick
                         Brick b2 = Object.Instantiate(_brick1, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<Brick>();
                         if (b2 != null)
                             b2.Init(grid[i, j].life * 2, new Vector2(i, index), _boardManager, _levelManager);
@@ -74,12 +74,12 @@ public class MapGenerator : MonoBehaviour {
                         ObjectGrid[i, index] = r1;
                         break;
                     case 7:
+                        //Vertial Ray
                         RayTile r2 = Object.Instantiate(_verticalRay, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<RayTile>();
                         if (r2 != null)
                             r2.Init(new Vector2(i, index), _boardManager, _levelManager);
                         ObjectGrid[i, index] = r2;
                         break;
-                        //Vertial Ray
                     case 8:
                         break;
                     default:
