@@ -52,7 +52,7 @@ public class LevelManager : MonoBehaviour {
         if (!_firstBallDetected)
         {
             _firstBallDetected = true;
-            _ballSink.MoveTo((Vector2)b.transform.position);
+            _ballSink.MoveTo(new Vector2(b.transform.position.x, b.transform.position.y - 0.5f));
             _ballSink.Show();
             CallbackBall(b);
         }
