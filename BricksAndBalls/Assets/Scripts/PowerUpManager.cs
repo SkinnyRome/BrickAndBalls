@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CanvasManager : MonoBehaviour {
+public class PowerUpManager : MonoBehaviour {
 
     private LevelManager _levelManager;
     public PowerUp[] _powerUps;

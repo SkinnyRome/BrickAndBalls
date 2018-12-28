@@ -1,10 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-using System.Collections.Generic;       //Allows us to use Lists. 
+using System.Collections.Generic;       //Allows us to use Lists.
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+
+    private uint _currentLevel;
+    private string _selectedMapName;
+
+
 
     public static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script.
 
@@ -30,6 +36,12 @@ public class GameManager : MonoBehaviour
 
     }
 
+    void Start()
+    {
+        //Cargar los datos guardados.
+        _currentLevel = 2;
+    }
+
     public void GameOver() {
 
 
@@ -39,10 +51,27 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void LoadLevel(string mapName)
+    {
+        _selectedMapName = mapName;
+        SceneManager.LoadScene("GameplayScene");
+    }
 
     //Update is called every frame.
     void Update()
     {
 
+    }
+
+    public uint GetCurrentLevel()
+    {
+        return _currentLevel;
+    }
+
+   
+
+    public string GetLevelNameSelected()
+    {
+        return _selectedMapName;
     }
 }

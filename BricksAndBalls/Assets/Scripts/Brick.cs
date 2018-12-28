@@ -18,7 +18,7 @@ public class Brick : BasicTile {
         _levelManager = lm;
         _row = (uint)pos.y;
         _column = (uint)pos.x;
-        transform.parent = father.transform;        
+        transform.SetParent(father.transform,false);        
         gameObject.transform.localPosition = pos;        
         _life = life;
         _needToBeDestroyed = true;

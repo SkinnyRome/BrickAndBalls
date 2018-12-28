@@ -5,7 +5,8 @@ using UnityEngine;
 public class Ball : MonoBehaviour {
 
     private Rigidbody2D rb;
-    private Vector2 _velocity = new Vector2(10, 10);
+    private Vector2 _velocity = new Vector2(20, 20);
+    private Vector2 _lastVelocity;
     public float _moveTime;
 
     //private float t = 0.0f;
@@ -31,7 +32,7 @@ public class Ball : MonoBehaviour {
         direction.y *= _velocity.y;
 
         rb.velocity = direction;
-        //Debug.Log(transform.rotation);
+        _lastVelocity = rb.velocity;
         
        
     }
@@ -79,5 +80,17 @@ public class Ball : MonoBehaviour {
             callback(this);
         }
 
+    }
+
+    public void Pause()
+    {
+        _lastVelocity = rb.velocity;
+        rb.velocity = Vector2.zero;
+    }
+
+    public void Resume()
+    {
+        rb.velocity = _lastVelocity;
+        _lastVelocity = Vector2.zero;
     }
 }

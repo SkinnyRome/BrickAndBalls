@@ -7,9 +7,9 @@ public class LevelManager : MonoBehaviour {
 
     public DeadZone _deadZone;
     public BallSink _ballSink;
-    public BallSpawner _ballSpawner;
+    public BallManager _ballManager;
     public MapGenerator _mapGenerator;
-    public CanvasManager _canvasManager;
+    public PowerUpManager _canvasManager;
     public BoardManager _boardManager;
     public AimController _aimController;
     public SizeManager _sizeManager;
@@ -24,14 +24,16 @@ public class LevelManager : MonoBehaviour {
     private float _botCanvasSize;
 
     // Use this for initialization
-    void Start () {
+    void Awake () {
 
         _firstBallDetected = false;
         _sizeManager.Init(this);
         _deadZone.Init(this);
         _mapGenerator.Init(this);
-        _boardManager.Init(this, _mapGenerator.CreateLevel());
+        //_boardManager.Init(this, _mapGenerator.CreateLevel(GameManager.instance.GetLevelNameSelected()));
+        _boardManager.Init(this, _mapGenerator.CreateLevel("mapdata1"));
         _aimController.Init(this, _botCanvasSize, _topCanvasSize);
+        _ballManager.Init(this);
         _canvasManager.Init(this);
         _ballsArrived = 0;
         _points = 0;     
@@ -67,7 +69,7 @@ public class LevelManager : MonoBehaviour {
             ThrowEnded();
         }
 
-        Destroy(b.gameObject);
+        _ballManager.RemoveBall(b.gameObject);
         
     }
 
@@ -105,7 +107,7 @@ public class LevelManager : MonoBehaviour {
 
     private void NewThrow() {
         _ballsArrived = 0;
-        _ballSpawner.MoveTo((Vector2)_ballSink.transform.position);
+        _ballManager.MoveTo((Vector2)_ballSink.transform.position);
        
         _firstBallDetected = false;
         _aimController.Activate();
@@ -131,13 +133,13 @@ public class LevelManager : MonoBehaviour {
 
         _ballSink.Hide();
 
-        Vector3 dir = position - _ballSpawner.transform.position;
+        Vector3 dir = position - _ballManager.transform.position;
 
         float module = Mathf.Sqrt(Mathf.Pow(dir.x, 2) + Mathf.Pow(dir.y, 2));
         dir.x = dir.x / module;
         dir.y = dir.y / module;
 
-        _ballSpawner.SpawnBalls(_ballsToSpawn, dir);
+        _ballManager.SpawnBalls(_ballsToSpawn, dir);
 
     }
 
@@ -152,6 +154,9 @@ public class LevelManager : MonoBehaviour {
         _topCanvasSize = size;
     }
 
-  
+    public void Pause()
+    {
+        _ballManager.Pause();
+    }
 
 }

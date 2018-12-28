@@ -1,53 +1,105 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class MenuLoader : MonoBehaviour {
 
 
     public Camera _mainCamera;
-    public Canvas _canvas;
-    public UnityEngine.UI.Button _button;
+    public Canvas _canvasButtons;
+    public Canvas _topCanvas;
+    public Canvas _botCanvas;
+    public UnityEngine.UI.Button _lockedButton;
+    public UnityEngine.UI.Button _unlockedButton;
+
+
+    private const string mapFileName = "mapdata";
 
     // Use this for initialization
-    void Start () {
+    public void Init (uint currentLevel) {
 
 
         Canvas.ForceUpdateCanvases();
-
-        float canvasWidth = _canvas.GetComponent<RectTransform>().rect.width;
-        float width = canvasWidth * _canvas.transform.localScale.x;
-
-        float canvasHeight = _canvas.GetComponent<RectTransform>().rect.height;
-        float height = canvasHeight * _canvas.transform.localScale.y;
-
-        Debug.Log("Ancho: " + width +  " Alto: " + height);
         
-        float pixelsCasillaAncho = width / 5;
-        float pixelsCasillaAlto = height / 5;
+        float topCanvasSize = _topCanvas.GetComponent<RectTransform>().rect.height * _topCanvas.transform.parent.localScale.y;
+        float botCanvasSize = _botCanvas.GetComponent<RectTransform>().rect.height * _botCanvas.transform.parent.localScale.y;
 
-        Debug.Log("Casilla ancho: " + pixelsCasillaAncho + " Casilla alto: " + pixelsCasillaAlto);
+        Debug.Log("Size canvas bot: " + botCanvasSize);
 
-
-     
-
-
-        //_button.GetComponent<RectTransform>().sca
         
-                for( int i = 0; i < 5; i++)
-                {
-                    for (int j = 0; j < 20; j++)
-                    {
-                    var button = Instantiate(_button, new Vector3(0, 0, 0), Quaternion.identity) as UnityEngine.UI.Button;
-                    var rectTransform = button.GetComponent<RectTransform>();
-                    button.transform.localPosition = new Vector3(0,0, -1);
-                    rectTransform.SetParent(_canvas.transform);
-                    rectTransform.pivot = Vector2.zero;
-                    button.transform.localScale = new Vector3( rectTransform.rect.width / pixelsCasillaAncho, rectTransform.rect.width / pixelsCasillaAncho, 1);
-                    button.transform.localPosition = new Vector3(i * pixelsCasillaAncho, j * pixelsCasillaAlto, -1);
-                    rectTransform.anchorMax = Vector2.zero;
-                    rectTransform.anchorMin = Vector2.zero;
+    
+
+
+        _mainCamera.orthographicSize = (5.5f / _mainCamera.aspect) / 2;
+
+       // _mainCamera.transform.Translate(new Vector3(0, botCanvasSize, 0));
+
+        float cameraSizeHeight = (_mainCamera.orthographicSize * 2);
+        float cameraSizeWidth = cameraSizeHeight * _mainCamera.aspect;
+
+        float cameraSizePixelHeight = _mainCamera.pixelHeight;
+        float cameraSizePixelWidth = _mainCamera.pixelWidth;
+
+
+        float ppuHeight = cameraSizePixelHeight / cameraSizeHeight;
+        float ppuWidth = cameraSizePixelWidth / cameraSizeWidth;
+
+        float canvasBotUnits = botCanvasSize / ppuHeight;
+
+        Debug.Log("Altura camara en unidades: " + cameraSizeHeight + " Altura en pixeles: " + cameraSizePixelHeight +  " PPU height: " + ppuHeight);
+        Debug.Log("Ancho camara en unidades: " + cameraSizeWidth + " Ancho en pixeles: " + cameraSizePixelWidth + " PPU width: " + ppuWidth);
+
+
+        _canvasButtons.GetComponent<RectTransform>().sizeDelta = new Vector2(5 , 5 / _mainCamera.aspect );
+        _mainCamera.transform.position = new Vector3(_canvasButtons.GetComponent<RectTransform>().position.x, _canvasButtons.GetComponent<RectTransform>().position.y - canvasBotUnits, -10);
+        Debug.Log("Ancho canvas" + _canvasButtons.GetComponent<RectTransform>().sizeDelta.x + " Alto canvas: " + _canvasButtons.GetComponent<RectTransform>().sizeDelta.y);
+
+        List<string> maps = new List<string>();
+
+        var info = new DirectoryInfo("Assets/Resources/Maps");
+        var fileInfo = info.GetFiles();
+        foreach (FileInfo file in fileInfo)
+        {
+            if (file.Extension == ".txt")
+            {
+                maps.Add(file.Name.Split('.')[0]);
+                Debug.Log(file.Name);
             }
+        }
+
+        maps.Sort();
+
+        int j = 0;
+        int m = 0;
+        while (m < maps.Count)
+        {
+            int i = 0;
+            while ( i < 5 && m < maps.Count)
+            {
+                UnityEngine.UI.Button button = null;
+
+                if (m <= currentLevel)
+                {
+                    button = Instantiate(_unlockedButton, new Vector3(0, 0, 0), Quaternion.identity) as UnityEngine.UI.Button;
+                    button.GetComponent<MapLevelButton>().Init(maps[m]);
+                }
+                else
+                {
+                    button = Instantiate(_lockedButton, new Vector3(0, 0, 0), Quaternion.identity) as UnityEngine.UI.Button;
+                }
+                RectTransform rectTransform = button.GetComponent<RectTransform>();
+                rectTransform.SetParent(_canvasButtons.transform);
+                rectTransform.pivot = Vector2.zero;
+                button.transform.localPosition = new Vector3(i, j, -1);
+                rectTransform.anchorMax = Vector2.zero;
+                rectTransform.anchorMin = Vector2.zero;
+
+                m++;
+                i++;
+            }
+            j += 1;
+            //m++;
         }
                 
         Canvas.ForceUpdateCanvases();

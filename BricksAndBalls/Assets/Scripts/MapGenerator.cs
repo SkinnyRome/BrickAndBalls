@@ -5,7 +5,7 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour {
 
     public uint _rows, _columns, _offset;
-    public TextAsset _mapTxt;
+    private TextAsset _mapTxt;
     private MapParser _mapParser; 
     public GameObject _brick1;
     public GameObject _horizontalRay;
@@ -31,8 +31,10 @@ public class MapGenerator : MonoBehaviour {
     ///and return the board with the objects to be managed
     /// </summary>
     /// <returns></returns>
-    public BasicTile[,] CreateLevel() {
-       
+    public BasicTile[,] CreateLevel(string m) {
+
+        
+        _mapTxt = (TextAsset)Resources.Load("Maps/" + m);
 
         Tile[,] grid = new Tile[_rows, _columns];
         BasicTile[,] ObjectGrid = new BasicTile[_rows, _columns + _offset];
