@@ -10,8 +10,9 @@ public class RayTile : BasicTile {
     public RAY_TYPE _rayType;
     private BoardManager _boardManager;
     private bool _hitted;
-	// Use this for initialization
-	void Start () {
+    private SpriteRenderer _lightRenderer;
+    // Use this for initialization
+    void Start () {
 		
 	}
 
@@ -27,6 +28,9 @@ public class RayTile : BasicTile {
         _boardManager = lm.GetBoardManager();
         _hitted = false;
         _needToBeDestroyed = false;
+
+        //_lightRenderer = transform.Find("Light").gameObject.GetComponent<SpriteRenderer>();
+        
     }
 
 
@@ -38,8 +42,7 @@ public class RayTile : BasicTile {
         if (_rayType == RAY_TYPE.HORIZONTAL)
         {
             _boardManager.HitRow((int)gameObject.transform.localPosition.y);
-
-           
+            //LigthFade();           
         }
         else
         {
@@ -62,4 +65,19 @@ public class RayTile : BasicTile {
         
     }
 
+    private IEnumerator  LigthFade()
+    {
+        
+        
+        while (_lightRenderer.color.a > 0)
+        {
+
+            yield return new WaitForSeconds(0.1f);
+            Color c = _lightRenderer.color;
+            c.a -= 0.1f;
+            _lightRenderer.color = c;
+
+        }
+        
+    }
 }

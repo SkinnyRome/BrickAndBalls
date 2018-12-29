@@ -9,10 +9,12 @@ public class LevelManager : MonoBehaviour {
     public BallSink _ballSink;
     public BallManager _ballManager;
     public MapGenerator _mapGenerator;
-    public PowerUpManager _canvasManager;
+    public PowerUpManager _powerUpManager;
     public BoardManager _boardManager;
     public AimController _aimController;
     public SizeManager _sizeManager;
+    public CanvasManager _canvasManager;
+    public GameObject _warningRow;
 
     private bool _firstBallDetected;
     private bool _almostDead;
@@ -35,8 +37,10 @@ public class LevelManager : MonoBehaviour {
         _aimController.Init(this, _botCanvasSize, _topCanvasSize);
         _ballManager.Init(this);
         _canvasManager.Init(this);
+        _powerUpManager.Init(this);
         _ballsArrived = 0;
-        _points = 0;     
+        _points = 0;
+        _warningRow.SetActive(false);
 
 	}
 
@@ -52,7 +56,7 @@ public class LevelManager : MonoBehaviour {
         if (!_firstBallDetected)
         {
             _firstBallDetected = true;
-            _ballSink.MoveTo(new Vector2(b.transform.position.x, b.transform.position.y - 0.5f));
+            _ballSink.MoveTo(new Vector2(b.transform.position.x, b.transform.position.y));
             _ballSink.Show();
             CallbackBall(b);
         }
@@ -79,6 +83,7 @@ public class LevelManager : MonoBehaviour {
         if (_boardManager.LevelCompleted())
         {
             Debug.Log("NIVEL TERMINADO");
+            _canvasManager.EndGameSuccess();
             GameManager.instance.LevelFinished();
         }
         else {
@@ -86,7 +91,8 @@ public class LevelManager : MonoBehaviour {
             {
                 //GameOver
                 Debug.Log("HAS MUERTO!!!!");
-                GameManager.instance.GameOver();
+                _canvasManager.EndGameFailed();
+                //GameManager.instance.GameOver();
             }
             else {
 
@@ -97,6 +103,7 @@ public class LevelManager : MonoBehaviour {
                 {
                     //TODO: Activar la imagen esa roja de precaucion
                     Debug.Log("casi voy a morir, CUIDADO!");
+                    _warningRow.SetActive(true);
                 }
 
                 NewThrow();
@@ -157,6 +164,22 @@ public class LevelManager : MonoBehaviour {
     public void Pause()
     {
         _ballManager.Pause();
+        _canvasManager.Pause();
     }
 
+    public void Resume()
+    {
+        _ballManager.Resume();
+        _canvasManager.Resume();
+    }
+
+    public void RetryLevel()
+    {
+        GameManager.instance.RetryCurrentLevel();
+    }
+
+    public void GoHome()
+    {
+        GameManager.instance.GoMainMenu();
+    }
 }

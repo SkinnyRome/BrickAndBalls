@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void LevelFinished() {
-
+        _currentLevel++;
     }
 
     public void LoadLevel(string mapName)
@@ -57,21 +57,36 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("GameplayScene");
     }
 
-    //Update is called every frame.
-    void Update()
+    public void RetryCurrentLevel()
     {
-
+        if (_selectedMapName != null)
+            SceneManager.LoadScene("GameplayScene");
+        else
+            Debug.Log("No hay mapa del ultimo juego");
     }
+
+    public void GoMainMenu()
+    {
+        SceneManager.LoadScene("MainMenuScene");
+    }
+
 
     public uint GetCurrentLevel()
     {
         return _currentLevel;
     }
 
-   
-
+  
     public string GetLevelNameSelected()
     {
         return _selectedMapName;
+    }
+
+   
+
+    public void LoadNextLevel()
+    {
+        string mapName = "mapdata" + _currentLevel.ToString();
+        LoadLevel(mapName);
     }
 }
