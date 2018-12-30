@@ -5,19 +5,19 @@ using UnityEngine;
 public class MapLevelButton : MonoBehaviour {
 
 
-    string _mapString;
+    uint _mapIndex;
     public TextMesh _textPrefab;
 
 
     public void OnClick()
     {
-        GameManager.instance.LoadLevel(_mapString);
+        GameManager.instance.LoadLevel(_mapIndex);
     }
 
-    public void Init(string m)
+    public void Init(uint m)
     {
-        _mapString = m;
-        string mapNumber = m.Substring(7);
+        _mapIndex = m;
+        string mapNumber = m.ToString();
         TextMesh t = Object.Instantiate(_textPrefab, _textPrefab.transform.position, Quaternion.identity);
         t.transform.SetParent(gameObject.transform);
         t.transform.localPosition = new Vector3(0, 0, 0);

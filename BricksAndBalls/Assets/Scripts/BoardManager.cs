@@ -57,6 +57,24 @@ public class BoardManager : MonoBehaviour {
 
         return false;
     }
+
+    public bool CheckWarningRow()
+    {
+
+        for (int i = 0; i < _board.GetLength(0); i++)
+        {
+            if (_board[i, 1] != null)
+            {
+
+                if (_board[i, 1].NeedToBeDestroyed())
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+
     public bool LevelCompleted() {
 
         for (int i = 0; i < _board.GetLength(0); i++)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
+
 public class MenuLoader : MonoBehaviour {
 
 
@@ -55,7 +56,7 @@ public class MenuLoader : MonoBehaviour {
         _mainCamera.transform.position = new Vector3(_canvasButtons.GetComponent<RectTransform>().position.x, _canvasButtons.GetComponent<RectTransform>().position.y - canvasBotUnits, -10);
         Debug.Log("Ancho canvas" + _canvasButtons.GetComponent<RectTransform>().sizeDelta.x + " Alto canvas: " + _canvasButtons.GetComponent<RectTransform>().sizeDelta.y);
 
-        List<string> maps = new List<string>();
+        List<uint> maps = new List<uint>();
 
         var info = new DirectoryInfo("Assets/Resources/Maps");
         var fileInfo = info.GetFiles();
@@ -63,7 +64,9 @@ public class MenuLoader : MonoBehaviour {
         {
             if (file.Extension == ".txt")
             {
-                maps.Add(file.Name.Split('.')[0]);
+                string name = file.Name.Split('.')[0];
+                uint number = uint.Parse(name.Substring(7));
+                maps.Add(number);
                 Debug.Log(file.Name);
             }
         }
@@ -79,7 +82,7 @@ public class MenuLoader : MonoBehaviour {
             {
                 UnityEngine.UI.Button button = null;
 
-                if (m <= currentLevel)
+                if (m < currentLevel)
                 {
                     button = Instantiate(_unlockedButton, new Vector3(0, 0, 0), Quaternion.identity) as UnityEngine.UI.Button;
                     button.GetComponent<MapLevelButton>().Init(maps[m]);

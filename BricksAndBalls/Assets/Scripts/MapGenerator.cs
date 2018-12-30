@@ -8,6 +8,7 @@ public class MapGenerator : MonoBehaviour {
     private TextAsset _mapTxt;
     private MapParser _mapParser; 
     public GameObject _brick1;
+    public GameObject _triangle;
     public GameObject _horizontalRay;
     public GameObject _verticalRay;
     public GameObject _boardManager;
@@ -62,27 +63,44 @@ public class MapGenerator : MonoBehaviour {
                             b2.Init(grid[i, j].life * 2, new Vector2(i, index), _boardManager, _levelManager);
                         ObjectGrid[i, index] = b2;
                         break;
+                    //Triangle Tiles
                     case 3:
-                        break;
+                        Brick t3 = Object.Instantiate(_triangle, new Vector3(0, 0, 0), Quaternion.Euler(0,0,0)).GetComponent<Brick>();
+                        if (t3 != null)
+                            t3.Init(grid[i, j].life, new Vector2(i, index), _boardManager, _levelManager);
+                        ObjectGrid[i, index] = t3;
+                        break;                        
                     case 4:
+                        Brick t4 = Object.Instantiate(_triangle, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 90)).GetComponent<Brick>();
+                        if (t4 != null)
+                            t4.Init(grid[i, j].life, new Vector2(i, index), _boardManager, _levelManager);
+                        ObjectGrid[i, index] = t4;
                         break;
                     case 5:
+                        Brick t5 = Object.Instantiate(_triangle, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 180)).GetComponent<Brick>();
+                        if (t5 != null)
+                            t5.Init(grid[i, j].life, new Vector2(i, index), _boardManager, _levelManager);
+                        ObjectGrid[i, index] = t5;
                         break;
                     case 6:
+                        Brick t6 = Object.Instantiate(_triangle, new Vector3(0, 0, 0), Quaternion.Euler(0, 0, 270)).GetComponent<Brick>();
+                        if (t6 != null)
+                            t6.Init(grid[i, j].life, new Vector2(i, index), _boardManager, _levelManager);
+                        ObjectGrid[i, index] = t6;
+                        break;
+                    case 7:
                         //Horizontal Ray
                         RayTile r1 = Object.Instantiate(_horizontalRay, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<RayTile>();
                         if (r1 != null)
                             r1.Init(new Vector2(i, index), _boardManager, _levelManager);
                         ObjectGrid[i, index] = r1;
                         break;
-                    case 7:
+                    case 8:
                         //Vertial Ray
                         RayTile r2 = Object.Instantiate(_verticalRay, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<RayTile>();
                         if (r2 != null)
                             r2.Init(new Vector2(i, index), _boardManager, _levelManager);
                         ObjectGrid[i, index] = r2;
-                        break;
-                    case 8:
                         break;
                     default:
                         break;                   

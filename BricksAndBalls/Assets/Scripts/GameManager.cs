@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //Cargar los datos guardados.
-        _currentLevel = 2;
+        _currentLevel = 1;
     }
 
     public void GameOver() {
@@ -51,9 +51,9 @@ public class GameManager : MonoBehaviour
         _currentLevel++;
     }
 
-    public void LoadLevel(string mapName)
+    public void LoadLevel(uint mapIndex)
     {
-        _selectedMapName = mapName;
+        _selectedMapName = "mapdata" + mapIndex.ToString();
         SceneManager.LoadScene("GameplayScene");
     }
 
@@ -80,13 +80,10 @@ public class GameManager : MonoBehaviour
     public string GetLevelNameSelected()
     {
         return _selectedMapName;
-    }
-
-   
+    }   
 
     public void LoadNextLevel()
-    {
-        string mapName = "mapdata" + _currentLevel.ToString();
-        LoadLevel(mapName);
+    {          
+        LoadLevel(_currentLevel);
     }
 }
