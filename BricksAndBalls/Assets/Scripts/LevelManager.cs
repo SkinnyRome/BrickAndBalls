@@ -196,6 +196,11 @@ public class LevelManager : MonoBehaviour {
     {
         GameManager.instance.RetryCurrentLevel();
     }
+    public void FreeRuby(GameObject g)
+    {
+        g.SetActive(false);
+        GameManager.instance.DisplayRewardedAd();
+    }
 
     public void GoHome()
     {

@@ -30,11 +30,22 @@ public class BoardManager : MonoBehaviour {
             for (int j = 0; j < _board.GetLength(1); j++) {
 
                 if (_board[i, j] != null) {
-                    _board[i, j].Fall();
-                    //TODO: controlar que no se pregunte por una posición que no existe (cuidado con el -1 en las ultimas filas)
-                    _board[i,j - 1] = _board[i, j];
-                    _board[i, j] = null;           
-                    
+
+                    if (j == 1 && !_board[i, j].NeedToBeDestroyed())
+                    {
+
+                        //do nothing
+
+
+                    }
+                    else {
+                        _board[i, j].Fall();
+                        //TODO: controlar que no se pregunte por una posición que no existe (cuidado con el -1 en las ultimas filas)
+                        _board[i, j - 1] = _board[i, j];
+                        _board[i, j] = null;
+                    }
+
+
                 }
             }
         }

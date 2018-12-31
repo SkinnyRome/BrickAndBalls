@@ -5,6 +5,32 @@ using UnityEngine.Advertisements;
 
 public class UnityAds : MonoBehaviour
 {
+
+    void Start()
+    {
+     
+
+        
+    }
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E)) {
+            ShowRewardedAd();
+        }
+    }
+
+
+    public void ShowBasicAd() {
+
+        if (Advertisement.IsReady("video"))
+        {
+            Advertisement.Show("video");
+        }
+
+    }
+
     public void ShowRewardedAd()
     {
         if (Advertisement.IsReady("rewardedVideo"))
@@ -19,10 +45,8 @@ public class UnityAds : MonoBehaviour
         switch (result)
         {
             case ShowResult.Finished:
-                Debug.Log("The ad was successfully shown.");
-                //
-                // YOUR CODE TO REWARD THE GAMER
-                // Give coins etc.
+                Debug.Log("The ad was successfully shown.");               
+                GameManager.instance.RewardedForWatchingAd();                
                 break;
             case ShowResult.Skipped:
                 Debug.Log("The ad was skipped before reaching the end.");

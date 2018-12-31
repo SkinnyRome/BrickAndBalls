@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
 
     private uint _currentLevel;
     private string _selectedMapName;
+    private UnityAds _ads;
+
+    private uint _money;
 
 
 
@@ -40,15 +43,28 @@ public class GameManager : MonoBehaviour
     {
         //Cargar los datos guardados.
         _currentLevel = 1;
+        _money = 0;
+
+        _ads = GetComponent<UnityAds>();
+        if(_ads != null)
+        {
+            Debug.Log("Getting Ads failed.");
+        }
     }
 
-    public void GameOver() {
+    public void RewardedForWatchingAd() {
+        Debug.Log("PREMIADO POR VER UN VIDEO");
+        _money += 10;
+    }
 
-
+    public void DisplayRewardedAd()
+    {
+        _ads.ShowRewardedAd();
     }
 
     public void LevelFinished() {
         _currentLevel++;
+        _ads.ShowBasicAd();
     }
 
     public void LoadLevel(uint mapIndex)
