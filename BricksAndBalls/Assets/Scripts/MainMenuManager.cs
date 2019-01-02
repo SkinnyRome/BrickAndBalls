@@ -9,7 +9,7 @@ public class MainMenuManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        _menuLoader.Init(GameManager.instance.GetCurrentLevel());
+        _menuLoader.Init(GameManager.instance.GetPlayerLevel());
 		
 	}
 	

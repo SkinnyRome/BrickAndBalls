@@ -67,7 +67,6 @@ public class MenuLoader : MonoBehaviour {
                 string name = file.Name.Split('.')[0];
                 uint number = uint.Parse(name.Substring(7));
                 maps.Add(number);
-                Debug.Log(file.Name);
             }
         }
 

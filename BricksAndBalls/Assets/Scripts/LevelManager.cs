@@ -15,14 +15,17 @@ public class LevelManager : MonoBehaviour {
     public SizeManager _sizeManager;
     public CanvasManager _canvasManager;
     public GameObject _warningRow;
-    public UnityEngine.UI.Text _stars;
+    public UnityEngine.UI.Text _starsUI;
+    public UnityEngine.UI.Text _scoreUI;
 
     private bool _firstBallDetected;
     private bool _almostDead;
+    private uint _starsScore;
     private uint _points;
     private uint _prize;
     public uint _ballsToSpawn;
     private uint _ballsArrived;
+    private int _level;
 
     private float _topCanvasSize;
     private float _botCanvasSize;
@@ -30,24 +33,32 @@ public class LevelManager : MonoBehaviour {
     // Use this for initialization
     void Awake () {
 
-        _firstBallDetected = false;
+        Init();
         _sizeManager.Init(this);
         _deadZone.Init(this);
         _mapGenerator.Init(this);
-        //_boardManager.Init(this, _mapGenerator.CreateLevel(GameManager.instance.GetLevelNameSelected()));
-        string mapName = "mapdata" + GameManager.instance.GetCurrentLevel();
-        _boardManager.Init(this, _mapGenerator.CreateLevel(mapName));
+        _boardManager.Init(this, _mapGenerator.CreateLevel(GameManager.instance.GetSelectedLevelName()));
+       // _boardManager.Init(this, _mapGenerator.CreateLevel("mapdata" + _level));
         _aimController.Init(this, _botCanvasSize, _topCanvasSize);
         _ballManager.Init(this);
         _canvasManager.Init(this);
         _powerUpManager.Init(this);
-        _ballsArrived = 0;
-        _points = 0;
-        _prize = 10;
-        _warningRow.SetActive(false);
-
 	}
 
+    private void Init()
+    {
+        _level = (int)GameManager.instance.GetSelectedLevelNumber();
+        _firstBallDetected = false;
+        _ballsArrived = 0;
+        _points = _starsScore = 0;
+        _prize = 10;
+        _warningRow.SetActive(false);
+        LoadBalls();
+        UpdateUI();
+
+
+
+    }
 
     public BoardManager GetBoardManager()
     {
@@ -89,8 +100,8 @@ public class LevelManager : MonoBehaviour {
         if (_boardManager.LevelCompleted())
         {
             Debug.Log("NIVEL TERMINADO");
+            GameManager.instance.LevelFinished(_starsScore);
             _canvasManager.EndGameSuccess();
-            GameManager.instance.LevelFinished();
         }
         else
         {
@@ -140,19 +151,21 @@ public class LevelManager : MonoBehaviour {
 
         _points += _prize;
         _prize += 10;
-        UpdateStars();
+        UpdateUI();
 
         Destroy(t.gameObject);  
        
     }
 
-    private void UpdateStars() {
+    private void UpdateUI() {
         
-        uint stars = _points / 300; //Every 300 points 1 star, for example xD
+        _starsScore = _points / 300; //Every 300 points 1 star, for example xD
         
-        if (stars >= 3)
-            stars = 3;
-        _stars.text = "STARS: " + stars.ToString(); 
+        if (_starsScore >= 3)
+            _starsScore = 3;
+
+        _starsUI.text = "STARS: " + _starsScore.ToString();
+        _scoreUI.text = _points.ToString();
     }
 
     public void Shoot(Vector3 position) {
@@ -194,7 +207,7 @@ public class LevelManager : MonoBehaviour {
 
     public void RetryLevel()
     {
-        GameManager.instance.RetryCurrentLevel();
+        GameManager.instance.RetryLevel();
     }
     public void FreeRuby(GameObject g)
     {
@@ -209,7 +222,16 @@ public class LevelManager : MonoBehaviour {
 
     public void NextLevel()
     {
-        GameManager.instance.LoadNextLevel();
+        GameManager.instance.LoadLevel((uint)(_level + 1));
     }
 
+    private void LoadBalls()
+    {
+        TextAsset mapsInfo =(TextAsset)Resources.Load("Maps/Mapsdata/gamedata_savelv");
+        string levelData = mapsInfo.text.Split(new char[] { '\r' })[_level-1];
+        string[] auxText = levelData.Split(',');
+        auxText = auxText[1].Split(' ');
+        _ballsToSpawn = uint.Parse(auxText[1]);
+
+    }
 }

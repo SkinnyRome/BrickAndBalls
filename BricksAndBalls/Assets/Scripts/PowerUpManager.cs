@@ -5,7 +5,7 @@ using UnityEngine;
 public class PowerUpManager : MonoBehaviour {
 
     private LevelManager _levelManager;
-    public PowerUp[] _powerUps;
+    public PowerUp _rayPowerUp;
 
 
 
@@ -13,12 +13,9 @@ public class PowerUpManager : MonoBehaviour {
 	public void Init (LevelManager l) {
 
         _levelManager = l;
+        UserData data = GameManager.instance.GetUserData();
 
-		foreach(PowerUp p in _powerUps)
-        {
-            //TODO: habrá que pedirle al GameManager los usos disponibles de cada powerUP
-            p.Init(2);
-        }
+        _rayPowerUp.Init(data.powerUps.rays);
 	}
 	
 

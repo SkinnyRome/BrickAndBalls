@@ -7,16 +7,12 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
 
-    private uint _currentLevel;
-    private string _selectedMapName;
+    private string _selectedLevelName;
+    private uint _selectedLevelNumber;
 
-    private List<uint> levelsScore;
+    //private UnityAds _ads;
 
-    private UnityAds _ads;
-
-    private uint _money;
-
-
+    private UserData _playerData;
 
 
     public static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script.
@@ -45,41 +41,54 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //Cargar los datos guardados.
-        _currentLevel = 1;
-        _money = 0;
 
+
+        LoadData();
+        /*
         _ads = GetComponent<UnityAds>();
         if(_ads != null)
         {
             Debug.Log("Getting Ads failed.");
         }
+        */
     }
 
     public void RewardedForWatchingAd() {
         Debug.Log("PREMIADO POR VER UN VIDEO");
-        _money += 10;
+        _playerData.gems += 10;
     }
 
     public void DisplayRewardedAd()
     {
-        _ads.ShowRewardedAd();
+        //_ads.ShowRewardedAd();
     }
 
-    public void LevelFinished() {
-        _currentLevel++;
-        _ads.ShowBasicAd();
+    public void LevelFinished(uint starsObtained) {
+
+       //Update the level score
+        _playerData.levels_stars[(int)_selectedLevelNumber] = starsObtained;
+        
+        //Add a new level to the player and to the array with 0 stars score, so the player can play it now.
+        _playerData.levels_stars.Add(0);
+        _playerData.current_level++;
+
+        _playerData.total_stars += starsObtained;
+        
+        SaveData();
+        //_ads.ShowBasicAd();
     }
 
     public void LoadLevel(uint mapIndex)
     {
-        _selectedMapName = "mapdata" + mapIndex.ToString();
+        _selectedLevelName = "mapdata" + mapIndex.ToString();
+        _selectedLevelNumber = mapIndex;
+
         SceneManager.LoadScene("GameplayScene");
     }
 
-    public void RetryCurrentLevel()
+    public void RetryLevel()
     {
-        if (_selectedMapName != null)
+        if (_selectedLevelName != null)
             SceneManager.LoadScene("GameplayScene");
         else
             Debug.Log("No hay mapa del ultimo juego");
@@ -91,19 +100,37 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public uint GetCurrentLevel()
+    public uint GetPlayerLevel()
     {
-        return _currentLevel;
+        return _playerData.current_level;
     }
 
   
-    public string GetLevelNameSelected()
+    public string GetSelectedLevelName()
     {
-        return _selectedMapName;
-    }   
+        return _selectedLevelName;
+    }
+    
+    public uint GetSelectedLevelNumber()
+    {
+        return _selectedLevelNumber;
+    }
 
-    public void LoadNextLevel()
-    {          
-        LoadLevel(_currentLevel);
+    public void SaveData()
+    {
+        FileSave saver = new FileSave();
+        saver.SaveData(_playerData);
+    }
+
+    public void LoadData()
+    {
+        FileSave loader = new FileSave();
+        //loader.DeleteSavedData();
+        _playerData = loader.LoadData();
+    }
+
+    public UserData GetUserData()
+    {
+        return _playerData;
     }
 }

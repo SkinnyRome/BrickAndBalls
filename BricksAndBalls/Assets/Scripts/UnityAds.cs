@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Advertisements;
-
+/*
 public class UnityAds : MonoBehaviour
 {
 
@@ -24,6 +24,7 @@ public class UnityAds : MonoBehaviour
 
     public void ShowBasicAd() {
 
+        
         if (Advertisement.IsReady("video"))
         {
             Advertisement.Show("video");
@@ -57,3 +58,4 @@ public class UnityAds : MonoBehaviour
         }
     }
 }
+*/
