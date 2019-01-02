@@ -15,10 +15,12 @@ public class LevelManager : MonoBehaviour {
     public SizeManager _sizeManager;
     public CanvasManager _canvasManager;
     public GameObject _warningRow;
+    public UnityEngine.UI.Text _stars;
 
     private bool _firstBallDetected;
     private bool _almostDead;
     private uint _points;
+    private uint _prize;
     public uint _ballsToSpawn;
     private uint _ballsArrived;
 
@@ -33,13 +35,15 @@ public class LevelManager : MonoBehaviour {
         _deadZone.Init(this);
         _mapGenerator.Init(this);
         //_boardManager.Init(this, _mapGenerator.CreateLevel(GameManager.instance.GetLevelNameSelected()));
-        _boardManager.Init(this, _mapGenerator.CreateLevel("mapdata1"));
+        string mapName = "mapdata" + GameManager.instance.GetCurrentLevel();
+        _boardManager.Init(this, _mapGenerator.CreateLevel(mapName));
         _aimController.Init(this, _botCanvasSize, _topCanvasSize);
         _ballManager.Init(this);
         _canvasManager.Init(this);
         _powerUpManager.Init(this);
         _ballsArrived = 0;
         _points = 0;
+        _prize = 10;
         _warningRow.SetActive(false);
 
 	}
@@ -79,6 +83,8 @@ public class LevelManager : MonoBehaviour {
 
     private void ThrowEnded() {
         //TODO: Desactivar la imagen de precaucion
+        _warningRow.SetActive(false);
+
         //Level finished
         if (_boardManager.LevelCompleted())
         {
@@ -86,7 +92,10 @@ public class LevelManager : MonoBehaviour {
             _canvasManager.EndGameSuccess();
             GameManager.instance.LevelFinished();
         }
-        else {
+        else
+        {
+            _boardManager.Fall();
+
             if (_boardManager.CheckFirstRow())
             {
                 //GameOver
@@ -94,14 +103,12 @@ public class LevelManager : MonoBehaviour {
                 _canvasManager.EndGameFailed();
                 //GameManager.instance.GameOver();
             }
-            else {
-
-                _boardManager.Fall();
-
+            else
+            {
                 //Care, the player is about to lose
-                if (_boardManager.CheckFirstRow())
+                if (_boardManager.CheckWarningRow())
                 {
-                    //TODO: Activar la imagen esa roja de precaucion
+                    
                     Debug.Log("casi voy a morir, CUIDADO!");
                     _warningRow.SetActive(true);
                 }
@@ -109,12 +116,13 @@ public class LevelManager : MonoBehaviour {
                 NewThrow();
 
             }
-        }               
+        }             
     }
 
     private void NewThrow() {
         _ballsArrived = 0;
         _ballManager.MoveTo((Vector2)_ballSink.transform.position);
+        _prize = 10;
        
         _firstBallDetected = false;
         _aimController.Activate();
@@ -130,10 +138,21 @@ public class LevelManager : MonoBehaviour {
 
         }
 
-        _points += 10;
+        _points += _prize;
+        _prize += 10;
+        UpdateStars();
 
         Destroy(t.gameObject);  
        
+    }
+
+    private void UpdateStars() {
+        
+        uint stars = _points / 300; //Every 300 points 1 star, for example xD
+        
+        if (stars >= 3)
+            stars = 3;
+        _stars.text = "STARS: " + stars.ToString(); 
     }
 
     public void Shoot(Vector3 position) {
@@ -177,9 +196,20 @@ public class LevelManager : MonoBehaviour {
     {
         GameManager.instance.RetryCurrentLevel();
     }
+    public void FreeRuby(GameObject g)
+    {
+        g.SetActive(false);
+        GameManager.instance.DisplayRewardedAd();
+    }
 
     public void GoHome()
     {
         GameManager.instance.GoMainMenu();
     }
+
+    public void NextLevel()
+    {
+        GameManager.instance.LoadNextLevel();
+    }
+
 }

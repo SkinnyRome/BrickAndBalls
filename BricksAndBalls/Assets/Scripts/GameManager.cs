@@ -9,7 +9,13 @@ public class GameManager : MonoBehaviour
 
     private uint _currentLevel;
     private string _selectedMapName;
+
     private List<uint> levelsScore;
+
+    private UnityAds _ads;
+
+    private uint _money;
+
 
 
 
@@ -40,21 +46,34 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //Cargar los datos guardados.
-        _currentLevel = 2;
+        _currentLevel = 1;
+        _money = 0;
+
+        _ads = GetComponent<UnityAds>();
+        if(_ads != null)
+        {
+            Debug.Log("Getting Ads failed.");
+        }
     }
 
-    public void GameOver() {
+    public void RewardedForWatchingAd() {
+        Debug.Log("PREMIADO POR VER UN VIDEO");
+        _money += 10;
+    }
 
-
+    public void DisplayRewardedAd()
+    {
+        _ads.ShowRewardedAd();
     }
 
     public void LevelFinished() {
         _currentLevel++;
+        _ads.ShowBasicAd();
     }
 
-    public void LoadLevel(string mapName)
+    public void LoadLevel(uint mapIndex)
     {
-        _selectedMapName = mapName;
+        _selectedMapName = "mapdata" + mapIndex.ToString();
         SceneManager.LoadScene("GameplayScene");
     }
 
@@ -81,13 +100,10 @@ public class GameManager : MonoBehaviour
     public string GetLevelNameSelected()
     {
         return _selectedMapName;
-    }
-
-   
+    }   
 
     public void LoadNextLevel()
-    {
-        string mapName = "mapdata" + _currentLevel.ToString();
-        LoadLevel(mapName);
+    {          
+        LoadLevel(_currentLevel);
     }
 }

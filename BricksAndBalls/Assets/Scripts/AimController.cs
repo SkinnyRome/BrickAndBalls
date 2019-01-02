@@ -47,14 +47,37 @@ public class AimController : MonoBehaviour {
                 _levelManager.Shoot(_position);
                 gameObject.SetActive(false);
             }
+
         }
 
 
 #endif
+        
+
 #if UNITY_ANDROID
 
+        if (Input.touches.Length != 0)
+        {
+            var touch = Input.touches[0];
 
 
+            if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved)
+            {
+                // Debug.Log("Mouse position: " + Input.mousePosition.y + " Bot Canvas size: " + _botCanvasSize +
+                // " Screen Height: " + Screen.height);
+                if (touch.position.y > (0 + _botCanvasSize) && touch.position.y < (Screen.height - _topCanvasSize))
+                    _position = Camera.main.ScreenPointToRay(touch.position).origin;
+            }
+            else if (touch.phase == TouchPhase.Ended)
+            {
+                if (touch.position.y > (0 + _botCanvasSize) && touch.position.y < (Screen.height - _topCanvasSize))
+                {
+                    _levelManager.Shoot(_position);
+                    gameObject.SetActive(false);
+                }
+            }
+
+        }
 
 
 #endif
