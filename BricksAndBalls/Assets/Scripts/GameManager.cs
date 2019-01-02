@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     private uint _currentLevel;
     private string _selectedMapName;
+    private List<uint> levelsScore;
 
 
 
