@@ -12,7 +12,7 @@ public class SizeManager : MonoBehaviour {
     public Canvas _botCanvasC;
     public Camera _mainCamera;
 
-    private float tableroWidthUnidades = 12.0f;
+    private float tableroWidthUnidades = 11.5f;
     private float tableroHeightUnidades = 14.0f;
 
 	// Use this for initialization
@@ -35,11 +35,25 @@ public class SizeManager : MonoBehaviour {
         Debug.Log("Top size sin scale: " + _topCanvas.GetComponent<RectTransform>().rect.height);
         Debug.Log("Local scale: " + _parentCanvas.GetComponent<RectTransform>().localScale.y);
 
+        float parentCanvasHeight = _parentCanvas.GetComponent<RectTransform>().rect.height * _parentCanvas.GetComponent<RectTransform>().localScale.y;
+
+
         float topCanvasSize = _topCanvas.GetComponent<RectTransform>().rect.height * _parentCanvas.GetComponent<RectTransform>().localScale.y;
         l.SetTopCanvasSize(topCanvasSize);
 
+
         float botCanvasSize = _botCanvas.GetComponent<RectTransform>().rect.height * _parentCanvas.GetComponent<RectTransform>().localScale.y;
         l.SetBotCanvasSize(botCanvasSize);
+
+
+        float canvasTableroSize = parentCanvasHeight - botCanvasSize - topCanvasSize;
+
+        float relacionUnidades = canvasTableroSize / tableroHeightUnidades;
+
+        float unidadesRalesTop = topCanvasSize / relacionUnidades;
+        float unidadesRealesBot = botCanvasSize / relacionUnidades;
+
+        Debug.Log("Unidades reales top: " + unidadesRalesTop);
 
         float tableroHeight = (Screen.height - (topCanvasSize + botCanvasSize));
 
@@ -53,19 +67,15 @@ public class SizeManager : MonoBehaviour {
         float unidadesTop = (topCanvasSize / (ppuHeight));
         float unidadesBot = botCanvasSize / (ppuHeight);
 
-        Debug.Log("PPU height: " + ppuHeight + " PPU width: " + ppuWidth);
-        Debug.Log("Tamaño top: " + unidadesTop + " Tamaño bot: " + unidadesBot);
-        Debug.Log("Total unidades: " + totalUnidades);
+       
         
-        _mainCamera.orthographicSize = ((tableroHeightUnidades / 2) + (unidadesTop / 2) + (unidadesBot / 2));
-        float yPosition = ((tableroHeightUnidades) / 2) + (unidadesTop) - (unidadesBot); 
+        _mainCamera.orthographicSize = ((tableroHeightUnidades + unidadesRalesTop + unidadesRealesBot)/ 2.0f );
+        float yPosition = ((tableroHeightUnidades) / 2.0f + (unidadesRalesTop / 2.0f) - unidadesRealesBot/2.0f) ; 
      
 
 
         _mainCamera.transform.position = new Vector3(5.5f, yPosition, -10); 
-        Debug.Log("Unidades alto camara: " + _mainCamera.orthographicSize * 2);
-       // Debug.Log("Tamaño canvas top: " + topSize);
-        //Debug.Log("Tamaño alto camara en pixeles: " + (pixelesParaTablero + topSize + botSize));
+    
 
 
 
@@ -74,6 +84,7 @@ public class SizeManager : MonoBehaviour {
 
         if(cameraWidthUnits < tableroWidthUnidades)
         {
+            
             float newCameraHeightSize = tableroWidthUnidades / _mainCamera.aspect;
             _mainCamera.orthographicSize = (newCameraHeightSize / 2);
             

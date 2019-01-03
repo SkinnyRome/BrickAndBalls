@@ -38,7 +38,7 @@ public class LevelManager : MonoBehaviour {
         _deadZone.Init(this);
         _mapGenerator.Init(this);
         _boardManager.Init(this, _mapGenerator.CreateLevel(GameManager.instance.GetSelectedLevelName()));
-       // _boardManager.Init(this, _mapGenerator.CreateLevel("mapdata" + _level));
+       // _boardManager.Init(this, _mapGenerator.CreateLevel("mapdata" + "4"));
         _aimController.Init(this, _botCanvasSize, _topCanvasSize);
         _ballManager.Init(this);
         _canvasManager.Init(this);

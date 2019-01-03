@@ -10,7 +10,7 @@ public class RayTile : BasicTile {
     public RAY_TYPE _rayType;
     private BoardManager _boardManager;
     private bool _hitted;
-    private SpriteRenderer _lightRenderer;
+    private Transform _lightRenderer;
     // Use this for initialization
     void Start () {
 		
@@ -29,7 +29,9 @@ public class RayTile : BasicTile {
         _hitted = false;
         _needToBeDestroyed = false;
 
-        //_lightRenderer = transform.Find("Light").gameObject.GetComponent<SpriteRenderer>();
+        _lightRenderer = transform.Find("Light");
+        _lightRenderer.localScale = new Vector3(14.0f ,0 ,1.0f) ;
+       
         
     }
 
@@ -42,14 +44,14 @@ public class RayTile : BasicTile {
         if (_rayType == RAY_TYPE.HORIZONTAL)
         {
             _boardManager.HitRow((int)gameObject.transform.localPosition.y);
-            //LigthFade();           
+                    
         }
         else
         {
             _boardManager.HitColumn((int)gameObject.transform.localPosition.x);
         }
 
-
+        StartCoroutine(LigthFade());
     }
 
     public override void Fall()
@@ -67,15 +69,16 @@ public class RayTile : BasicTile {
 
     private IEnumerator  LigthFade()
     {
-        
-        
-        while (_lightRenderer.color.a > 0)
+
+        Vector3 scale = new Vector3(14.0f, 1.0f, 1.0f);
+        _lightRenderer.localScale = scale;
+
+        while (_lightRenderer.localScale.y > 0)
         {
 
-            yield return new WaitForSeconds(0.1f);
-            Color c = _lightRenderer.color;
-            c.a -= 0.1f;
-            _lightRenderer.color = c;
+            yield return new WaitForSeconds(0.02f);
+            scale.y -= 0.1f; ;
+            _lightRenderer.localScale = scale;
 
         }
         

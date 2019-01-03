@@ -29,9 +29,7 @@ public class MenuLoader : MonoBehaviour {
         Debug.Log("Size canvas bot: " + botCanvasSize);
 
         
-    
-
-
+   
         _mainCamera.orthographicSize = (5.5f / _mainCamera.aspect) / 2;
 
        // _mainCamera.transform.Translate(new Vector3(0, botCanvasSize, 0));

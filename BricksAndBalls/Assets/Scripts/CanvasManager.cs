@@ -10,6 +10,7 @@ public class CanvasManager : MonoBehaviour {
     public Canvas _pauseMenu;
     public Canvas _gameCanvas;
     public Canvas _endGameFailedMenu;
+    public Canvas _helpCanvas;
     public GameObject _freeReward;
 
 
@@ -21,6 +22,7 @@ public class CanvasManager : MonoBehaviour {
         _pauseMenu.gameObject.SetActive(false);
         _endGameSuccessMenu.gameObject.SetActive(false);
         _endGameFailedMenu.gameObject.SetActive(false);
+        _helpCanvas.gameObject.SetActive(false);
     }
 
     public void Pause()
@@ -41,6 +43,17 @@ public class CanvasManager : MonoBehaviour {
     {
         _gameCanvas.gameObject.SetActive(false);
         _endGameFailedMenu.gameObject.SetActive(true);
+    }
+
+    public void ShowHelpCanvas()
+    {
+        _helpCanvas.gameObject.SetActive(true);
+
+    }
+
+    public void CloseHelpCanvas()
+    {
+        _helpCanvas.gameObject.SetActive(false);
     }
 
     public void Resume()
