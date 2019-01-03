@@ -125,7 +125,8 @@ public class GameManager : MonoBehaviour
     public void LoadData()
     {
         FileSave loader = new FileSave();
-        //loader.DeleteSavedData();
+        /*DEBUG*/
+        //loader.DeleteSavedData();     
         _playerData = loader.LoadData();
     }
 
@@ -133,4 +134,26 @@ public class GameManager : MonoBehaviour
     {
         return _playerData;
     }
+
+    public void PurchasePowerUp(PowerUp_Type t, uint nGems, uint nPurchases = 1)
+    {
+
+        uint totalGems = nGems * nPurchases;
+
+        if (totalGems <= _playerData.gems)
+        {
+
+            switch (t)
+            {
+                case PowerUp_Type.PU_RAY:
+                    _playerData.powerUps.rays += nPurchases;
+                    break;
+            }
+
+            _playerData.gems -= totalGems;
+        }
+
+        SaveData();
+    }
+
 }

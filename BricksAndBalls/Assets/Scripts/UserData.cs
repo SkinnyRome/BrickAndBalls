@@ -14,7 +14,7 @@ public struct PowerUpsAmount
 public class UserData {
 
     public uint current_level = 1;
-    public uint gems = 0;
+    public uint gems = 150;
     public uint total_stars = 0;
     public PowerUpsAmount powerUps = new PowerUpsAmount();
     public List<uint> levels_stars = new List<uint>() { 0, 0};

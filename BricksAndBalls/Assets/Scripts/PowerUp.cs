@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
+public enum PowerUp_Type {NONE, PU_RAY};
+
+
 public class PowerUp : MonoBehaviour {
 
     protected uint _usesAvailables;
@@ -11,6 +14,8 @@ public class PowerUp : MonoBehaviour {
     public const uint MAX_USES = 99;
 
     private Text _usesText;
+
+    protected PowerUp_Type _type;
 
     public virtual void Init(uint uses)
     {
@@ -22,7 +27,6 @@ public class PowerUp : MonoBehaviour {
         else
         {
             _usesText.text = "x " + _usesAvailables;
-            //_usesText.fontStyle =FontStyle.Bold;
         }
 
     }

@@ -11,6 +11,7 @@ public class RayPowerUp : PowerUp {
     public override void Init(uint uses)
     {
         base.Init(uses);
+        _type = PowerUp_Type.PU_RAY;
 
     }
 
