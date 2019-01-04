@@ -14,7 +14,7 @@ public class Brick : BasicTile {
 		
 	}
 	
-    public void Init(uint life, Vector2 pos, GameObject father, LevelManager lm)
+    public void Init(int life, Vector2 pos, GameObject father, LevelManager lm)
     {
         _tileType = TILE_TYPE.BRICK;
         _levelManager = lm;
@@ -42,7 +42,7 @@ public class Brick : BasicTile {
         FadeAnimation();
     }
 
-    public override void DecreaseLife(uint i)
+    public override void DecreaseLife(int i)
     {
         base.DecreaseLife(1);
 

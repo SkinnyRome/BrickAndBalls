@@ -60,11 +60,10 @@ public class BoardManager : MonoBehaviour {
 
                 if (_board[i, j] != null) {
 
-                    if (j == 1 && !_board[i, j].NeedToBeDestroyed())
+                    if (j < 1 && !_board[i, j].NeedToBeDestroyed())
                     {
-
-                        //do nothing
-
+                        //Erase the special tile.
+                        Destroy(_board[i, j].gameObject);                                
 
                     }
                     else {

@@ -62,7 +62,7 @@ public class RayTile : BasicTile {
 
     }
 
-    public override void DecreaseLife(uint i)
+    public override void DecreaseLife(int i)
     {
         
     }

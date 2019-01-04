@@ -5,7 +5,8 @@ using UnityEngine;
 public class BasicTile : MonoBehaviour {
 
 
-    protected uint _life, _row, _column;
+    protected uint _row, _column;
+    protected int _life;
 
     protected LevelManager _levelManager;
     protected bool _needToBeDestroyed;
@@ -49,7 +50,7 @@ public class BasicTile : MonoBehaviour {
         _row--;
     }
 
-    public virtual void DecreaseLife(uint i)
+    public virtual void DecreaseLife(int i)
     {
         _life -= i;
         if (_life <= 0)
