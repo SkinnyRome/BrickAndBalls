@@ -11,6 +11,8 @@ public class CanvasManager : MonoBehaviour {
     public Canvas _gameCanvas;
     public Canvas _endGameFailedMenu;
     public Canvas _helpCanvas;
+    public GameObject _powerUpCanvas;
+    public GameObject _collectCanvas;
     public GameObject _freeReward;
 
 
@@ -19,6 +21,8 @@ public class CanvasManager : MonoBehaviour {
     {
         _levelManager = l;
         _gameCanvas.gameObject.SetActive(true);
+        _powerUpCanvas.SetActive(true);
+        _collectCanvas.SetActive(false);
         _pauseMenu.gameObject.SetActive(false);
         _endGameSuccessMenu.gameObject.SetActive(false);
         _endGameFailedMenu.gameObject.SetActive(false);
@@ -61,5 +65,17 @@ public class CanvasManager : MonoBehaviour {
         _pauseMenu.gameObject.SetActive(false);
         _gameCanvas.gameObject.SetActive(true);
 
+    }
+
+    public void OnThrowStarted()
+    {
+        _collectCanvas.SetActive(true);
+        _powerUpCanvas.SetActive(false);
+    }
+
+    public void OnThrowEnded()
+    {
+        _collectCanvas.SetActive(false);
+        _powerUpCanvas.SetActive(true);
     }
 }

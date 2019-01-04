@@ -9,15 +9,26 @@ public class BallManager : MonoBehaviour {
     public float _fUpdateTimes;
     public float _offsetY;
     private List<GameObject> _balls;
+    private int _ballsArrived;
     private bool _paused;
+    private bool _stopSpawn;
     private LevelManager _levelManager;
+    private TextMesh _text;
+    private int _initialBalls;
+    private SpriteRenderer _sprite;
 
 
 	// Use this for initialization
-	public void Init (LevelManager l) {
+	public void Init (LevelManager l, int iniBalls) {
         _levelManager = l;
+        _text = gameObject.transform.Find("BallManagerText").gameObject.GetComponent<TextMesh>();
+        _sprite = gameObject.GetComponent<SpriteRenderer>();
         _balls = new List<GameObject>();
         _paused = false;
+        _stopSpawn = false;
+        _initialBalls = iniBalls;
+
+        _text.text = "x " + _initialBalls.ToString();
 		
 	}
 
@@ -40,12 +51,12 @@ public class BallManager : MonoBehaviour {
         int counter = 0;
         int ballsSpawned = 0;
 
-        while(ballsSpawned < nBalls)
+        while(ballsSpawned < nBalls && !_stopSpawn)
         {
             
                 yield return new WaitForFixedUpdate();
                 counter++;
-                if (counter >= _fUpdateTimes && !_paused)
+                if (counter >= _fUpdateTimes && !_paused && !_stopSpawn)
                 {
                     Vector3 position = new Vector3(transform.position.x, transform.position.y + _offsetY, 0);
                     GameObject b = Object.Instantiate(_ball, position, Quaternion.identity);
@@ -57,6 +68,10 @@ public class BallManager : MonoBehaviour {
                 }
             
         }
+
+        HideImage();
+        
+        _stopSpawn = false;
 
     }
 
@@ -105,5 +120,40 @@ public class BallManager : MonoBehaviour {
         {
             b.GetComponent<Ball>().DecreaseDirection();
         }
+    }
+
+    public void StopAndDeleteBalls()
+    {
+        _stopSpawn = true;
+
+        foreach (GameObject b in _balls)
+        {
+            Destroy(b);
+        }
+        _balls.Clear();
+    }
+
+    public void HideText()
+    {
+        _text.gameObject.SetActive(false);
+    }
+  
+    public void HideImage()
+    {
+        Color hide = _sprite.color;
+        hide.a = 0.0f;
+        _sprite.color = hide; 
+    }
+
+    public void ShowText()
+    {
+        _text.gameObject.SetActive(true);
+    }
+
+    public void ShowImage()
+    {
+        Color show = _sprite.color;
+        show.a = 1.0f;
+        _sprite.color = show;
     }
 }

@@ -108,9 +108,8 @@ public class Ball : MonoBehaviour {
     {
         Vector2 newDirection = rb.velocity;
 
-        //newDirection.x -= 1;
         newDirection.y -= 1;
-
+  
         rb.velocity = newDirection;
     }
 }

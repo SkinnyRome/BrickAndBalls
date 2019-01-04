@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelManager : MonoBehaviour {
+public class LevelManager : MonoBehaviour
+{
 
 
     public DeadZone _deadZone;
@@ -33,25 +34,25 @@ public class LevelManager : MonoBehaviour {
     private float _topCanvasSize;
     private float _botCanvasSize;
 
-    private float _timeSinceThrow;
     private float _throwTime;
-    private const float WAITING_MAX_TIME = 5.0f;
+    private const float WAITING_MAX_TIME = 10.0f;
     private const int MAX_ACCELERATIONS = 2;
 
     // Use this for initialization
-    void Awake () {
+    void Awake()
+    {
 
         Init();
         _sizeManager.Init(this);
         _deadZone.Init(this);
         _mapGenerator.Init(this);
         _boardManager.Init(this, _mapGenerator.CreateLevel(GameManager.instance.GetSelectedLevelName()));
-       // _boardManager.Init(this, _mapGenerator.CreateLevel("mapdata" + "4"));
+        // _boardManager.Init(this, _mapGenerator.CreateLevel("mapdata" + "4"));
         _aimController.Init(this, _botCanvasSize, _topCanvasSize);
-        _ballManager.Init(this);
+        _ballManager.Init(this, (int)_ballsToSpawn);
         _canvasManager.Init(this);
         _powerUpManager.Init(this);
-	}
+    }
 
     private void Init()
     {
@@ -75,21 +76,24 @@ public class LevelManager : MonoBehaviour {
         return _boardManager;
     }
 
-    public void BallEnteredDeadZone(Ball b) {
-                
+    public void BallEnteredDeadZone(Ball b)
+    {
+
         b.Stop();
         if (!_firstBallDetected)
         {
             _firstBallDetected = true;
             _ballSink.MoveTo(new Vector2(b.transform.position.x, b.transform.position.y + 0.2f));
             _ballSink.Show();
+            _ballManager.HideText();
             CallbackBall(b);
         }
         else
             b.GoTo(_ballSink.transform.position, CallbackBall);
     }
 
-    private void CallbackBall(Ball b) {
+    private void CallbackBall(Ball b)
+    {
         _ballsArrived++;
         _ballSink.BallArrived();
 
@@ -99,13 +103,15 @@ public class LevelManager : MonoBehaviour {
         }
 
         _ballManager.RemoveBall(b.gameObject);
-        
+
     }
 
-    private void ThrowEnded() {
+    private void ThrowEnded()
+    {
         //TODO: Desactivar la imagen de precaucion
         _warningRow.SetActive(false);
         _ballsThrowed = false;
+        _canvasManager.OnThrowEnded();
 
         //Level finished
         if (_boardManager.LevelCompleted())
@@ -130,7 +136,7 @@ public class LevelManager : MonoBehaviour {
                 //Care, the player is about to lose
                 if (_boardManager.CheckWarningRow())
                 {
-                    
+
                     Debug.Log("casi voy a morir, CUIDADO!");
                     _warningRow.SetActive(true);
                 }
@@ -138,23 +144,26 @@ public class LevelManager : MonoBehaviour {
                 NewThrow();
 
             }
-        }             
+        }
     }
 
-    private void NewThrow() {
+    private void NewThrow()
+    {
         _ballsArrived = 0;
         _ballManager.MoveTo((Vector2)_ballSink.transform.position);
         _prize = 10;
-       
+
         _firstBallDetected = false;
         _aimController.Activate();
 
     }
 
 
-    public void TileDestroyed(BasicTile t, uint i, uint j) {
+    public void TileDestroyed(BasicTile t, uint i, uint j)
+    {
 
-        switch (t.gameObject.layer) {
+        switch (t.gameObject.layer)
+        {
             case 9://brick
                 break;
 
@@ -164,14 +173,15 @@ public class LevelManager : MonoBehaviour {
         _prize += 10;
         UpdateUI();
 
-        Destroy(t.gameObject);  
-       
+        Destroy(t.gameObject);
+
     }
 
-    private void UpdateUI() {
-        
+    private void UpdateUI()
+    {
+
         _starsScore = _points / 300; //Every 300 points 1 star, for example xD
-        
+
         if (_starsScore >= 3)
             _starsScore = 3;
 
@@ -179,7 +189,8 @@ public class LevelManager : MonoBehaviour {
         _scoreUI.text = _points.ToString();
     }
 
-    public void Shoot(Vector3 position) {
+    public void Shoot(Vector3 position)
+    {
 
         _ballSink.Hide();
 
@@ -194,6 +205,9 @@ public class LevelManager : MonoBehaviour {
         StartCoroutine(CheckElapsedTime());
 
         _ballManager.SpawnBalls(_ballsToSpawn, dir);
+        _ballManager.ShowImage();
+        _ballManager.ShowText();
+        _canvasManager.OnThrowStarted();
 
     }
 
@@ -202,7 +216,7 @@ public class LevelManager : MonoBehaviour {
         _botCanvasSize = size;
     }
 
-  
+
     public void SetTopCanvasSize(float size)
     {
         _topCanvasSize = size;
@@ -220,7 +234,7 @@ public class LevelManager : MonoBehaviour {
         _gamePaused = false;
         _ballManager.Resume();
         _canvasManager.Resume();
-       
+
     }
 
     public void RetryLevel()
@@ -245,8 +259,8 @@ public class LevelManager : MonoBehaviour {
 
     private void LoadBallsNumber()
     {
-        TextAsset mapsInfo =(TextAsset)Resources.Load("Maps/Mapsdata/gamedata_savelv");
-        string levelData = mapsInfo.text.Split(new char[] { '\r' })[_level-1];
+        TextAsset mapsInfo = (TextAsset)Resources.Load("Maps/Mapsdata/gamedata_savelv");
+        string levelData = mapsInfo.text.Split(new char[] { '\r' })[_level - 1];
         string[] auxText = levelData.Split(',');
         auxText = auxText[1].Split(' ');
         _ballsToSpawn = uint.Parse(auxText[1]);
@@ -283,6 +297,13 @@ public class LevelManager : MonoBehaviour {
     {
         _accelerateImage.GetComponent<FadeInTime>().Fade();
         _ballManager.AccelerateBalls();
-        Debug.Log("Accelerate");
     }
+
+    public void CollectBalls()
+    {
+        _ballManager.StopAndDeleteBalls();
+        ThrowEnded();
+        _canvasManager.OnThrowEnded();
+    }
+
 }
