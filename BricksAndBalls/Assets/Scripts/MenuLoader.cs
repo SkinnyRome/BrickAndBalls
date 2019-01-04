@@ -13,23 +13,22 @@ public class MenuLoader : MonoBehaviour {
     public Canvas _botCanvas;
     public UnityEngine.UI.Button _lockedButton;
     public UnityEngine.UI.Button _unlockedButton;
+    private MainMenuManager _menuManager;
 
 
     private const string mapFileName = "mapdata";
 
     // Use this for initialization
-    public void Init (uint currentLevel) {
+    public void Init(MainMenuManager menuManager, uint currentLevel) {
 
-
+        _menuManager = menuManager;
         Canvas.ForceUpdateCanvases();
         
         float topCanvasSize = _topCanvas.GetComponent<RectTransform>().rect.height * _topCanvas.transform.parent.localScale.y;
         float botCanvasSize = _botCanvas.GetComponent<RectTransform>().rect.height * _botCanvas.transform.parent.localScale.y;
 
-        Debug.Log("Size canvas bot: " + botCanvasSize);
+        _menuManager.SetCanvasSize(topCanvasSize, botCanvasSize);
 
-        
-   
         _mainCamera.orthographicSize = (5.5f / _mainCamera.aspect) / 2;
 
        // _mainCamera.transform.Translate(new Vector3(0, botCanvasSize, 0));
@@ -49,10 +48,7 @@ public class MenuLoader : MonoBehaviour {
         Debug.Log("Altura camara en unidades: " + cameraSizeHeight + " Altura en pixeles: " + cameraSizePixelHeight +  " PPU height: " + ppuHeight);
         Debug.Log("Ancho camara en unidades: " + cameraSizeWidth + " Ancho en pixeles: " + cameraSizePixelWidth + " PPU width: " + ppuWidth);
 
-
-        _canvasButtons.GetComponent<RectTransform>().sizeDelta = new Vector2(5 , 5 / _mainCamera.aspect );
-        _mainCamera.transform.position = new Vector3(_canvasButtons.GetComponent<RectTransform>().position.x, _canvasButtons.GetComponent<RectTransform>().position.y - canvasBotUnits, -10);
-        Debug.Log("Ancho canvas" + _canvasButtons.GetComponent<RectTransform>().sizeDelta.x + " Alto canvas: " + _canvasButtons.GetComponent<RectTransform>().sizeDelta.y);
+     
 
         List<uint> maps = new List<uint>();
 
@@ -70,6 +66,17 @@ public class MenuLoader : MonoBehaviour {
 
         maps.Sort();
 
+        int totalRows = maps.Count / 5;
+        float canvasYPosition = totalRows / 2;
+
+        Debug.Log("Numero de filas: " + totalRows);
+        
+        _canvasButtons.GetComponent<RectTransform>().sizeDelta = new Vector2(5 , totalRows);
+        _canvasButtons.GetComponent<RectTransform>().position = new Vector3(_canvasButtons.GetComponent<RectTransform>().position.x, _canvasButtons.GetComponent<RectTransform>().position.y + ((totalRows/2) - 3), _canvasButtons.GetComponent<RectTransform>().position.z);
+        //_mainCamera.transform.position = new Vector3(_canvasButtons.GetComponent<RectTransform>().position.x, (_canvasButtons.GetComponent<RectTransform>().position.y) - canvasBotUnits, -10);
+        
+
+
         int j = 0;
         int m = 0;
         while (m < maps.Count)
@@ -78,6 +85,9 @@ public class MenuLoader : MonoBehaviour {
             while ( i < 5 && m < maps.Count)
             {
                 UnityEngine.UI.Button button = null;
+
+                float xPos = _canvasButtons.GetComponent<RectTransform>().sizeDelta.x;
+                //_canvasButtons.GetComponent<RectTransform>().sizeDelta = new Vector2(xPos ,j);
 
                 if (m < currentLevel)
                 {
@@ -101,6 +111,8 @@ public class MenuLoader : MonoBehaviour {
             j += 1;
             //m++;
         }
+
+
                 
         Canvas.ForceUpdateCanvases();
 

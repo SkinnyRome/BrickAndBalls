@@ -93,4 +93,24 @@ public class Ball : MonoBehaviour {
         rb.velocity = _lastVelocity;
         _lastVelocity = Vector2.zero;
     }
+
+    public void Accelerate()
+    {
+        Vector2 newVelocity = rb.velocity;
+
+        newVelocity.x *= 2;
+        newVelocity.y *= 2;
+
+        rb.velocity = newVelocity;
+    }
+
+    public void DecreaseDirection()
+    {
+        Vector2 newDirection = rb.velocity;
+
+        //newDirection.x -= 1;
+        newDirection.y -= 1;
+
+        rb.velocity = newDirection;
+    }
 }

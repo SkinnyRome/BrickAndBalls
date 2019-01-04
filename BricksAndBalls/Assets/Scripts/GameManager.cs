@@ -135,6 +135,17 @@ public class GameManager : MonoBehaviour
         return _playerData;
     }
 
+    public void ConsumePowerUp(PowerUp_Type t, uint nUses = 1)
+    {
+        switch (t)
+        {
+            case PowerUp_Type.PU_RAY:
+                if(_playerData.powerUps.rays >= nUses)
+                    _playerData.powerUps.rays -= nUses;
+                break;
+        }
+    }
+
     public void PurchasePowerUp(PowerUp_Type t, uint nGems, uint nPurchases = 1)
     {
 

@@ -6,6 +6,7 @@ public class BallSink : MonoBehaviour {
 
     public TextMesh label;
     private uint _numBalls;
+    public float YPosition; //Position at Y axis to always be above deadzone
 
 	// Use this for initialization
 	void Start () {
@@ -14,7 +15,8 @@ public class BallSink : MonoBehaviour {
     
     public void MoveTo(Vector2 position)
     {
-        gameObject.transform.position = position;
+        Vector2 p = new Vector2(position.x, YPosition);
+        gameObject.transform.position = p;
     }
 
     public void Hide() {

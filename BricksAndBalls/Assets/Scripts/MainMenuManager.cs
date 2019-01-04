@@ -10,14 +10,17 @@ public class MainMenuManager : MonoBehaviour {
     public UnityEngine.UI.Text _gemText;
     private UnityEngine.UI.Text _shopGemText;
     public Canvas _shopMenu;
+    public MainMenuInput _menuInputManager;
+    private float botCanvasSize;
+    private float topCanvasSize;
 
     // Use this for initialization
     void Start () {
-        _menuLoader.Init(GameManager.instance.GetPlayerLevel());
+        _menuLoader.Init(this, GameManager.instance.GetPlayerLevel());
         _shopGemText = _shopMenu.transform.Find("Gems").Find("GemsText").gameObject.GetComponent<UnityEngine.UI.Text>();
         UpdateUI();
         _shopMenu.gameObject.SetActive(false);
-
+        _menuInputManager.Init(this,botCanvasSize, topCanvasSize);
 
 	}
 
@@ -47,5 +50,10 @@ public class MainMenuManager : MonoBehaviour {
         _shopGemText.text = _gemText.text;
     }
 	
+    public void SetCanvasSize(float top, float bot)
+    {
+        topCanvasSize = top;
+        botCanvasSize = bot;
+    }
 	
 }

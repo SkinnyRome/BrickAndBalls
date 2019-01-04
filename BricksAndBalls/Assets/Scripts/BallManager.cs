@@ -90,4 +90,20 @@ public class BallManager : MonoBehaviour {
             _paused = false;
         }
     }
+
+    public void AccelerateBalls()
+    {
+        foreach (GameObject b in _balls)
+        {
+            b.GetComponent<Ball>().Accelerate();
+        }
+    }
+
+    public void DecreaseBallsDirections()
+    {
+        foreach (GameObject b in _balls)
+        {
+            b.GetComponent<Ball>().DecreaseDirection();
+        }
+    }
 }

@@ -17,18 +17,26 @@ public class LevelManager : MonoBehaviour {
     public GameObject _warningRow;
     public UnityEngine.UI.Text _starsUI;
     public UnityEngine.UI.Text _scoreUI;
+    public GameObject _accelerateImage;
 
     private bool _firstBallDetected;
     private bool _almostDead;
     private uint _starsScore;
     private uint _points;
     private uint _prize;
-    public uint _ballsToSpawn;
+    private uint _ballsToSpawn;
     private uint _ballsArrived;
     private int _level;
+    private bool _ballsThrowed;
+    private bool _gamePaused;
 
     private float _topCanvasSize;
     private float _botCanvasSize;
+
+    private float _timeSinceThrow;
+    private float _throwTime;
+    private const float WAITING_MAX_TIME = 5.0f;
+    private const int MAX_ACCELERATIONS = 2;
 
     // Use this for initialization
     void Awake () {
@@ -53,7 +61,9 @@ public class LevelManager : MonoBehaviour {
         _points = _starsScore = 0;
         _prize = 10;
         _warningRow.SetActive(false);
-        LoadBalls();
+        _ballsThrowed = false;
+        _gamePaused = false;
+        LoadBallsNumber();
         UpdateUI();
 
 
@@ -95,6 +105,7 @@ public class LevelManager : MonoBehaviour {
     private void ThrowEnded() {
         //TODO: Desactivar la imagen de precaucion
         _warningRow.SetActive(false);
+        _ballsThrowed = false;
 
         //Level finished
         if (_boardManager.LevelCompleted())
@@ -178,6 +189,10 @@ public class LevelManager : MonoBehaviour {
         dir.x = dir.x / module;
         dir.y = dir.y / module;
 
+        _throwTime = Time.time;
+        _ballsThrowed = true;
+        StartCoroutine(CheckElapsedTime());
+
         _ballManager.SpawnBalls(_ballsToSpawn, dir);
 
     }
@@ -195,14 +210,17 @@ public class LevelManager : MonoBehaviour {
 
     public void Pause()
     {
+        _gamePaused = true;
         _ballManager.Pause();
         _canvasManager.Pause();
     }
 
     public void Resume()
     {
+        _gamePaused = false;
         _ballManager.Resume();
         _canvasManager.Resume();
+       
     }
 
     public void RetryLevel()
@@ -225,7 +243,7 @@ public class LevelManager : MonoBehaviour {
         GameManager.instance.LoadLevel((uint)(_level + 1));
     }
 
-    private void LoadBalls()
+    private void LoadBallsNumber()
     {
         TextAsset mapsInfo =(TextAsset)Resources.Load("Maps/Mapsdata/gamedata_savelv");
         string levelData = mapsInfo.text.Split(new char[] { '\r' })[_level-1];
@@ -233,5 +251,38 @@ public class LevelManager : MonoBehaviour {
         auxText = auxText[1].Split(' ');
         _ballsToSpawn = uint.Parse(auxText[1]);
 
+    }
+
+    private IEnumerator CheckElapsedTime()
+    {
+
+        int accelerations = 0;
+
+        while (_ballsThrowed)
+        {
+            yield return new WaitForSeconds(WAITING_MAX_TIME);
+            if (_ballsThrowed && !_gamePaused)
+            {
+                if (accelerations < MAX_ACCELERATIONS)
+                {
+                    AccelerateGame();
+                    accelerations++;
+                }
+                else
+                {
+                    _ballManager.DecreaseBallsDirections();
+                }
+            }
+
+        }
+
+
+    }
+
+    private void AccelerateGame()
+    {
+        _accelerateImage.GetComponent<FadeInTime>().Fade();
+        _ballManager.AccelerateBalls();
+        Debug.Log("Accelerate");
     }
 }

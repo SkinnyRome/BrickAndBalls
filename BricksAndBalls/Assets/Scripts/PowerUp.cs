@@ -43,6 +43,8 @@ public class PowerUp : MonoBehaviour {
     {
         _usesAvailables--;
         _usesText.text = "x " + _usesAvailables;
+        GameManager.instance.ConsumePowerUp(_type);
+
 
     }
 }
