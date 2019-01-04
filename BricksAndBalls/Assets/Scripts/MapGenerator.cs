@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour {
 
-    public uint _rows, _columns, _offset;
+    public uint _rows, _columns;
+    private uint _offset;
     private TextAsset _mapTxt;
     private MapParser _mapParser; 
     public GameObject _brick1;
@@ -25,6 +26,7 @@ public class MapGenerator : MonoBehaviour {
     public void Init(LevelManager lm)
     {
         _levelManager = lm;
+        _offset = 2;
         _mapParser = new MapParser();
     }
     /// <summary>
@@ -37,14 +39,14 @@ public class MapGenerator : MonoBehaviour {
         
         _mapTxt = (TextAsset)Resources.Load("Maps/" + m);
 
-        Tile[,] grid = new Tile[_rows, _columns];
-        BasicTile[,] ObjectGrid = new BasicTile[_rows, _columns + _offset];
-        grid = _mapParser.ParseText(_mapTxt.text);//Parse the txt file into a matrix to be readed
+         
+        Tile[,] grid = _mapParser.ParseText(_mapTxt.text);//Parse the txt file into a matrix to be readed
+        BasicTile[,] ObjectGrid = new BasicTile[grid.GetLength(0), grid.GetLength(1) + _offset];
         Vector2 brickPos = new Vector2(0,0);
 
         for (uint i = 0; i < grid.GetLength(0); i++) {
             for(uint j = 0; j < grid.GetLength(1); j++){
-                uint index = 10 - j + _offset - 1;
+                uint index = j + _offset;
 
                 switch (grid[i,j].type) {
                     case 0:

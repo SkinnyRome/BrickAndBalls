@@ -27,6 +27,18 @@ public class BasicTile : MonoBehaviour {
         return _tileType;
     }
 
+    public void Show() {
+        gameObject.SetActive(true);
+    }
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public uint GetRow() {
+        return _row;
+    }
+
     public bool NeedToBeDestroyed() {
         return _needToBeDestroyed;
     }

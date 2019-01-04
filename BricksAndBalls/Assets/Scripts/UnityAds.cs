@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Advertisements;
-/*
+
 public class UnityAds : MonoBehaviour
 {
 
@@ -58,4 +58,3 @@ public class UnityAds : MonoBehaviour
         }
     }
 }
-*/

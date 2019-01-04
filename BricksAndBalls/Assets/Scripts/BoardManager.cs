@@ -7,6 +7,7 @@ public class BoardManager : MonoBehaviour {
 
     private LevelManager _levelManager;
     private BasicTile[,] _board;
+    private int _visibleRow;
 
 
 	// Use this for initialization
@@ -17,6 +18,34 @@ public class BoardManager : MonoBehaviour {
     public void Init(LevelManager lm, BasicTile[,] grid){
         _levelManager = lm;
         _board = grid;
+        _visibleRow = 12;
+        UpdateBoard();
+    }
+
+    private void UpdateBoard()
+    {
+        //Deactivate the rows above the visible area.
+
+        for (int i = 0; i < _board.GetLength(0); i++)
+        {
+            for (int j = 0; j < _board.GetLength(1); j++)
+            {
+                if (_board[i, j] != null)
+                {
+                    if (j > _visibleRow)
+                        _board[i, j].Hide();
+
+                }
+            }
+        }
+    }
+
+    private void CheckForShow(int j, BasicTile t) {
+        if (t.GetRow() <= _visibleRow)
+            t.Show();
+        else
+            t.Hide();
+        
     }
 
     public LevelManager GetLevelManager()
@@ -42,6 +71,7 @@ public class BoardManager : MonoBehaviour {
                         _board[i, j].Fall();
                         //TODO: controlar que no se pregunte por una posición que no existe (cuidado con el -1 en las ultimas filas)
                         _board[i, j - 1] = _board[i, j];
+                        CheckForShow(j, _board[i, j]);
                         _board[i, j] = null;
                     }
 
