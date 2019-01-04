@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     private string _selectedLevelName;
     private uint _selectedLevelNumber;
 
-    //private UnityAds _ads;
+    private UnityAds _ads;
 
     private UserData _playerData;
 
@@ -44,13 +44,13 @@ public class GameManager : MonoBehaviour
 
 
         LoadData();
-        /*
+        
         _ads = GetComponent<UnityAds>();
         if(_ads != null)
         {
             Debug.Log("Getting Ads failed.");
         }
-        */
+        
     }
 
     public void RewardedForWatchingAd() {
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
 
     public void DisplayRewardedAd()
     {
-        //_ads.ShowRewardedAd();
+        _ads.ShowRewardedAd();
     }
 
     public void LevelFinished(uint starsObtained) {
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
         _playerData.total_stars += starsObtained;
         
         SaveData();
-        //_ads.ShowBasicAd();
+        _ads.ShowBasicAd();
     }
 
     public void LoadLevel(uint mapIndex)

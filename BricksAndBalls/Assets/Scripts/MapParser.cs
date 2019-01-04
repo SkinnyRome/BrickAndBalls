@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
 
 public struct Tile {
     public int type;
@@ -8,17 +9,15 @@ public struct Tile {
 public class MapParser  {
 
     private Tile[,] _grid;
-
+    private List<Tile> _typeList;
     public MapParser() {
-        _grid = new Tile[11,11];
+        _typeList = new List<Tile>();
     }
 
 
     public Tile[,] ParseText(string text) {
 
 
-        //string[] typeText = "";
-        //string[] lifeText = "";
         string[] auxText;
         auxText = text.Split(new char[] { '\r' });
         auxText = text.Split(new char[] { '\n' });
@@ -26,55 +25,102 @@ public class MapParser  {
 
         string[] typeText;
         string[] lifeText;
-        //3 y 17
-        //repasar para ver si esta bien hecho
-        for (int j = 3; j < 14; j++) {
-           
-            typeText = auxText[j].Split(new char[] { '\r' });
-            lifeText = auxText[j + 14].Split(new char[] { '\r' });
-            string[] typeLine;
-            string[] lifeLine;
-            typeLine = typeText[0].Split(',');
-            lifeLine = lifeText[0].Split(',');
-            
+       
+        bool matrixEnded = false;
+        int j = 3;
+        int rows = 0;
+        while (!matrixEnded) {
 
-           
-            for (int k = 0; k < 11; k++) {
+            typeText = auxText[j].Split(new char[] { '\r' });
+            string[] typeLine;
+            typeLine = typeText[0].Split(',');//Content of a line, each one is a tile type.
+            rows++;
+
+            for (int k = 0; k < 11; k++)
+            {
 
                 Tile t;
                 if (k == 10)
                 {
                     string[] lastLineType;
-                    string[] lastLineLife;
-
-                    lastLineType = typeLine[k].Split('.');
-                    lastLineLife = lifeLine[k].Split('.');
-                    int type = int.Parse(lastLineType[0]);
-                    uint life = uint.Parse(lastLineLife[0]);
-                    t.type = type;
-                    t.life = life;
-                    _grid[k, j - 3] = t;
-
-
-                } //ultima fila
-                else {
-                   
-                    int type = int.Parse(typeLine[k]);
-                    uint life = uint.Parse(lifeLine[k]);
-                    t.type = type;
-                    t.life = life;
-                    _grid[k, j - 3] = t;
-
-                }    
-              
-                  
                     
 
+                    lastLineType = typeLine[k].Split('.');
+                    if (lastLineType[lastLineType.Length - 1] == "") {//End of parse. We split the '.' so a "" is left.
+                        matrixEnded = true;
+                    }
+                    
+                    int type = int.Parse(lastLineType[0]);
+                   
+                    t.type = type;
+                    t.life = 0;//Initialize
+                    _typeList.Add(t);
+                    
+
+
+                } //last row
+                else
+                {
+
+                    int type = int.Parse(typeLine[k]);
+                    
+                    t.type = type;
+                    t.life = 0;
+                    _typeList.Add(t);
+                    
+                }
+            }
+                       
+            j++;
+            
+        }//End of type parse
+
+
+        _grid = new Tile[11, rows];
+        Tile[] typeArray = _typeList.ToArray();
+        int index = 0;
+        for (int r = rows - 1; r >= 0; r--, index++) {
+
+
+            lifeText = auxText[rows + r + 6].Split(new char[] { '\r' });
+            string[] lifeLine;
+            lifeLine = lifeText[0].Split(',');
+
+            for (int k = 0; k < 11; k++)
+            {
+                Tile t = typeArray[k + r * 11];
+
+                if (k == 10)
+                {
+                    
+                    string[] lastLineLife;
+
+                   
+                    lastLineLife = lifeLine[k].Split('.');
+                   
+                    uint life = uint.Parse(lastLineLife[0]);
+
+                    t.life = life;
+                    _grid[k, index] = t;
+
+
+                } //last row
+                else
+                {
+
+                    
+                    uint life = uint.Parse(lifeLine[k]);
+
+                    t.life = life;
+                    _grid[k, index] = t;
+
+
+                }
             }
 
-               
-            
-        }
+        
+
+        }//End of life parse
 
         return _grid;
     }
