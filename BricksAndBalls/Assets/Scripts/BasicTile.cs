@@ -5,7 +5,8 @@ using UnityEngine;
 public class BasicTile : MonoBehaviour {
 
 
-    protected uint _life, _row, _column;
+    protected uint _row, _column;
+    protected int _life;
 
     protected LevelManager _levelManager;
     protected bool _needToBeDestroyed;
@@ -17,14 +18,14 @@ public class BasicTile : MonoBehaviour {
        
 	}
 
-    public virtual void Init(uint life, Vector2 pos, GameObject father, LevelManager lm)
+    public virtual void Init(int life, Vector2 pos, GameObject father, LevelManager lm)
     {
         _levelManager = lm;
         _row = (uint)pos.y;
         _column = (uint)pos.x;
         transform.SetParent(father.transform, false);
         gameObject.transform.localPosition = pos;
-        _life = life;
+        _life = (int)life;
     }
 
     public TILE_TYPE GetTileType()
@@ -54,12 +55,11 @@ public class BasicTile : MonoBehaviour {
         _row--;
     }
 
-    public virtual void DecreaseLife(uint i)
+    public virtual void DecreaseLife(int i)
     {
         _life -= i;
         if (_life <= 0)
             Destroy();
-        //TODO: creo que _row y column no se actualizcan y por eso no las utilizo
     }
 
     public void Destroy()

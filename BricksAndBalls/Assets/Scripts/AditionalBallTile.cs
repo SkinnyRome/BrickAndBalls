@@ -48,9 +48,9 @@ public class AditionalBallTile : BasicTile {
 
     }
 
-    public override void DecreaseLife(uint i)
+    public override void DecreaseLife(int i)
     {
-
+        //Do nothing
     }
 
     public void SetSprite()
@@ -58,20 +58,5 @@ public class AditionalBallTile : BasicTile {
         gameObject.GetComponent<SpriteRenderer>().sprite = _sprites[_ballsToAdd - 1];
     }
 
-    /*private IEnumerator LigthFade()
-    {
-        /*
-        Vector3 scale = new Vector3(14.0f, 1.0f, 1.0f);
-        _lightRenderer.localScale = scale;
-
-        while (_lightRenderer.localScale.y > 0)
-        {
-
-            yield return new WaitForSeconds(0.02f);
-            scale.y -= 0.1f; ;
-            _lightRenderer.localScale = scale;
-
-        }
-        
-    }*/
+    
 }

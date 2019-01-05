@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public struct Tile {
     public int type;
-    public uint life;
+    public int life;
 }
 
 public class MapParser  {
@@ -98,7 +98,7 @@ public class MapParser  {
                    
                     lastLineLife = lifeLine[k].Split('.');
                    
-                    uint life = uint.Parse(lastLineLife[0]);
+                    int life = int.Parse(lastLineLife[0]);
 
                     t.life = life;
                     _grid[k, index] = t;
@@ -109,7 +109,7 @@ public class MapParser  {
                 {
 
                     
-                    uint life = uint.Parse(lifeLine[k]);
+                    int life = int.Parse(lifeLine[k]);
 
                     t.life = life;
                     _grid[k, index] = t;
