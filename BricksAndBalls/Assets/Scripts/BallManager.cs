@@ -14,21 +14,21 @@ public class BallManager : MonoBehaviour {
     private bool _stopSpawn;
     private LevelManager _levelManager;
     private TextMesh _text;
-    private int _initialBalls;
+    private uint _ballsNumber;
     private SpriteRenderer _sprite;
 
 
 	// Use this for initialization
-	public void Init (LevelManager l, int iniBalls) {
+	public void Init (LevelManager l, uint iniBalls) {
         _levelManager = l;
         _text = gameObject.transform.Find("BallManagerText").gameObject.GetComponent<TextMesh>();
         _sprite = gameObject.GetComponent<SpriteRenderer>();
         _balls = new List<GameObject>();
         _paused = false;
         _stopSpawn = false;
-        _initialBalls = iniBalls;
+        _ballsNumber = iniBalls;
 
-        _text.text = "x " + _initialBalls.ToString();
+        _text.text = "x " + _ballsNumber.ToString();
 		
 	}
 
@@ -41,6 +41,8 @@ public class BallManager : MonoBehaviour {
 
     public void SpawnBalls(uint n, Vector2 direction)
     {
+        _stopSpawn = false;
+        _ballsNumber = n;
         _throwBallCoroutine = ThrowBalls(n, direction);
         StartCoroutine(_throwBallCoroutine);
     }
@@ -130,7 +132,10 @@ public class BallManager : MonoBehaviour {
         {
             Destroy(b);
         }
+
+        
         _balls.Clear();
+
     }
 
     public void HideText()
@@ -147,6 +152,7 @@ public class BallManager : MonoBehaviour {
 
     public void ShowText()
     {
+        _text.text = "x " + _ballsNumber.ToString();
         _text.gameObject.SetActive(true);
     }
 
@@ -156,4 +162,12 @@ public class BallManager : MonoBehaviour {
         show.a = 1.0f;
         _sprite.color = show;
     }
+
+    public void SetBallNumber(uint b)
+    {
+        _ballsNumber = b;
+        _text.text = "x " + _ballsNumber.ToString();
+
+    }
+
 }

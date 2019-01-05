@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-
-using System.Collections.Generic;       //Allows us to use Lists.
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -63,16 +60,35 @@ public class GameManager : MonoBehaviour
         _ads.ShowRewardedAd();
     }
 
-    public void LevelFinished(uint starsObtained) {
+    public void LevelFinished(uint stars) {
 
-       //Update the level score
-        _playerData.levels_stars[(int)_selectedLevelNumber] = starsObtained;
+        uint starsGained = 0;
+
+        //Check if it's the fist time that the player pass this level
+        if(_selectedLevelNumber == _playerData.current_level)
+        {
+            _playerData.levels_stars[(int)_selectedLevelNumber] = stars;
+
+            //Add a new level to the player and to the array with 0 stars score, so the player can play it now.
+            _playerData.levels_stars.Add(0);
+            _playerData.current_level++;
+
+            starsGained = stars;
+        }
+        else
+        {
+            //Update the level score
+            if (stars >= _playerData.levels_stars[(int)_selectedLevelNumber])
+            {
+                starsGained = stars - _playerData.levels_stars[(int)_selectedLevelNumber];
+                _playerData.levels_stars[(int)_selectedLevelNumber] = stars;
+            }
+
+        }
         
-        //Add a new level to the player and to the array with 0 stars score, so the player can play it now.
-        _playerData.levels_stars.Add(0);
-        _playerData.current_level++;
+        
 
-        _playerData.total_stars += starsObtained;
+        _playerData.total_stars += starsGained;
         
         SaveData();
         _ads.ShowBasicAd();
@@ -137,13 +153,8 @@ public class GameManager : MonoBehaviour
 
     public void ConsumePowerUp(PowerUp_Type t, uint nUses = 1)
     {
-        switch (t)
-        {
-            case PowerUp_Type.PU_RAY:
-                if(_playerData.powerUps.rays >= nUses)
-                    _playerData.powerUps.rays -= nUses;
-                break;
-        }
+
+        _playerData.ConsumePowerUp(t, nUses);
     }
 
     public void PurchasePowerUp(PowerUp_Type t, uint nGems, uint nPurchases = 1)
@@ -154,12 +165,7 @@ public class GameManager : MonoBehaviour
         if (totalGems <= _playerData.gems)
         {
 
-            switch (t)
-            {
-                case PowerUp_Type.PU_RAY:
-                    _playerData.powerUps.rays += nPurchases;
-                    break;
-            }
+            _playerData.AddPowerUp(t, nPurchases);
 
             _playerData.gems -= totalGems;
         }

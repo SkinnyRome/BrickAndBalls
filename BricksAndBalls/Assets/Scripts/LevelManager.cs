@@ -26,7 +26,9 @@ public class LevelManager : MonoBehaviour
     private uint _points;
     private uint _prize;
     private uint _ballsToSpawn;
+    private uint _ballReserve;
     private uint _ballsArrived;
+    private uint _throwNumber;
     private int _level;
     private bool _ballsThrowed;
     private bool _gamePaused;
@@ -37,6 +39,7 @@ public class LevelManager : MonoBehaviour
     private float _throwTime;
     private const float WAITING_MAX_TIME = 10.0f;
     private const int MAX_ACCELERATIONS = 2;
+    private const uint MAX_BALLS_NUMBER = 100;
 
     // Use this for initialization
     void Awake()
@@ -49,7 +52,7 @@ public class LevelManager : MonoBehaviour
         _boardManager.Init(this, _mapGenerator.CreateLevel(GameManager.instance.GetSelectedLevelName()));
         // _boardManager.Init(this, _mapGenerator.CreateLevel("mapdata" + "4"));
         _aimController.Init(this, _botCanvasSize, _topCanvasSize);
-        _ballManager.Init(this, (int)_ballsToSpawn);
+        _ballManager.Init(this, _ballsToSpawn);
         _canvasManager.Init(this);
         _powerUpManager.Init(this);
     }
@@ -64,6 +67,7 @@ public class LevelManager : MonoBehaviour
         _warningRow.SetActive(false);
         _ballsThrowed = false;
         _gamePaused = false;
+        _throwNumber = 0;
         LoadBallsNumber();
         UpdateUI();
 
@@ -112,6 +116,7 @@ public class LevelManager : MonoBehaviour
         _warningRow.SetActive(false);
         _ballsThrowed = false;
         _canvasManager.OnThrowEnded();
+        
 
         //Level finished
         if (_boardManager.LevelCompleted())
@@ -151,7 +156,12 @@ public class LevelManager : MonoBehaviour
     {
         _ballsArrived = 0;
         _ballManager.MoveTo((Vector2)_ballSink.transform.position);
+        _ballManager.ShowText();
+        _ballManager.ShowImage();
+        _ballSink.Hide();
         _prize = 10;
+        _throwNumber++;
+        AddBalls();
 
         _firstBallDetected = false;
         _aimController.Activate();
@@ -162,15 +172,18 @@ public class LevelManager : MonoBehaviour
     public void TileDestroyed(BasicTile t, uint i, uint j)
     {
 
-        switch (t.gameObject.layer)
+        switch (t.GetTileType())
         {
-            case 9://brick
+            case BasicTile.TILE_TYPE.BRICK:
+                _points += _prize;
+                _prize += 10;
+                break;
+            default:
                 break;
 
         }
 
-        _points += _prize;
-        _prize += 10;
+       
         UpdateUI();
 
         Destroy(t.gameObject);
@@ -260,6 +273,7 @@ public class LevelManager : MonoBehaviour
     private void LoadBallsNumber()
     {
         TextAsset mapsInfo = (TextAsset)Resources.Load("Maps/Mapsdata/gamedata_savelv");
+        
         string levelData = mapsInfo.text.Split(new char[] { '\r' })[_level - 1];
         string[] auxText = levelData.Split(',');
         auxText = auxText[1].Split(' ');
@@ -271,20 +285,23 @@ public class LevelManager : MonoBehaviour
     {
 
         int accelerations = 0;
+        uint myThrow = _throwNumber;
 
         while (_ballsThrowed)
         {
             yield return new WaitForSeconds(WAITING_MAX_TIME);
-            if (_ballsThrowed && !_gamePaused)
+            if (_ballsThrowed && !_gamePaused && myThrow == _throwNumber)
             {
                 if (accelerations < MAX_ACCELERATIONS)
                 {
                     AccelerateGame();
                     accelerations++;
+                    Debug.Log("Aceleramos");
                 }
                 else
                 {
                     _ballManager.DecreaseBallsDirections();
+                    Debug.Log("Decrementamos");
                 }
             }
 
@@ -303,7 +320,33 @@ public class LevelManager : MonoBehaviour
     {
         _ballManager.StopAndDeleteBalls();
         ThrowEnded();
-        _canvasManager.OnThrowEnded();
     }
 
+    /// <summary>
+    /// Adds n balls to the _ballsToAdd variable. Also call AddBalls if the player has not throwed the balls yet.
+    /// </summary>
+    /// <param name="n">Number of balls to add</param>
+    public void AddBallsThisMatch(uint n)
+    {
+        _ballReserve += n;
+        if (!_ballsThrowed)
+        {
+            AddBalls();
+        }
+
+       
+    }
+
+    /// <summary>
+    /// Add the _ballRserver number of balls to the _ballsToSpawn variable.
+    /// </summary>
+    private void AddBalls()
+    {
+        _ballsToSpawn += _ballReserve;
+        if (_ballsToSpawn > MAX_BALLS_NUMBER)
+            _ballsToSpawn = MAX_BALLS_NUMBER;
+        _ballManager.SetBallNumber(_ballsToSpawn);
+
+        _ballReserve = 0;
+    }
 }

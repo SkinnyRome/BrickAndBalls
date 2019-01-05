@@ -8,11 +8,12 @@ public class MapGenerator : MonoBehaviour {
     private uint _offset;
     private TextAsset _mapTxt;
     private MapParser _mapParser; 
-    public GameObject _brick1;
+    public GameObject _brickTile;
     public GameObject _triangle;
-    public GameObject _horizontalRay;
-    public GameObject _verticalRay;
+    public GameObject _horizontalRayTile;
+    public GameObject _verticalRayTile;
     public GameObject _boardManager;
+    public GameObject _additionalBallsTile;
     private LevelManager _levelManager;
     
     // Use this for initialization
@@ -53,14 +54,14 @@ public class MapGenerator : MonoBehaviour {
                         break;
                     case 1:
                         //Normal Brick
-                        Brick b = Object.Instantiate(_brick1, new Vector3(0,0,0), Quaternion.identity).GetComponent<Brick>();
+                        Brick b = Object.Instantiate(_brickTile, new Vector3(0,0,0), Quaternion.identity).GetComponent<Brick>();
                         if(b != null)
                             b.Init(grid[i,j].life, new Vector2(i, index), _boardManager, _levelManager);
                         ObjectGrid[i,index] = b;
                         break;
                     case 2:
                         //Double life Brick
-                        Brick b2 = Object.Instantiate(_brick1, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<Brick>();
+                        Brick b2 = Object.Instantiate(_brickTile, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<Brick>();
                         if (b2 != null)
                             b2.Init(grid[i, j].life * 2, new Vector2(i, index), _boardManager, _levelManager);
                         ObjectGrid[i, index] = b2;
@@ -92,17 +93,35 @@ public class MapGenerator : MonoBehaviour {
                         break;
                     case 7:
                         //Horizontal Ray
-                        RayTile r1 = Object.Instantiate(_horizontalRay, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<RayTile>();
+                        RayTile r1 = Object.Instantiate(_horizontalRayTile, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<RayTile>();
                         if (r1 != null)
                             r1.Init(new Vector2(i, index), _boardManager, _levelManager);
                         ObjectGrid[i, index] = r1;
                         break;
                     case 8:
                         //Vertial Ray
-                        RayTile r2 = Object.Instantiate(_verticalRay, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<RayTile>();
+                        RayTile r2 = Object.Instantiate(_verticalRayTile, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<RayTile>();
                         if (r2 != null)
                             r2.Init(new Vector2(i, index), _boardManager, _levelManager);
                         ObjectGrid[i, index] = r2;
+                        break;
+                    case 21:
+                        AditionalBallTile ab1 = Object.Instantiate(_additionalBallsTile, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<AditionalBallTile>();
+                        if (ab1 != null)
+                            ab1.Init(new Vector2(i, index), _boardManager, _levelManager, 1);
+                        ObjectGrid[i, index] = ab1;
+                        break;
+                    case 22:
+                        AditionalBallTile ab2 = Object.Instantiate(_additionalBallsTile, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<AditionalBallTile>();
+                        if (ab2 != null)
+                            ab2.Init(new Vector2(i, index), _boardManager, _levelManager, 2);
+                        ObjectGrid[i, index] = ab2;
+                        break;
+                    case 23:
+                        AditionalBallTile ab3 = Object.Instantiate(_additionalBallsTile, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<AditionalBallTile>();
+                        if (ab3 != null)
+                            ab3.Init(new Vector2(i, index), _boardManager, _levelManager, 3);
+                        ObjectGrid[i, index] = ab3;
                         break;
                     default:
                         break;                   

@@ -8,6 +8,7 @@ public class AimController : MonoBehaviour {
     private Vector3 _position;
     private float _botCanvasSize;
     private float _topCanvasSize;
+    public GameObject _pointer;
 
 	// Use this for initialization
 	void Start () {
@@ -19,6 +20,7 @@ public class AimController : MonoBehaviour {
         _levelManager = lm;
         _botCanvasSize = bCS;
         _topCanvasSize = tCS;
+        _pointer.SetActive(false);
     }
     
     public void Activate()
@@ -36,13 +38,19 @@ public class AimController : MonoBehaviour {
         if (Input.GetMouseButton(0))
         {
             if (Input.mousePosition.y > (0 + _botCanvasSize) && Input.mousePosition.y < (Screen.height - _topCanvasSize))
+            {
                 _position = Camera.main.ScreenPointToRay(Input.mousePosition).origin; ;
+                _pointer.SetActive(true);
+                _pointer.transform.position = new Vector3(Input.mousePosition.x, (Input.mousePosition.y - _pointer.GetComponent<RectTransform>().rect.height / 2), _pointer.transform.position.z);
+
+            }
         }
         else if (Input.GetMouseButtonUp(0))
         {
             if (Input.mousePosition.y > (0 + _botCanvasSize) && Input.mousePosition.y < (Screen.height - _topCanvasSize))
             {
                 _levelManager.Shoot(_position);
+                _pointer.SetActive(false);
                 gameObject.SetActive(false);
             }
 
@@ -64,13 +72,19 @@ public class AimController : MonoBehaviour {
                 // Debug.Log("Mouse position: " + Input.mousePosition.y + " Bot Canvas size: " + _botCanvasSize +
                 // " Screen Height: " + Screen.height);
                 if (touch.position.y > (0 + _botCanvasSize) && touch.position.y < (Screen.height - _topCanvasSize))
+                {
                     _position = Camera.main.ScreenPointToRay(touch.position).origin;
+                    _pointer.SetActive(true);
+                    _pointer.transform.position.Set(_position.x, _position.y, _pointer.transform.position.z);
+
+                }
             }
             else if (touch.phase == TouchPhase.Ended)
             {
                 if (touch.position.y > (0 + _botCanvasSize) && touch.position.y < (Screen.height - _topCanvasSize))
                 {
                     _levelManager.Shoot(_position);
+                    _pointer.SetActive(false);
                     gameObject.SetActive(false);
                 }
             }

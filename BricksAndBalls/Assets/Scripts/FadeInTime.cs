@@ -70,7 +70,6 @@ public class FadeInTime : MonoBehaviour {
         
         while( _nFades < fadeTimes || loop)
         {
-            Debug.Log("Doing fade" + _fadeDone);
             yield return new WaitForSeconds(fadeDuration / 10.0f);
             if (!_fadeDone)
             {
@@ -117,6 +116,5 @@ public class FadeInTime : MonoBehaviour {
         else if (_type == RenderType.SPRITE_RENDERER)
             _spriteRenderer.color = _color;
 
-        Debug.Log("Seting color" + _color.a);
     }
 }

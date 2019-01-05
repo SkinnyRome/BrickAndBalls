@@ -82,7 +82,7 @@ public class MainMenuInput : MonoBehaviour {
 
 #if UNITY_ANDROID
 
-            if (Input.touches.Length != 0)
+        if (Input.touches.Length != 0)
         {
             var touch = Input.touches[0];
 
@@ -102,7 +102,10 @@ public class MainMenuInput : MonoBehaviour {
             }
             else if (touch.phase == TouchPhase.Moved)
             {
+                _position = Camera.main.ScreenPointToRay(touch.position).origin;
 
+
+               
                 if (_position.y > _lastPosition.y)
                 {
                     SwipeUpLevelCanvas();

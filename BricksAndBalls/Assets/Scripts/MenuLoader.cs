@@ -45,20 +45,15 @@ public class MenuLoader : MonoBehaviour {
 
         float canvasBotUnits = botCanvasSize / ppuHeight;
 
-        Debug.Log("Altura camara en unidades: " + cameraSizeHeight + " Altura en pixeles: " + cameraSizePixelHeight +  " PPU height: " + ppuHeight);
-        Debug.Log("Ancho camara en unidades: " + cameraSizeWidth + " Ancho en pixeles: " + cameraSizePixelWidth + " PPU width: " + ppuWidth);
-
-     
-
         List<uint> maps = new List<uint>();
 
-        var info = new DirectoryInfo("Assets/Resources/Maps");
-        var fileInfo = info.GetFiles();
-        foreach (FileInfo file in fileInfo)
+        Object[] files = Resources.LoadAll("Maps", typeof(TextAsset));
+        
+        foreach (TextAsset file in files)
         {
-            if (file.Extension == ".txt")
+            if (!file.name.Contains("gamedata"))
             {
-                string name = file.Name.Split('.')[0];
+                string name = file.name.Split('.')[0];
                 uint number = uint.Parse(name.Substring(7));
                 maps.Add(number);
             }

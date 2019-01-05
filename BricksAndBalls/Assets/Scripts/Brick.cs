@@ -14,15 +14,11 @@ public class Brick : BasicTile {
 		
 	}
 	
-    public void Init(uint life, Vector2 pos, GameObject father, LevelManager lm)
+    public override void Init(uint life, Vector2 pos, GameObject father, LevelManager lm)
     {
+        base.Init(life, pos, father, lm);
         _tileType = TILE_TYPE.BRICK;
-        _levelManager = lm;
-        _row = (uint)pos.y;
-        _column = (uint)pos.x;
-        transform.SetParent(father.transform,false);        
-        gameObject.transform.localPosition = pos;        
-        _life = life;
+        
         _needToBeDestroyed = true;
 
         TextMesh t = Object.Instantiate(_textPrefab, _textPrefab.transform.position, Quaternion.identity);

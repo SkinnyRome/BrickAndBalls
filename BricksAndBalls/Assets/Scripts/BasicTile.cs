@@ -9,7 +9,7 @@ public class BasicTile : MonoBehaviour {
 
     protected LevelManager _levelManager;
     protected bool _needToBeDestroyed;
-    public enum TILE_TYPE { BRICK = 0, VRAY = 1, HRAY = 2 };
+    public enum TILE_TYPE { BRICK = 0, VRAY = 1, HRAY = 2, ADITIONAL_BALL = 3 };
 
     protected TILE_TYPE _tileType;
 	// Use this for initialization
@@ -17,9 +17,14 @@ public class BasicTile : MonoBehaviour {
        
 	}
 
-    public virtual void Init(LevelManager lm)
+    public virtual void Init(uint life, Vector2 pos, GameObject father, LevelManager lm)
     {
-        
+        _levelManager = lm;
+        _row = (uint)pos.y;
+        _column = (uint)pos.x;
+        transform.SetParent(father.transform, false);
+        gameObject.transform.localPosition = pos;
+        _life = life;
     }
 
     public TILE_TYPE GetTileType()
@@ -53,8 +58,13 @@ public class BasicTile : MonoBehaviour {
     {
         _life -= i;
         if (_life <= 0)
-            _levelManager.TileDestroyed(this, (uint)gameObject.transform.localPosition.x, (uint)gameObject.transform.localPosition.y);
-
+            Destroy();
         //TODO: creo que _row y column no se actualizcan y por eso no las utilizo
+    }
+
+    public void Destroy()
+    {
+        _levelManager.TileDestroyed(this, (uint)gameObject.transform.localPosition.x, (uint)gameObject.transform.localPosition.y);
+
     }
 }

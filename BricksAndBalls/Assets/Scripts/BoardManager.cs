@@ -135,18 +135,23 @@ public class BoardManager : MonoBehaviour {
     }
 
     
-    public void HitRow(int row)
+    public void HitRow(uint row, bool destroy = false)
     {
         for(int i = 0; i < _board.GetLength(0); i++)
         {
             if (_board[i, row] != null)
             {
-                _board[i, row].DecreaseLife(1);
+                if (destroy)
+                    _board[i, row].Destroy(); 
+                else
+                    _board[i, row].DecreaseLife(1);
             }
         }
     }
 
-    public void HitColumn(int column)
+    
+
+    public void HitColumn(uint column)
     {
         for (int i = 0; i < _board.GetLength(1); i++)
         {
@@ -155,6 +160,32 @@ public class BoardManager : MonoBehaviour {
                 _board[column, i].DecreaseLife(1);
             }
         }
+    }
+
+    public void DestroyLastRow()
+    {
+        uint row = 0;
+        int i = 0;
+        int j = 0;
+        bool flag = true;
+        while (j < _board.GetLength(1)  && flag)
+        {
+            i = 0;
+            while (i < _board.GetLength(0) && flag)
+            {
+
+                if (_board[i, j] != null && _board[i,j].GetTileType() == BasicTile.TILE_TYPE.BRICK)
+                {
+                    flag = false;
+                    row = (uint)j;
+                }
+                i++;
+            }
+            j++;
+        }
+        if(!flag)
+            HitRow(row, true);
+      
     }
 
     public void CreateTileAtRandomPos(BasicTile.TILE_TYPE type, int n)

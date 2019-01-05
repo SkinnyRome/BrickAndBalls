@@ -18,13 +18,9 @@ public class RayTile : BasicTile {
 
     public void Init(Vector2 pos, GameObject father, LevelManager lm) {
 
+        base.Init(1, pos, father, lm);
+
         _tileType = (_rayType == RAY_TYPE.HORIZONTAL) ? TILE_TYPE.HRAY : TILE_TYPE.VRAY;
-        _levelManager = lm;
-        _row = (uint)pos.x;
-        _column = (uint)pos.y;
-        transform.parent = father.transform;
-        gameObject.transform.localPosition = pos;
-        _life = 1;
         _boardManager = lm.GetBoardManager();
         _hitted = false;
         _needToBeDestroyed = false;
@@ -43,12 +39,12 @@ public class RayTile : BasicTile {
 
         if (_rayType == RAY_TYPE.HORIZONTAL)
         {
-            _boardManager.HitRow((int)gameObject.transform.localPosition.y);
+            _boardManager.HitRow(_row);
                     
         }
         else
         {
-            _boardManager.HitColumn((int)gameObject.transform.localPosition.x);
+            _boardManager.HitColumn(_column);
         }
 
         StartCoroutine(LigthFade());

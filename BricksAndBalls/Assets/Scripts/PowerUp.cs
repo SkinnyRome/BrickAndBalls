@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public enum PowerUp_Type {NONE, PU_RAY};
+public enum PowerUp_Type {NONE, PU_RAY, PU_BALLS, PU_ELIMINATE_ROW};
 
 
 public class PowerUp : MonoBehaviour {
