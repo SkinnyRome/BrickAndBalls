@@ -27,8 +27,10 @@ public class LevelManager : MonoBehaviour
     private uint _prize;
     private uint _ballsToSpawn;
     private uint _ballReserve;
+    private uint _additionalBallsThisThrow;
     private uint _ballsArrived;
     private uint _throwNumber;
+    private int _pointsPerStar;
     private int _level;
     private bool _ballsThrowed;
     private bool _gamePaused;
@@ -68,8 +70,10 @@ public class LevelManager : MonoBehaviour
         _ballsThrowed = false;
         _gamePaused = false;
         _throwNumber = 0;
+        _additionalBallsThisThrow = 0;
+        //_pointsPerStar = (300 * ())
         LoadBallsNumber();
-        UpdateUI();
+        UpdateStarsAndUI();
 
 
 
@@ -101,7 +105,10 @@ public class LevelManager : MonoBehaviour
         _ballsArrived++;
         _ballSink.BallArrived();
 
-        if (_ballsArrived == _ballsToSpawn)
+        uint totalBalls = _ballsToSpawn + _additionalBallsThisThrow;
+
+
+        if (_ballsArrived == totalBalls)
         {
             ThrowEnded();
         }
@@ -154,6 +161,7 @@ public class LevelManager : MonoBehaviour
 
     private void NewThrow()
     {
+        _additionalBallsThisThrow = 0;
         _ballsArrived = 0;
         _ballManager.MoveTo((Vector2)_ballSink.transform.position);
         _ballManager.ShowText();
@@ -161,7 +169,7 @@ public class LevelManager : MonoBehaviour
         _ballSink.Hide();
         _prize = 10;
         _throwNumber++;
-        AddBalls();
+        AddReserveBalls();
 
         _firstBallDetected = false;
         _aimController.Activate();
@@ -184,16 +192,16 @@ public class LevelManager : MonoBehaviour
         }
 
        
-        UpdateUI();
+        UpdateStarsAndUI();
 
         Destroy(t.gameObject);
 
     }
 
-    private void UpdateUI()
+    private void UpdateStarsAndUI()
     {
 
-        _starsScore = _points / 300; //Every 300 points 1 star, for example xD
+        _starsScore = _points / 300; 
 
         if (_starsScore >= 3)
             _starsScore = 3;
@@ -217,10 +225,13 @@ public class LevelManager : MonoBehaviour
         _ballsThrowed = true;
         StartCoroutine(CheckElapsedTime());
 
-        _ballManager.SpawnBalls(_ballsToSpawn, dir);
+        uint totalBalls = _ballsToSpawn + _additionalBallsThisThrow;
+
+        _ballManager.SpawnBalls(totalBalls, dir);
         _ballManager.ShowImage();
         _ballManager.ShowText();
         _canvasManager.OnThrowStarted();
+
 
     }
 
@@ -235,6 +246,9 @@ public class LevelManager : MonoBehaviour
         _topCanvasSize = size;
     }
 
+    /// <summary>
+    /// Pause the game.
+    /// </summary>
     public void Pause()
     {
         _gamePaused = true;
@@ -242,6 +256,9 @@ public class LevelManager : MonoBehaviour
         _canvasManager.Pause();
     }
 
+    /// <summary>
+    /// Resume the game by resume the ball movement
+    /// </summary>
     public void Resume()
     {
         _gamePaused = false;
@@ -250,6 +267,9 @@ public class LevelManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Retry this level
+    /// </summary>
     public void RetryLevel()
     {
         GameManager.instance.RetryLevel();
@@ -260,16 +280,25 @@ public class LevelManager : MonoBehaviour
         GameManager.instance.DisplayRewardedAd();
     }
 
+    /// <summary>
+    /// Go main menu
+    /// </summary>
     public void GoHome()
     {
         GameManager.instance.GoMainMenu();
     }
 
+    /// <summary>
+    /// Charge the next level
+    /// </summary>
     public void NextLevel()
     {
         GameManager.instance.LoadLevel((uint)(_level + 1));
     }
 
+    /// <summary>
+    /// Load the initial available balls of this level at the start of the game.
+    /// </summary>
     private void LoadBallsNumber()
     {
         TextAsset mapsInfo = (TextAsset)Resources.Load("Maps/Mapsdata/gamedata_savelv");
@@ -281,6 +310,10 @@ public class LevelManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Coroutine to manage the time elapsed sinche the player throw the balls, to prevent the game for getting stuck
+    /// by accelerating the balls and send them to the bottom.
+    /// </summary>
     private IEnumerator CheckElapsedTime()
     {
 
@@ -310,12 +343,18 @@ public class LevelManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Accelerate the balls and show the UI fade indicator.
+    /// </summary>
     private void AccelerateGame()
     {
         _accelerateImage.GetComponent<FadeInTime>().Fade();
         _ballManager.AccelerateBalls();
     }
 
+    /// <summary>
+    /// Delete all the balls in the grid and terminate the throw.
+    /// </summary>
     public void CollectBalls()
     {
         _ballManager.StopAndDeleteBalls();
@@ -323,24 +362,28 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Adds n balls to the _ballsToAdd variable. Also call AddBalls if the player has not throwed the balls yet.
+    /// Adds n balls to the _ballsReserve variable.
     /// </summary>
     /// <param name="n">Number of balls to add</param>
-    public void AddBallsThisMatch(uint n)
+    public void AddBallsThisGame(uint n)
     {
         _ballReserve += n;
-        if (!_ballsThrowed)
-        {
-            AddBalls();
-        }
 
-       
     }
-
+    
+    /// <summary>
+    /// Add 'n' balls to _additionalBallsThisThrow variable.
+    /// </summary>
+    /// <param name="n">Number of additional balls</param>
+    public void AddBallsThisShoot(uint n)
+    {
+        _additionalBallsThisThrow += n;
+        _ballManager.SetBallNumber(_ballsToSpawn + _additionalBallsThisThrow);
+    }
     /// <summary>
     /// Add the _ballRserver number of balls to the _ballsToSpawn variable.
     /// </summary>
-    private void AddBalls()
+    private void AddReserveBalls()
     {
         _ballsToSpawn += _ballReserve;
         if (_ballsToSpawn > MAX_BALLS_NUMBER)

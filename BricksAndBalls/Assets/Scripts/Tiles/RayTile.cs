@@ -2,20 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+/// <summary>
+/// Enum used to differenciate between Horizontal and Vertical ray.
+/// </summary>
 public enum RAY_TYPE {VERTICAL = 0, HORIZONTAL = 1 };
 
+/// <summary>
+/// Tile which, on hitted, do damage to all the other tile on its row or its column
+/// </summary>
 public class RayTile : BasicTile {
 
     public RAY_TYPE _rayType;
     private BoardManager _boardManager;
     private bool _hitted;
     private Transform _lightRenderer;
-    // Use this for initialization
-    void Start () {
-		
-	}
 
+    /// <summary>
+    /// Initialize the tile and its attributes
+    /// </summary>
+    /// <param name="pos">The position</param>
+    /// <param name="father">The BoarManager GameObject</param>
+    /// <param name="lm">The LevelManager GameObject</param>
     public void Init(Vector2 pos, GameObject father, LevelManager lm) {
 
         base.Init(1, pos, father, lm);
@@ -31,7 +38,10 @@ public class RayTile : BasicTile {
         
     }
 
-
+    /// <summary>
+    /// On hitted, call BoardManager to hit the correspondent tiles
+    /// </summary>
+    /// <param name="collision">Colision info</param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -60,9 +70,12 @@ public class RayTile : BasicTile {
 
     public override void DecreaseLife(int i)
     {
-        
+        //Do nothing
     }
 
+    /// <summary>
+    /// Coroutine which manages the Ray sprite by doing a fade with its Y scale to show the effect.
+    /// </summary>
     private IEnumerator  LigthFade()
     {
 

@@ -2,24 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// Button class for the main menu buttons, which have information about it's level.
+/// </summary>
 public class MapLevelButton : MonoBehaviour {
 
 
-    uint _mapIndex;
-    public TextMesh _textPrefab;
+    uint _mapIndex;     //The map number of this button.
+    public TextMesh _textPrefab;    //Text prefab
     
 
-    void Start()
-    {
-        //_lightRenderer = transform.Find("Light").gameObject.GetComponent<SpriteRenderer>();
-
-    }
-
+    /// <summary>
+    /// Function who call GameManager to charge a new level with our's map number
+    /// </summary>
     public void OnClick()
     {
         GameManager.instance.LoadLevel(_mapIndex);
     }
 
+    /// <summary>
+    /// Initialize the button with its attributtes
+    /// </summary>
+    /// <param name="m">The map number</param>
     public void Init(uint m)
     {
 
@@ -35,6 +40,9 @@ public class MapLevelButton : MonoBehaviour {
         
     }
 
+    /// <summary>
+    /// This function obtain information about the player to set the stars gained by him in this level.
+    /// </summary>
     private void LoadStars()
     {
         uint stars = GameManager.instance.GetUserData().levels_stars[(int)_mapIndex];

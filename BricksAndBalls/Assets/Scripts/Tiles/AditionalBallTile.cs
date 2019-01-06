@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This tile adds 1, 2 or 3 balls to the game. The quantity of balls is setted in the Editor on the prefab.
+/// </summary>
 public class AditionalBallTile : BasicTile {
 
     private BoardManager _boardManager;
     private bool _hitted;
     private uint _ballsToAdd;
 
-    public Sprite[] _sprites;
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
+    public Sprite[] _sprites; //The sprites (1, 2 or 3)
+  
     public void Init(Vector2 pos, GameObject father, LevelManager lm, uint nBalls)
     {
 
@@ -30,15 +28,16 @@ public class AditionalBallTile : BasicTile {
  
     }
 
-
+    /// <summary>
+    /// When the player hits this tile, this function call the levelManager to add the needed balls.
+    /// </summary>
+    /// <param name="collision">The collision info</param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        _levelManager.AddBallsThisMatch(_ballsToAdd);
+        _levelManager.AddBallsThisGame(_ballsToAdd);
         _levelManager.TileDestroyed(this, _row, _column);
-
-
-        //StartCoroutine(LigthFade());
+        
     }
 
     public override void Fall()
@@ -53,6 +52,9 @@ public class AditionalBallTile : BasicTile {
         //Do nothing
     }
 
+    /// <summary>
+    /// Set the correct sprite of the GameObject by selecting it in the array of sprite that have been selected in the editor.
+    /// </summary>
     public void SetSprite()
     {
         gameObject.GetComponent<SpriteRenderer>().sprite = _sprites[_ballsToAdd - 1];

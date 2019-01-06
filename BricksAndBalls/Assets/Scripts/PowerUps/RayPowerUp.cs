@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// Ray PowerUp which creates 4 Ray tiles at random positions.
+/// </summary>
 public class RayPowerUp : PowerUp {
 
     public BoardManager _boardManager;

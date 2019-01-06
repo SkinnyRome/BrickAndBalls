@@ -82,18 +82,27 @@ public class Ball : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Pause the ball's movement and store its velocity to later resume it.
+    /// </summary>
     public void Pause()
     {
         _lastVelocity = rb.velocity;
         rb.velocity = Vector2.zero;
     }
 
+    /// <summary>
+    /// Resume the ball's movement whit it's last velocity.
+    /// </summary>
     public void Resume()
     {
         rb.velocity = _lastVelocity;
         _lastVelocity = Vector2.zero;
     }
 
+    /// <summary>
+    /// Accelerate the ball velocity by multiplicate it by 2.
+    /// </summary>
     public void Accelerate()
     {
         Vector2 newVelocity = rb.velocity;
@@ -104,6 +113,9 @@ public class Ball : MonoBehaviour {
         rb.velocity = newVelocity;
     }
 
+    /// <summary>
+    /// Decrease the ball direction.
+    /// </summary>
     public void DecreaseDirection()
     {
         Vector2 newDirection = rb.velocity;

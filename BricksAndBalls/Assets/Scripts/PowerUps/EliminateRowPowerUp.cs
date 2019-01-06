@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallsPowerUp : PowerUp {
+/// <summary>
+/// This PowerUp elimitanes the last row of the grid.
+/// </summary>
+public class EliminateRowPowerUp : PowerUp {
 
-    public LevelManager _levelManager;
-    private const int BALLS_TO_ADD = 10;
-    
+    public BoardManager _boardManager;
+
 
     public override void Init(uint uses)
     {
         base.Init(uses);
-        _type = PowerUp_Type.PU_BALLS;
+        _type = PowerUp_Type.PU_ELIMINATE_ROW;
 
     }
 
@@ -28,8 +30,7 @@ public class BallsPowerUp : PowerUp {
     public override void Consume()
     {
         base.Consume();
-        _levelManager.AddBallsThisMatch(BALLS_TO_ADD);
 
-        
+        _boardManager.DestroyLastRow();
     }
 }

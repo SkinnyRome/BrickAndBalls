@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// GameObject which Initializate the PowerUp existences at the start of a game
+/// </summary>
 public class PowerUpManager : MonoBehaviour {
 
     private LevelManager _levelManager;

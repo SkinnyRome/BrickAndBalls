@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The father class of all tiles. It have the common functionality.
+/// </summary>
 public class BasicTile : MonoBehaviour {
 
 
@@ -13,10 +16,6 @@ public class BasicTile : MonoBehaviour {
     public enum TILE_TYPE { BRICK = 0, VRAY = 1, HRAY = 2, ADITIONAL_BALL = 3 };
 
     protected TILE_TYPE _tileType;
-	// Use this for initialization
-	void Start () {
-       
-	}
 
     public virtual void Init(int life, Vector2 pos, GameObject father, LevelManager lm)
     {

@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EliminateRowPowerUp : PowerUp {
+/// <summary>
+/// This PowerUp adds balls to the next shoot.
+/// </summary>
+public class BallsPowerUp : PowerUp {
 
-    public BoardManager _boardManager;
-
+    public LevelManager _levelManager;
+    private const int BALLS_TO_ADD = 10;
+    
 
     public override void Init(uint uses)
     {
         base.Init(uses);
-        _type = PowerUp_Type.PU_ELIMINATE_ROW;
+        _type = PowerUp_Type.PU_BALLS;
 
     }
 
@@ -27,7 +31,8 @@ public class EliminateRowPowerUp : PowerUp {
     public override void Consume()
     {
         base.Consume();
+        _levelManager.AddBallsThisShoot(BALLS_TO_ADD);
 
-        _boardManager.DestroyLastRow();
+        
     }
 }

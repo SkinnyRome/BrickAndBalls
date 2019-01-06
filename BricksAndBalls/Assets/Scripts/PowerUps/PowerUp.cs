@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+//Enumerator to diferenciate the PowerUp type.
 public enum PowerUp_Type {NONE, PU_RAY, PU_BALLS, PU_ELIMINATE_ROW};
 
-
+/// <summary>
+/// Father class of the PowerUps. Its have the common functionality for all of them.
+/// </summary>
 public class PowerUp : MonoBehaviour {
 
-    protected uint _usesAvailables;
+    protected uint _usesAvailables; //The uses availables of the PowerUp
+    protected PowerUp_Type _type;   //The type of the PowerUp
 
-    public const uint MAX_USES = 99;
+    private Text _usesText; //The text displayed in the game
 
-    private Text _usesText;
-
-    protected PowerUp_Type _type;
-
+    /// <summary>
+    /// Initialize the PowerUp
+    /// </summary>
+    /// <param name="uses">The uses number</param>
     public virtual void Init(uint uses)
     {
         _usesAvailables = uses;
@@ -31,14 +34,9 @@ public class PowerUp : MonoBehaviour {
 
     }
 
-
-    public void AddUses(uint newUses)
-    {
-        _usesAvailables += newUses;
-        if (_usesAvailables > MAX_USES)
-            _usesAvailables = MAX_USES;
-    }
-
+    /// <summary>
+    /// Use the PowerUp and consume one use. The childs implementations have the functionality of each one.
+    /// </summary>
     public virtual void Consume()
     {
         _usesAvailables--;

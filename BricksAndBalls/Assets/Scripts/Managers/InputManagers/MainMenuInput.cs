@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+/// <summary>
+/// GameObject who manages the input in the main menu to swipe the canvas who contains the level buttons.
+/// </summary>
 public class MainMenuInput : MonoBehaviour {
 
     private Vector3 _position;
@@ -15,13 +20,13 @@ public class MainMenuInput : MonoBehaviour {
     public float _swipeVel;
     
 
-    // Use this for initialization
-    void Start()
-    {
 
-    }
-
-
+    /// <summary>
+    /// Initialize the GameObject.
+    /// </summary>
+    /// <param name="m">MainMenuManager GameObject</param>
+    /// <param name="bCS">Bot Canvas height in pixels</param>
+    /// <param name="tCS">Top Canvas height in pixels</param>
     public void Init(MainMenuManager m, float bCS, float tCS)
     {
         _botCanvasSize = bCS;
@@ -60,22 +65,6 @@ public class MainMenuInput : MonoBehaviour {
         }
 
 
-            /*
-            if (Input.GetMouseButton(0))
-            {
-                if (Input.mousePosition.y > (0 + _botCanvasSize) && Input.mousePosition.y < (Screen.height - _topCanvasSize))
-                    _position = Camera.main.ScreenPointToRay(Input.mousePosition).origin; ;
-
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                if (Input.mousePosition.y > (0 + _botCanvasSize) && Input.mousePosition.y < (Screen.height - _topCanvasSize))
-                {
-                    gameObject.SetActive(false);
-                }
-
-            }
-            */
 
 #endif
 
@@ -89,8 +78,7 @@ public class MainMenuInput : MonoBehaviour {
 
             if (touch.phase == TouchPhase.Began)
             {
-                // Debug.Log("Mouse position: " + Input.mousePosition.y + " Bot Canvas size: " + _botCanvasSize +
-                // " Screen Height: " + Screen.height);
+               
                 if (touch.position.y > (0 + _botCanvasSize) && touch.position.y < (Screen.height - _topCanvasSize))
                 {
                     _position = Camera.main.ScreenPointToRay(touch.position).origin;
@@ -130,6 +118,9 @@ public class MainMenuInput : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Function who moves the Levels Canvas up to see more buttons.
+    /// </summary>
     private void SwipeUpLevelCanvas()
     {
         levelsCanvas.gameObject.transform.Translate(0, _swipeVel, 0);
@@ -141,6 +132,9 @@ public class MainMenuInput : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Function who moves the Levels Canvas down to see more buttons.
+    /// </summary>
     private void SwipeDownLevelCanvas()
     {
         levelsCanvas.gameObject.transform.Translate(0, -_swipeVel, 0);

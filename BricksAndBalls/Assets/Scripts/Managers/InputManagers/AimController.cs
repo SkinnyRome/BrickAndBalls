@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// GameObject who manages the input at the GamePlay scene.
+/// </summary>
 public class AimController : MonoBehaviour {
 
     private LevelManager _levelManager;
@@ -10,12 +14,12 @@ public class AimController : MonoBehaviour {
     private float _topCanvasSize;
     public GameObject _pointer;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-
-
+    /// <summary>
+    /// Initialize the GameObjects
+    /// </summary>
+    /// <param name="lm">The LevelManager GameObject</param>
+    /// <param name="bCS">The bottom canvas height in pixels</param>
+    /// <param name="tCS">The top canvas height in pixels</param>
     public void Init(LevelManager lm, float bCS, float tCS) {
         _levelManager = lm;
         _botCanvasSize = bCS;
@@ -23,12 +27,17 @@ public class AimController : MonoBehaviour {
         _pointer.SetActive(false);
     }
     
+    /// <summary>
+    /// Activates the GameObject to star manage the input
+    /// </summary>
     public void Activate()
     {
         gameObject.SetActive(true);
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// In the Update method, controls the player input to take the direction which the balls must take.
+    /// </summary>
     void Update () {
 
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
@@ -69,13 +78,12 @@ public class AimController : MonoBehaviour {
 
             if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved)
             {
-                // Debug.Log("Mouse position: " + Input.mousePosition.y + " Bot Canvas size: " + _botCanvasSize +
-                // " Screen Height: " + Screen.height);
+               
                 if (touch.position.y > (0 + _botCanvasSize) && touch.position.y < (Screen.height - _topCanvasSize))
                 {
                     _position = Camera.main.ScreenPointToRay(touch.position).origin;
                     _pointer.SetActive(true);
-                    _pointer.transform.position.Set(_position.x, _position.y, _pointer.transform.position.z);
+                    _pointer.transform.position = new Vector3(touch.position.x, touch.position.y, _pointer.transform.position.z);
 
                 }
             }

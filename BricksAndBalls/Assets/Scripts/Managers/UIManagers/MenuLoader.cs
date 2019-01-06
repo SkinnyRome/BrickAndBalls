@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-
+/// <summary>
+/// This GameObjects puts all the level buttons in the MainMenu Scene correctly to make it all visibles by swipping the ButtonCanvas
+/// </summary>
 public class MenuLoader : MonoBehaviour {
 
 
@@ -18,37 +20,41 @@ public class MenuLoader : MonoBehaviour {
 
     private const string mapFileName = "mapdata";
 
-    // Use this for initialization
+    /// <summary>
+    /// Initialize the GameObject
+    /// </summary>
+    /// <param name="menuManager">Main Menu Manager</param>
+    /// <param name="currentLevel">The current level of the player to set correctly the buttons</param>
     public void Init(MainMenuManager menuManager, uint currentLevel) {
 
-        _menuManager = menuManager;
         Canvas.ForceUpdateCanvases();
+        _menuManager = menuManager;
         
+        //Get the top and bot canvas size to set it in the MenuManager
         float topCanvasSize = _topCanvas.GetComponent<RectTransform>().rect.height * _topCanvas.transform.parent.localScale.y;
         float botCanvasSize = _botCanvas.GetComponent<RectTransform>().rect.height * _botCanvas.transform.parent.localScale.y;
-
         _menuManager.SetCanvasSize(topCanvasSize, botCanvasSize);
 
+        //Set the camera widht size in units 5.5, cause we want that the player can always see 5 buttons per row
         _mainCamera.orthographicSize = (5.5f / _mainCamera.aspect) / 2;
 
-       // _mainCamera.transform.Translate(new Vector3(0, botCanvasSize, 0));
-
+        //Get camera size in units
         float cameraSizeHeight = (_mainCamera.orthographicSize * 2);
         float cameraSizeWidth = cameraSizeHeight * _mainCamera.aspect;
 
+        //Get camera size in pixels
         float cameraSizePixelHeight = _mainCamera.pixelHeight;
         float cameraSizePixelWidth = _mainCamera.pixelWidth;
 
-
+        //Calculate pixels per unit
         float ppuHeight = cameraSizePixelHeight / cameraSizeHeight;
         float ppuWidth = cameraSizePixelWidth / cameraSizeWidth;
 
         float canvasBotUnits = botCanvasSize / ppuHeight;
 
+        //Now, we load all the maps resources to make a list with all of them
         List<uint> maps = new List<uint>();
-
         Object[] files = Resources.LoadAll("Maps", typeof(TextAsset));
-        
         foreach (TextAsset file in files)
         {
             if (!file.name.Contains("gamedata"))
@@ -59,19 +65,22 @@ public class MenuLoader : MonoBehaviour {
             }
         }
 
+        //Sort the array
         maps.Sort();
 
+        //Calculate the rows that we will need
         int totalRows = maps.Count / 5;
-        float canvasYPosition = totalRows / 2;
-
-        Debug.Log("Numero de filas: " + totalRows);
         
+        //Set the button canvas width to 5 and height to totalRows
         _canvasButtons.GetComponent<RectTransform>().sizeDelta = new Vector2(5 , totalRows);
-        _canvasButtons.GetComponent<RectTransform>().position = new Vector3(_canvasButtons.GetComponent<RectTransform>().position.x, _canvasButtons.GetComponent<RectTransform>().position.y + ((totalRows/2) - 3), _canvasButtons.GetComponent<RectTransform>().position.z);
-        //_mainCamera.transform.position = new Vector3(_canvasButtons.GetComponent<RectTransform>().position.x, (_canvasButtons.GetComponent<RectTransform>().position.y) - canvasBotUnits, -10);
+
+        //Move the canvas button in the Y Axis to set it correctly
+        _canvasButtons.GetComponent<RectTransform>().position = new Vector3(_canvasButtons.GetComponent<RectTransform>().position.x,
+            _canvasButtons.GetComponent<RectTransform>().position.y + ((totalRows/2) - 3),
+            _canvasButtons.GetComponent<RectTransform>().position.z);
         
 
-
+        //Now create all the button GameObject and set them to theri position in the canvas
         int j = 0;
         int m = 0;
         while (m < maps.Count)
@@ -82,17 +91,21 @@ public class MenuLoader : MonoBehaviour {
                 UnityEngine.UI.Button button = null;
 
                 float xPos = _canvasButtons.GetComponent<RectTransform>().sizeDelta.x;
-                //_canvasButtons.GetComponent<RectTransform>().sizeDelta = new Vector2(xPos ,j);
 
+                //If the map level is lower that the player level, it means that the player already have unlocked that map,
+                //so we instantiate an unlocked button with the information of the map and initialize it
                 if (m < currentLevel)
                 {
                     button = Instantiate(_unlockedButton, new Vector3(0, 0, 0), Quaternion.identity) as UnityEngine.UI.Button;
                     button.GetComponent<MapLevelButton>().Init(maps[m]);
                 }
+                //Either, it means that the player has not reached this level yet, so we instantiate a locked button
                 else
                 {
                     button = Instantiate(_lockedButton, new Vector3(0, 0, 0), Quaternion.identity) as UnityEngine.UI.Button;
                 }
+
+                //Set the correct position in the canvas
                 RectTransform rectTransform = button.GetComponent<RectTransform>();
                 rectTransform.SetParent(_canvasButtons.transform);
                 rectTransform.pivot = Vector2.zero;
@@ -104,15 +117,14 @@ public class MenuLoader : MonoBehaviour {
                 i++;
             }
             j += 1;
-            //m++;
         }
 
 
-                
+         //No se si es necesario actualizar el canvas aquí
         Canvas.ForceUpdateCanvases();
 
 
-
+        Destroy(gameObject);
     }
 
 

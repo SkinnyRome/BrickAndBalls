@@ -4,11 +4,14 @@ using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
+/// <summary>
+/// This implementation uses the 'persistentDataPath' of the device to store the player information.
+/// </summary>
 public class FileSave : SaveInterface
 {
     public UserData LoadData()
     {
-        UserData data = new UserData();
+        UserData data;
 
         if (File.Exists(Application.persistentDataPath + "/playersave.data"))
         {
@@ -21,18 +24,19 @@ public class FileSave : SaveInterface
             }
             catch (EndOfStreamException e)
             {
-                Debug.Log("Los datos guardados son erroneos " +  e.Message);
+                Debug.Log("Los datos guardados son erroneos, borramos y creamos otros. " +  e.Message);
                 saveFile.Close();
                 File.Delete(Application.persistentDataPath + "/playersave.data");
                 data = new UserData();
             }
             saveFile.Close();
-            Debug.Log("Game Loaded");
+            Debug.Log("Datos cargados");
 
         }
         else
         {
-            Debug.Log("No game saved!");
+            data = new UserData();
+            Debug.Log("No hay datos guardados. Se crean unos nuevos.");
         }
 
         return data;
@@ -46,7 +50,7 @@ public class FileSave : SaveInterface
         FileStream file = File.Create(Application.persistentDataPath + "/playersave.data");
         bf.Serialize(file, saveData);
         file.Close();
-        Debug.Log("Game Saved");
+        Debug.Log("Datos guardados");
 
     }
 

@@ -12,17 +12,27 @@ public struct PowerUpsAmount
 
 }
 
+
+
+/// <summary>
+/// Class which stores the player progress in the game.
+/// </summary>
 [System.Serializable]
 public class UserData {
 
-    private const uint MAX_USES = 100;
+    private const uint MAX_USES = 100;  //Max uses of the PowerUp
 
-    public uint current_level = 1;
-    public uint gems = 150;
-    public uint total_stars = 0;
-    public PowerUpsAmount powerUps = new PowerUpsAmount();
-    public List<uint> levels_stars = new List<uint>() { 0, 0};
+    public uint current_level = 1; //The level of the player. It indicates which is the last level that the player has unlocked.
+    public uint gems = 150; //The virtual coin of the game.
+    public uint total_stars = 0;    //The total stars gained by the player
+    public PowerUpsAmount powerUps = new PowerUpsAmount();  //The Amount of PowerUp that the player has
+    public List<uint> levels_stars = new List<uint>() { 0, 0}; //The stars gained in each level by the player 
 
+    /// <summary>
+    /// Consume 'nUses' uses of the PowerUp 't'
+    /// </summary>
+    /// <param name="t">The type of the PowerUp which has been used</param>
+    /// <param name="nUses">The uses (normally 1) consumed</param>
     public void ConsumePowerUp(PowerUp_Type t, uint nUses = 1)
     {
         switch (t)
@@ -44,6 +54,11 @@ public class UserData {
         }
     }
 
+    /// <summary>
+    /// Add uses to the PowerUp when the player purchases it.
+    /// </summary>
+    /// <param name="t">The type of the PowerUp that the player has bought</param>
+    /// <param name="nPurchases">The quantity of uses bought</param>
     public void AddPowerUp(PowerUp_Type t, uint nPurchases)
     {
 

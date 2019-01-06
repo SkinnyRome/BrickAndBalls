@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// GameObject who stores and manages the grid of Tiles.
+/// </summary>
 public class BoardManager : MonoBehaviour {
 
 
@@ -9,12 +13,11 @@ public class BoardManager : MonoBehaviour {
     private BasicTile[,] _board;
     private int _visibleRow;
 
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
+	/// <summary>
+    /// Initialize the BoardManager.
+    /// </summary>
+    /// <param name="lm">The level manager of the scene.</param>
+    /// <param name="grid">The grid created by the MapGenerator.</param>
     public void Init(LevelManager lm, BasicTile[,] grid){
         _levelManager = lm;
         _board = grid;
@@ -133,7 +136,11 @@ public class BoardManager : MonoBehaviour {
         return true;
     }
 
-    
+    /// <summary>
+    /// Hit a row of the grid indicated by 'row' or,  if 'destroy' its true, destroys it.
+    /// </summary>
+    /// <param name="row">The row to hit</param>
+    /// <param name="destroy">Boolean to indicate if destroy or only hit</param>
     public void HitRow(uint row, bool destroy = false)
     {
         for(int i = 0; i < _board.GetLength(0); i++)
@@ -149,7 +156,10 @@ public class BoardManager : MonoBehaviour {
     }
 
     
-
+    /// <summary>
+    /// Hit a column of the grid indicated by 'column'
+    /// </summary>
+    /// <param name="column">The columnn to hit</param>
     public void HitColumn(uint column)
     {
         for (int i = 0; i < _board.GetLength(1); i++)
@@ -161,6 +171,9 @@ public class BoardManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Destroy the last row of the grid, that is the firs row, starting from the bottom, which have a brick;
+    /// </summary>
     public void DestroyLastRow()
     {
         uint row = 0;
@@ -187,6 +200,11 @@ public class BoardManager : MonoBehaviour {
       
     }
 
+    /// <summary>
+    /// Create 'n' Tiles of the type 'type' at free random positions in the grid
+    /// </summary>
+    /// <param name="type">The type of tile to instantiate</param>
+    /// <param name="n">The number of tiles to instantiate</param>
     public void CreateTileAtRandomPos(BasicTile.TILE_TYPE type, int n)
     {
 
