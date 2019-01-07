@@ -30,7 +30,7 @@ public class LevelManager : MonoBehaviour
     private uint _additionalBallsThisThrow;
     private uint _ballsArrived;
     private uint _throwNumber;
-    private int _pointsPerStar;
+    private uint _pointsPerStar;
     private int _level;
     private bool _ballsThrowed;
     private bool _gamePaused;
@@ -71,7 +71,7 @@ public class LevelManager : MonoBehaviour
         _gamePaused = false;
         _throwNumber = 0;
         _additionalBallsThisThrow = 0;
-        //_pointsPerStar = (300 * ())
+        _pointsPerStar = (uint)(1000 * ((_level / 10) + 1));
         LoadBallsNumber();
         UpdateStarsAndUI();
 
@@ -201,7 +201,7 @@ public class LevelManager : MonoBehaviour
     private void UpdateStarsAndUI()
     {
 
-        _starsScore = _points / 300; 
+        _starsScore = _points / _pointsPerStar; 
 
         if (_starsScore >= 3)
             _starsScore = 3;
