@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Game object that manages the whole level, from the points to the progress, etc.
+/// </summary>
 public class LevelManager : MonoBehaviour
 {
 
-
+    //Game Objects
     public DeadZone _deadZone;
     public BallSink _ballSink;
     public BallManager _ballManager;
@@ -20,6 +22,7 @@ public class LevelManager : MonoBehaviour
     public UnityEngine.UI.Text _scoreUI;
     public GameObject _accelerateImage;
 
+    //Flags
     private bool _firstBallDetected;
     private bool _almostDead;
     private uint _starsScore;
@@ -35,15 +38,19 @@ public class LevelManager : MonoBehaviour
     private bool _ballsThrowed;
     private bool _gamePaused;
 
+    //Canvas size
     private float _topCanvasSize;
     private float _botCanvasSize;
-
+    
+    //Numeric values
     private float _throwTime;
     private const float WAITING_MAX_TIME = 10.0f;
     private const int MAX_ACCELERATIONS = 2;
     private const uint MAX_BALLS_NUMBER = 100;
 
-    // Use this for initialization
+    /// <summary>
+    /// Initialize the level manager and all the rest game objects that needs it
+    /// </summary>
     void Awake()
     {
 
@@ -58,7 +65,9 @@ public class LevelManager : MonoBehaviour
         _canvasManager.Init(this);
         _powerUpManager.Init(this);
     }
-
+    /// <summary>
+    /// The private initializer of the level manager
+    /// </summary>
     private void Init()
     {
         _level = (int)GameManager.instance.GetSelectedLevelNumber();
@@ -75,15 +84,19 @@ public class LevelManager : MonoBehaviour
         LoadBallsNumber();
         UpdateStarsAndUI();
 
-
-
     }
-
+    /// <summary>
+    /// Getter of the board manager
+    /// </summary>
+    /// <returns>The board manager</returns>
     public BoardManager GetBoardManager()
     {
         return _boardManager;
     }
-
+    /// <summary>
+    /// Method that notifies that a ball has entered the dead zone
+    /// </summary>
+    /// <param name="b">The ball</param>
     public void BallEnteredDeadZone(Ball b)
     {
 
@@ -99,7 +112,10 @@ public class LevelManager : MonoBehaviour
         else
             b.GoTo(_ballSink.transform.position, CallbackBall);
     }
-
+    /// <summary>
+    /// The callback method of the ball that must be invoked by the ball.
+    /// </summary>
+    /// <param name="b"></param>
     private void CallbackBall(Ball b)
     {
         _ballsArrived++;
@@ -116,7 +132,9 @@ public class LevelManager : MonoBehaviour
         _ballManager.RemoveBall(b.gameObject);
 
     }
-
+    /// <summary>
+    /// Notify that the throw has ended and check if the level has been completed, its a gameover or continue
+    /// </summary>
     private void ThrowEnded()
     {
         //TODO: Desactivar la imagen de precaucion
@@ -158,7 +176,9 @@ public class LevelManager : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// Prepare a new throw
+    /// </summary>
     private void NewThrow()
     {
         _additionalBallsThisThrow = 0;
@@ -176,7 +196,12 @@ public class LevelManager : MonoBehaviour
 
     }
 
-
+    /// <summary>
+    /// Notify when a tile needs to be destroyed
+    /// </summary>
+    /// <param name="t">Tile</param>
+    /// <param name="i">I index</param>
+    /// <param name="j">J index</param>
     public void TileDestroyed(BasicTile t, uint i, uint j)
     {
 
@@ -197,7 +222,9 @@ public class LevelManager : MonoBehaviour
         Destroy(t.gameObject);
 
     }
-
+    /// <summary>
+    /// Update the stars and the points ui
+    /// </summary>
     private void UpdateStarsAndUI()
     {
 
@@ -209,7 +236,10 @@ public class LevelManager : MonoBehaviour
         _starsUI.text = "STARS: " + _starsScore.ToString();
         _scoreUI.text = _points.ToString();
     }
-
+    /// <summary>
+    /// Make a shoot of the game.
+    /// </summary>
+    /// <param name="position"></param>
     public void Shoot(Vector3 position)
     {
 
@@ -234,13 +264,19 @@ public class LevelManager : MonoBehaviour
 
 
     }
-
+    /// <summary>
+    /// Set the Bot canvas size
+    /// </summary>
+    /// <param name="size">Size</param>
     public void SetBotCanvasSize(float size)
     {
         _botCanvasSize = size;
     }
 
-
+    /// <summary>
+    /// Set the Top canvas size
+    /// </summary>
+    /// <param name="size">Size</param>
     public void SetTopCanvasSize(float size)
     {
         _topCanvasSize = size;
@@ -274,6 +310,10 @@ public class LevelManager : MonoBehaviour
     {
         GameManager.instance.RetryLevel();
     }
+    /// <summary>
+    /// Show a rewarded ad to the user
+    /// </summary>
+    /// <param name="g"></param>
     public void FreeRuby(GameObject g)
     {
         g.SetActive(false);

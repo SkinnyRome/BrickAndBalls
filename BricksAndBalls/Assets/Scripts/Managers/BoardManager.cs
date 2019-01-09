@@ -24,10 +24,12 @@ public class BoardManager : MonoBehaviour {
         _visibleRow = 12;
         UpdateBoard();
     }
-
+    /// <summary>
+    /// //Deactivate the rows above the visible area.
+    /// </summary>
     private void UpdateBoard()
     {
-        //Deactivate the rows above the visible area.
+        
 
         for (int i = 0; i < _board.GetLength(0); i++)
         {
@@ -42,20 +44,28 @@ public class BoardManager : MonoBehaviour {
             }
         }
     }
-
-    private void CheckForShow(int j, BasicTile t) {
+    /// <summary>
+    /// Check if a tile needs to be show or hide
+    /// </summary>
+    /// <param name="t">The tile</param>
+    private void CheckForShow(BasicTile t) {
         if (t.GetRow() <= _visibleRow)
             t.Show();
         else
             t.Hide();
         
     }
-
+    /// <summary>
+    /// Getter of the level manager
+    /// </summary>
+    /// <returns>The level manager</returns>
     public LevelManager GetLevelManager()
     {
         return _levelManager;
     }
-
+    /// <summary>
+    /// Simulates the fall of the bricks, into the grid and physically
+    /// </summary>
     public void Fall(){
         
         for (int i = 0; i < _board.GetLength(0); i++) {
@@ -70,14 +80,11 @@ public class BoardManager : MonoBehaviour {
 
                     }
                     else {
-                        _board[i, j].Fall();
-                        //TODO: controlar que no se pregunte por una posición que no existe (cuidado con el -1 en las ultimas filas)
+                        _board[i, j].Fall();                                            
                         _board[i, j - 1] = _board[i, j];
-                        CheckForShow(j, _board[i, j]);
+                        CheckForShow(_board[i, j]);
                         _board[i, j] = null;
                     }
-
-
                 }
             }
         }
@@ -100,7 +107,10 @@ public class BoardManager : MonoBehaviour {
 
         return false;
     }
-
+    /// <summary>
+    /// Check the warning row (first + 1) of the grid to see if some bricks are left.
+    /// </summary>
+    /// <returns>Returns true if some tile who needs to be destroyed is still alive.</returns>
     public bool CheckWarningRow()
     {
 
@@ -117,7 +127,10 @@ public class BoardManager : MonoBehaviour {
         return false;
     }
 
-
+    /// <summary>
+    /// Check all the grid to see if some bricks are left.
+    /// </summary>
+    /// <returns>Returns false if some tile who needs to be destroyed is still alive.</returns>
     public bool LevelCompleted() {
 
         for (int i = 0; i < _board.GetLength(0); i++)

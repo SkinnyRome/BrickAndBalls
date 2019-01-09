@@ -9,11 +9,13 @@ public class Brick : BasicTile {
     private Color _spriteInitialColor;
     private SpriteRenderer _spriteRenderer;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
+    /// <summary>
+    /// Initialize the tile and its attributes
+    /// </summary>
+    /// <param name="life">The life of the brick</param>
+    /// /// <param name="pos">The position</param>
+    /// <param name="father">The BoarManager GameObject</param>
+    /// <param name="lm">The LevelManager GameObject</param>
     public override void Init(int life, Vector2 pos, GameObject father, LevelManager lm)
     {
         base.Init(life, pos, father, lm);
@@ -31,13 +33,19 @@ public class Brick : BasicTile {
         _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         _spriteInitialColor = _spriteRenderer.color;
     }
-
+    /// <summary>
+    /// Notify a collision
+    /// </summary>
+    /// <param name="collision"></param>
     public void OnCollisionEnter2D(Collision2D collision)
     {
         DecreaseLife(1);
         FadeAnimation();
     }
-
+    /// <summary>
+    /// Decrease the life of the tile
+    /// </summary>
+    /// <param name="i">Amount of life to be decreased</param>
     public override void DecreaseLife(int i)
     {
         base.DecreaseLife(1);
@@ -50,7 +58,9 @@ public class Brick : BasicTile {
             Debug.Log("muerto");
         }
     }
-
+    /// <summary>
+    /// Starts the fade animation
+    /// </summary>
     private void FadeAnimation()
     {
         _spriteRenderer.color = Color.white;
@@ -58,7 +68,10 @@ public class Brick : BasicTile {
 
     }
 
-
+    /// <summary>
+    /// Fade coroutine
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator FadeCoroutine()
     {
         Color diffColor = (Color.white - _spriteInitialColor) / 10;

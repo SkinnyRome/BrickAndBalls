@@ -2,26 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Advertisements;
-
+/// <summary>
+/// Game object that manages the ads of the game and give a basic functionality.
+/// </summary>
 public class UnityAds : MonoBehaviour
 {
-
-    void Start()
-    {
-     
-
-        
-    }
-
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E)) {
-            ShowRewardedAd();
-        }
-    }
+    /// <summary>
+    /// In case you need to get free ruby ;)
+    /// </summary>
+    /*  private void Update()
+      {
+          if (Input.GetKeyDown(KeyCode.E)) {
+              ShowRewardedAd();
+          }
+      }
+      */
 
 
+    /// <summary>
+    /// Show a basic ad
+    /// </summary>
     public void ShowBasicAd() {
 
         
@@ -31,7 +31,9 @@ public class UnityAds : MonoBehaviour
         }
 
     }
-
+    /// <summary>
+    /// Show a rewarded ad and handle the result (finished, skyipped or failed)
+    /// </summary>
     public void ShowRewardedAd()
     {
         if (Advertisement.IsReady("rewardedVideo"))
@@ -40,7 +42,10 @@ public class UnityAds : MonoBehaviour
             Advertisement.Show("rewardedVideo", options);
         }
     }
-
+    /// <summary>
+    /// Handle the result of an ad
+    /// </summary>
+    /// <param name="result">The result</param>
     private void HandleShowResult(ShowResult result)
     {
         switch (result)

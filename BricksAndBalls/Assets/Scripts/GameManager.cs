@@ -35,7 +35,9 @@ public class GameManager : MonoBehaviour
 
 
     }
-
+    /// <summary>
+    /// Load the data of the player and initilize the ads
+    /// </summary>
     void Start()
     {
 
@@ -49,17 +51,24 @@ public class GameManager : MonoBehaviour
         }
         
     }
-
+    /// <summary>
+    /// Reward the player of watching the full ad
+    /// </summary>
     public void RewardedForWatchingAd() {
         Debug.Log("PREMIADO POR VER UN VIDEO");
         _playerData.gems += 10;
     }
-
+    /// <summary>
+    /// Show a rewarded ad
+    /// </summary>
     public void DisplayRewardedAd()
     {
         _ads.ShowRewardedAd();
     }
-
+    /// <summary>
+    /// Notify that the level has been finished
+    /// </summary>
+    /// <param name="stars">Stars earned</param>
     public void LevelFinished(uint stars) {
 
         uint starsGained = 0;
@@ -93,7 +102,10 @@ public class GameManager : MonoBehaviour
         SaveData();
         _ads.ShowBasicAd();
     }
-
+    /// <summary>
+    /// Load a level by a map index
+    /// </summary>
+    /// <param name="mapIndex">Map index</param>
     public void LoadLevel(uint mapIndex)
     {
         _selectedLevelName = "mapdata" + mapIndex.ToString();
@@ -101,7 +113,9 @@ public class GameManager : MonoBehaviour
 
         SceneManager.LoadScene("GameplayScene");
     }
-
+    /// <summary>
+    /// Retry the current level
+    /// </summary>
     public void RetryLevel()
     {
         if (_selectedLevelName != null)
@@ -109,35 +123,51 @@ public class GameManager : MonoBehaviour
         else
             Debug.Log("No hay mapa del ultimo juego");
     }
-
+    /// <summary>
+    /// Go to main menu
+    /// </summary>
     public void GoMainMenu()
     {
         SceneManager.LoadScene("MainMenuScene");
     }
 
-
+    /// <summary>
+    /// Getter of the player current level
+    /// </summary>
+    /// <returns>The player current level</returns>
     public uint GetPlayerLevel()
     {
         return _playerData.current_level;
     }
 
-  
+    /// <summary>
+    /// Getter of the selected level name
+    /// </summary>
+    /// <returns>The selected level name</returns>
     public string GetSelectedLevelName()
     {
         return _selectedLevelName;
     }
-    
+
+    /// <summary>
+    /// Getter of the selected level number
+    /// </summary>
+    /// <returns>The selected level number</returns>
     public uint GetSelectedLevelNumber()
     {
         return _selectedLevelNumber;
     }
-
+    /// <summary>
+    /// Save the data
+    /// </summary>
     public void SaveData()
     {
         FileSave saver = new FileSave();
         saver.SaveData(_playerData);
     }
-
+    /// <summary>
+    /// Load data
+    /// </summary>
     public void LoadData()
     {
         FileSave loader = new FileSave();
@@ -145,18 +175,30 @@ public class GameManager : MonoBehaviour
         //loader.DeleteSavedData();     
         _playerData = loader.LoadData();
     }
-
+    /// <summary>
+    /// Getter of the player data
+    /// </summary>
+    /// <returns>The player data</returns>
     public UserData GetUserData()
     {
         return _playerData;
     }
-
+    /// <summary>
+    /// Consume a power up
+    /// </summary>
+    /// <param name="t">The power up type</param>
+    /// <param name="nUses">The number of uses of that power up</param>
     public void ConsumePowerUp(PowerUp_Type t, uint nUses = 1)
     {
 
         _playerData.ConsumePowerUp(t, nUses);
     }
-
+    /// <summary>
+    /// Purchase a power up
+    /// </summary>
+    /// <param name="t">The power up type</param>
+    /// <param name="nGems">Number of gems that the power up costs</param>
+    /// <param name="nPurchases">Number of purchases</param>
     public void PurchasePowerUp(PowerUp_Type t, uint nGems, uint nPurchases = 1)
     {
 

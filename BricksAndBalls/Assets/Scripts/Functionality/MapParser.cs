@@ -1,22 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-
+/// <summary>
+/// Struct that defines a Tile. With a type and a life.
+/// </summary>
 public struct Tile {
     public int type;
     public int life;
 }
-
+/// <summary>
+/// Extern class that parse a text and create a matrix of the struct Tile.
+/// </summary>
 public class MapParser  {
 
-    private Tile[,] _grid;
-    private List<Tile> _typeList;
+    
+    private List<Tile> _typeList;//Auxiliar list to read the types of the text.
     public MapParser() {
         _typeList = new List<Tile>();
     }
 
-
+    /// <summary>
+    /// Parse a text and create a matrix of the struct Tile.
+    /// </summary>
+    /// <param name="text">The text to be read</param>
+    /// <returns>A matrix of struct Tiles</returns>
     public Tile[,] ParseText(string text) {
 
+        Tile[,] _grid; //The grid to return.
 
         string[] auxText;
         auxText = text.Split(new char[] { '\r' });
@@ -29,6 +38,7 @@ public class MapParser  {
         bool matrixEnded = false;
         int j = 3;
         int rows = 0;
+        //First we parse the type to know how many tiles we have.
         while (!matrixEnded) {
 
             typeText = auxText[j].Split(new char[] { '\r' });
@@ -75,6 +85,7 @@ public class MapParser  {
             
         }//End of type parse
 
+        //Now we can create the matrix and parse the life.
 
         _grid = new Tile[11, rows];
         Tile[] typeArray = _typeList.ToArray();

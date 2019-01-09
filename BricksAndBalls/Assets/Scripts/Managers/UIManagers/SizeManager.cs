@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+/// <summary>
+/// This game object manages the size of the camera, canvas and gameplay map.
+/// </summary>
 public class SizeManager : MonoBehaviour {
 
     public GameObject  _botCanvas;

@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// GameObject that creates the map level.
+/// </summary>
 public class MapGenerator : MonoBehaviour {
 
     public uint _rows, _columns;
@@ -16,10 +18,8 @@ public class MapGenerator : MonoBehaviour {
     public GameObject _additionalBallsTile;
     private LevelManager _levelManager;
     
-    // Use this for initialization
-	void Start () {
-		       
-	}
+      
+
     /// <summary>
     ///  Initialize the object, create the mapParser and get the level manager.   
     /// </summary>
@@ -34,7 +34,8 @@ public class MapGenerator : MonoBehaviour {
     ///Create the level given a txt file
     ///and return the board with the objects to be managed
     /// </summary>
-    /// <returns></returns>
+    /// <param name="m"> The map name </param>
+    /// <returns>The board with the objects</returns>
     public BasicTile[,] CreateLevel(string m) {
 
         

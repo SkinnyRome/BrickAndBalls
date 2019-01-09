@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Script that gives the funcionability of a ball.
+/// </summary>
 public class Ball : MonoBehaviour {
 
     private Rigidbody2D rb;
@@ -9,8 +11,7 @@ public class Ball : MonoBehaviour {
     private Vector2 _lastVelocity;
     public float _moveTime;
 
-    //private float t = 0.0f;
-    //private bool moving = false;
+
 
     void Awake()
     {
@@ -25,9 +26,8 @@ public class Ball : MonoBehaviour {
     public void Shoot(Vector2 direction)
     {
         //TODO: si la velocidad es negativa, no lanzar ¿?
-        //Debug.Log(transform.rotation);
+        
         float rotationZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        //gameObject.transform.rotation = Quaternion.Euler(0f, 0f, rotationZ - 90);
         direction.x *= _velocity.x;
         direction.y *= _velocity.y;
 
@@ -46,7 +46,7 @@ public class Ball : MonoBehaviour {
         StartCoroutine(Move(destPosition, callback));
     }
     /// <summary>
-    /// Stop the ball
+    /// Stops the ball
     /// </summary>
     public void Stop() {
         rb.velocity = new Vector2(0, 0);
