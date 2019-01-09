@@ -7,17 +7,6 @@ using UnityEngine.Advertisements;
 /// </summary>
 public class UnityAds : MonoBehaviour
 {
-    /// <summary>
-    /// In case you need to get free ruby ;)
-    /// </summary>
-    /*  private void Update()
-      {
-          if (Input.GetKeyDown(KeyCode.E)) {
-              ShowRewardedAd();
-          }
-      }
-      */
-
 
     /// <summary>
     /// Show a basic ad

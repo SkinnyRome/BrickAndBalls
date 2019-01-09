@@ -55,7 +55,6 @@ public class GameManager : MonoBehaviour
     /// Reward the player of watching the full ad
     /// </summary>
     public void RewardedForWatchingAd() {
-        Debug.Log("PREMIADO POR VER UN VIDEO");
         _playerData.gems += 10;
     }
     /// <summary>

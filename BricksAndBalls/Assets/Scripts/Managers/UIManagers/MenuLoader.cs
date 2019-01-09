@@ -52,6 +52,8 @@ public class MenuLoader : MonoBehaviour {
 
         float canvasBotUnits = botCanvasSize / ppuHeight;
 
+        float cameraOffsetY = ((cameraSizeHeight / 2) - canvasBotUnits)  /*+(currentLevel / 5)*/;
+
         //Now, we load all the maps resources to make a list with all of them
         List<uint> maps = new List<uint>();
         Object[] files = Resources.LoadAll("Maps", typeof(TextAsset));
@@ -76,7 +78,7 @@ public class MenuLoader : MonoBehaviour {
 
         //Move the canvas button in the Y Axis to set it correctly
         _canvasButtons.GetComponent<RectTransform>().position = new Vector3(_canvasButtons.GetComponent<RectTransform>().position.x,
-            _canvasButtons.GetComponent<RectTransform>().position.y + ((totalRows/2) - 3),
+            _canvasButtons.GetComponent<RectTransform>().position.y + ((totalRows/2)),
             _canvasButtons.GetComponent<RectTransform>().position.z);
         
 
@@ -108,7 +110,7 @@ public class MenuLoader : MonoBehaviour {
                 //Set the correct position in the canvas
                 RectTransform rectTransform = button.GetComponent<RectTransform>();
                 rectTransform.SetParent(_canvasButtons.transform);
-                rectTransform.pivot = Vector2.zero;
+                rectTransform.pivot = new Vector2(-0.25f, 0);
                 button.transform.localPosition = new Vector3(i, j, -1);
                 rectTransform.anchorMax = Vector2.zero;
                 rectTransform.anchorMin = Vector2.zero;
@@ -123,7 +125,7 @@ public class MenuLoader : MonoBehaviour {
          //No se si es necesario actualizar el canvas aquí
         Canvas.ForceUpdateCanvases();
 
-
+        _mainCamera.transform.Translate(0, cameraOffsetY, 0);
         Destroy(gameObject);
     }
 

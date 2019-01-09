@@ -137,7 +137,6 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private void ThrowEnded()
     {
-        //TODO: Desactivar la imagen de precaucion
         _warningRow.SetActive(false);
         _ballsThrowed = false;
         _canvasManager.OnThrowEnded();
@@ -146,7 +145,6 @@ public class LevelManager : MonoBehaviour
         //Level finished
         if (_boardManager.LevelCompleted())
         {
-            Debug.Log("NIVEL TERMINADO");
             GameManager.instance.LevelFinished(_starsScore);
             _canvasManager.EndGameSuccess();
         }
@@ -157,7 +155,6 @@ public class LevelManager : MonoBehaviour
             if (_boardManager.CheckFirstRow())
             {
                 //GameOver
-                Debug.Log("HAS MUERTO!!!!");
                 _canvasManager.EndGameFailed();
                 //GameManager.instance.GameOver();
             }
@@ -167,7 +164,6 @@ public class LevelManager : MonoBehaviour
                 if (_boardManager.CheckWarningRow())
                 {
 
-                    Debug.Log("casi voy a morir, CUIDADO!");
                     _warningRow.SetActive(true);
                 }
 
@@ -242,25 +238,34 @@ public class LevelManager : MonoBehaviour
     /// <param name="position"></param>
     public void Shoot(Vector3 position)
     {
-
-        _ballSink.Hide();
-
         Vector3 dir = position - _ballManager.transform.position;
+
+
+
 
         float module = Mathf.Sqrt(Mathf.Pow(dir.x, 2) + Mathf.Pow(dir.y, 2));
         dir.x = dir.x / module;
         dir.y = dir.y / module;
 
-        _throwTime = Time.time;
-        _ballsThrowed = true;
-        StartCoroutine(CheckElapsedTime());
+        if (dir.y > 0)
+        {
 
-        uint totalBalls = _ballsToSpawn + _additionalBallsThisThrow;
+            _ballSink.Hide();
+            _throwTime = Time.time;
+            _ballsThrowed = true;
+            StartCoroutine(CheckElapsedTime());
 
-        _ballManager.SpawnBalls(totalBalls, dir);
-        _ballManager.ShowImage();
-        _ballManager.ShowText();
-        _canvasManager.OnThrowStarted();
+            uint totalBalls = _ballsToSpawn + _additionalBallsThisThrow;
+
+            _ballManager.SpawnBalls(totalBalls, dir);
+            _ballManager.ShowImage();
+            _ballManager.ShowText();
+            _canvasManager.OnThrowStarted();
+        }
+        else
+        {
+            _aimController.Activate();
+        }
 
 
     }
@@ -369,12 +374,10 @@ public class LevelManager : MonoBehaviour
                 {
                     AccelerateGame();
                     accelerations++;
-                    Debug.Log("Aceleramos");
                 }
                 else
                 {
                     _ballManager.DecreaseBallsDirections();
-                    Debug.Log("Decrementamos");
                 }
             }
 

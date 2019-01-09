@@ -54,7 +54,6 @@ public class SizeManager : MonoBehaviour {
         if(cameraWidthUnits < tableroWidthUnidades)
         {
             
-            Debug.Log("Camara ajustada al ancho: " + cameraWidthUnits);
             float newCameraHeightSize = tableroWidthUnidades / _mainCamera.aspect;
             _mainCamera.orthographicSize = (newCameraHeightSize / 2);
             

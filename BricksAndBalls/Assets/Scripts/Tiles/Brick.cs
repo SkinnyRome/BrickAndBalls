@@ -52,11 +52,6 @@ public class Brick : BasicTile {
 
         if(gameObject != null)
             _lifeText.text = _life.ToString();
-        else
-        {
-
-            Debug.Log("muerto");
-        }
     }
     /// <summary>
     /// Starts the fade animation

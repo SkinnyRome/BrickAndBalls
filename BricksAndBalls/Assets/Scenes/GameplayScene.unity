@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 25041645}
   - component: {fileID: 25041644}
   m_Layer: 5
-  m_Name: AdviceImage
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -243,8 +243,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0000039339, y: 0.0000038147}
-  m_SizeDelta: {x: 245.33, y: 243.3}
+  m_AnchoredPosition: {x: -2, y: -0.0000076294}
+  m_SizeDelta: {x: 161.7, y: 160.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &25041644
 MonoBehaviour:
@@ -266,7 +266,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: d7068e2e4fd75564b95da2fe6457a031, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -663,8 +663,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 15.680908, y: -0.0001487732}
-  m_SizeDelta: {x: 289.9, y: 91.667}
+  m_AnchoredPosition: {x: 0, y: 0.000015258789}
+  m_SizeDelta: {x: 227.6, y: 61.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &89133130
 MonoBehaviour:
@@ -2960,7 +2960,7 @@ GameObject:
   - component: {fileID: 540986735}
   - component: {fileID: 540986734}
   m_Layer: 5
-  m_Name: AdviceImage
+  m_Name: PauseImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3005,7 +3005,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: d515c925eb1783e4c956dfef3f47c407, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4929,8 +4929,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.7915569}
   m_AnchorMax: {x: 1, y: 0.9443334}
-  m_AnchoredPosition: {x: -2.0000014, y: 0}
-  m_SizeDelta: {x: 4.0001, y: 0}
+  m_AnchoredPosition: {x: 0.000015258789, y: 0}
+  m_SizeDelta: {x: 0.000061035, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1009529376
 MonoBehaviour:
@@ -6620,8 +6620,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 15.680908, y: -0.0001487732}
-  m_SizeDelta: {x: 289.9, y: 91.667}
+  m_AnchoredPosition: {x: 0, y: -0.0000038146973}
+  m_SizeDelta: {x: 228.9, y: 73.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1356325185
 MonoBehaviour:
@@ -8019,7 +8019,7 @@ GameObject:
   - component: {fileID: 1671556596}
   - component: {fileID: 1671556595}
   m_Layer: 5
-  m_Name: AdviceImage
+  m_Name: FailImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8064,7 +8064,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: cde3710e2f1a099489448634a5c901e5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8797,8 +8797,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.82322353}
   m_AnchorMax: {x: 1, y: 0.9760001}
-  m_AnchoredPosition: {x: -2.0000014, y: 0}
-  m_SizeDelta: {x: 4.0001, y: 0}
+  m_AnchoredPosition: {x: 0.000030517578, y: 0}
+  m_SizeDelta: {x: 0.000061035, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1937462712
 MonoBehaviour:
@@ -9454,7 +9454,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ball: {fileID: 1470877194590206, guid: 67d043d1d5cbc4e46bcbd47c174b1801, type: 3}
   _fUpdateTimes: 5
-  _offsetY: 0.5
+  _offsetY: 0.05
 --- !u!4 &2082414385
 Transform:
   m_ObjectHideFlags: 0

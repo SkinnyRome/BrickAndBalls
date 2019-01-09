@@ -88,8 +88,8 @@ public class BallManager : MonoBehaviour {
                 }
             
         }
-
-        HideImage();
+        if(!_stopSpawn)
+            HideImage();
         
         _stopSpawn = false;
 

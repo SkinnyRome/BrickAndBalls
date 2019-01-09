@@ -25,7 +25,6 @@ public class Ball : MonoBehaviour {
     /// <param name="direction">Direction</param>
     public void Shoot(Vector2 direction)
     {
-        //TODO: si la velocidad es negativa, no lanzar ¿?
         
         float rotationZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         direction.x *= _velocity.x;

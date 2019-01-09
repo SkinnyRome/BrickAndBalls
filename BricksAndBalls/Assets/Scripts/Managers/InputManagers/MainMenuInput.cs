@@ -36,7 +36,6 @@ public class MainMenuInput : MonoBehaviour {
         levelsCanvasYLimitTop = levelsCanvas.gameObject.transform.position.y;
         levelsCanvasYLimitBot = levelsCanvasYLimitTop - levelsCanvas.gameObject.GetComponent<RectTransform>().rect.height;
 
-        Debug.Log("Bot: " + levelsCanvasYLimitBot + " Top: " + levelsCanvasYLimitTop);
         
     }
 

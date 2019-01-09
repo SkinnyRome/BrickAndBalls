@@ -58,10 +58,10 @@ public class AimController : MonoBehaviour {
         {
             if (Input.mousePosition.y > (0 + _botCanvasSize) && Input.mousePosition.y < (Screen.height - _topCanvasSize))
             {
-                _levelManager.Shoot(_position);
-                _pointer.SetActive(false);
                 gameObject.SetActive(false);
+                _levelManager.Shoot(_position);
             }
+                _pointer.SetActive(false);
 
         }
 
@@ -91,10 +91,10 @@ public class AimController : MonoBehaviour {
             {
                 if (touch.position.y > (0 + _botCanvasSize) && touch.position.y < (Screen.height - _topCanvasSize))
                 {
-                    _levelManager.Shoot(_position);
-                    _pointer.SetActive(false);
                     gameObject.SetActive(false);
+                    _levelManager.Shoot(_position);
                 }
+                    _pointer.SetActive(false);
             }
 
         }
